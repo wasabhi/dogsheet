@@ -8,6 +8,14 @@
   <%=h @client.email %>
 </p>
 
+<h2>Tasks</h2>
+
+<ul>
+  <% for task in @client.tasks %>
+  <li><%= task.name %></li>
+  <% end %>
+</ul>
 
 <%= link_to 'Edit', edit_client_path(@client) %> |
-<%= link_to 'Back', clients_path %>
+<%= link_to 'Back', clients_path %> |
+<%= link_to 'Manage tasks', client_tasks_path(@client) %>

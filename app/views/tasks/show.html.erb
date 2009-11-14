@@ -1,2 +1,9 @@
-<h1>Tasks#show</h1>
-<p>Find me in app/views/tasks/show.html.erb</p>
+<h1>Task for <%= @client.name %></h1>
+
+<p>
+  <strong>Name:</strong>
+  <%=h @task.name %>
+</p>
+
+<%= link_to 'Edit', edit_client_task_path(@client, @task) %>
+<%= link_to 'Back', client_tasks_path(@client) %>

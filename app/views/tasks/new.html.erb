@@ -1,2 +1,14 @@
-<h1>Tasks#new</h1>
-<p>Find me in app/views/tasks/new.html.erb</p>
+<h1>New task</h1>
+<% form_for([@client, @task]) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', client_tasks_path(@client) %>

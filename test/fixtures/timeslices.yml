@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  task_id: 
+  started: 2009-11-14 22:49:49
+  finished: 2009-11-14 22:49:49
+
+two:
+  task_id: 
+  started: 2009-11-14 22:49:49
+  finished: 2009-11-14 22:49:49
