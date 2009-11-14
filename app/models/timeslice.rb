@@ -1,7 +1,6 @@
 class Timeslice < ActiveRecord::Base
   validates_presence_of :started, :finished
-  validate :finished_must_be_after_started, 
-            :if => :should_compare_started_finished?
+  validate :finished_must_be_after_started, :if => :started_and_finished_set?
 
   belongs_to :task
 
@@ -10,7 +9,7 @@ class Timeslice < ActiveRecord::Base
   end
 
   private
-    def should_compare_started_finished?
+    def started_and_finished_set?
       started && finished
     end
 
