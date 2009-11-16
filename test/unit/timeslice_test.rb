@@ -45,6 +45,37 @@ class TimesliceTest < ActiveSupport::TestCase
     timeslice = Timeslice.new
     timeslice.started = '2009-11-14 11:30:00'
     timeslice.finished = '2009-11-14 12:30:00'
-    assert !timeslice.save, "Saved timeslice which overlaps with another"
+    assert !timeslice.save, "Saved timeslice which overlaps end of another"
+
+    timeslice = Timeslice.new
+    timeslice.started = '2009-11-14 10:30:00'
+    timeslice.finished = '2009-11-14 11:30:00'
+    assert !timeslice.save, "Saved timeslice which overlaps start of another"
+
+    timeslice = Timeslice.new
+    timeslice.started = '2009-11-14 10:00:00'
+    timeslice.finished = '2009-11-14 13:00:00'
+    assert !timeslice.save, "Saved timeslice which encompasses another"
+  end
+
+  def test_should_return_duration_in_hours_and_minutes
+    timeslice = Timeslice.new
+    timeslice.started = '2009-11-14 11:00:00'
+    timeslice.finished = '2009-11-14 12:45:00'
+    assert_equal '1:45', timeslice.hours_and_minutes, "Duration in hours and minutes"
+    timeslice.finished = '2009-11-15 12:45:00'
+    assert_equal '25:45', timeslice.hours_and_minutes, "Duration in hours over and minutes 24 hours"
+  end
+
+  def test_should_return_duration_in_decimal_hours
+    timeslice = Timeslice.new(
+        'started' => '2009-11-14 11:00:00',
+        'finished' => '2009-11-14 12:00:00'
+    )
+    assert_equal 1.0, timeslice.decimal_hours, "Duration in decimal hours"
+    timeslice.finished = '2009-11-14 11:45:00'
+    assert_equal 0.75, timeslice.decimal_hours, "Duration in decimal hours with non-integer return"
+    timeslice.finished = '2009-11-15 12:45:00'
+    assert_equal 25.75, timeslice.decimal_hours, "Duration in decimal hours over and minutes 24 hours"
   end
 end

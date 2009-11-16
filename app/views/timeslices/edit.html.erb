@@ -1,0 +1,17 @@
+<h1>Editing timeslice for <%= @client.name %> - <%= @task.name %></h1>
+
+<% form_for([@client, @task, @timeslice]) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :started %>
+    <%= f.datetime_select :started %>
+  </p>
+  <p>
+    <%= f.label :finished %>
+    <%= f.datetime_select :finished %>
+  </p>
+  <p>
+    <%= f.submit "Save" %>
+  </p>
+<% end %>

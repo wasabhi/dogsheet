@@ -1,0 +1,10 @@
+<h1>Timeslices for <%= @client.name %> - <%= @task.name %></h1>
+
+<ul>
+  <% for timeslice in @timeslices %>
+  <li><%= link_to timeslice.started, client_task_timeslice_path(@client, @task, timeslice) %> (<%= timeslice.duration %>)</li>
+  <% end %>
+</ul>
+
+<%= link_to 'New timeslice', new_client_task_timeslice_path(@client, @task) %>
+<%= link_to 'Back to task', client_task_path(@client, @task) %>

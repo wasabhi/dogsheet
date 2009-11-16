@@ -6,4 +6,5 @@
 </p>
 
 <%= link_to 'Edit', edit_client_task_path(@client, @task) %>
+<%= link_to 'Manage timeslices', client_task_timeslices_path(@client, @task) %>
 <%= link_to 'Back', client_tasks_path(@client) %>
