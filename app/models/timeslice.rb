@@ -13,7 +13,7 @@ class Timeslice < ActiveRecord::Base
   # Duration as a string in hours and minutes
   def hours_and_minutes
     minutes = self.duration.round / 60
-    "#{minutes / 60}:#{minutes % 60}"
+    "%d:%02d" % [minutes / 60, minutes % 60]
   end
 
   def decimal_hours
@@ -32,18 +32,19 @@ class Timeslice < ActiveRecord::Base
     end
 
     def must_not_overlap
-      # TODO 3 queries here, should be cut down
-      if Timeslice.first(:conditions => ['started <= ? AND finished >= ?',
-                                        self.started, self.started])
-        errors.add(:started, "overlaps with the end of another timeslice")
+      conditions = '(started <= :started AND finished >= :started) OR
+                    (started <= :finished AND finished >= :finished) OR
+                    (started >= :started AND finished <= :finished)'
+      options = { :started => self.started, :finished => self.finished }
+
+      # If this is not a new record, exclude self.id from the search
+      unless self.new_record?
+        conditions = '(' + conditions + ')' + ' AND (id != :id)'
+        options.merge!(:id => self.id)
       end
-      if Timeslice.first(:conditions => ['started <= ? AND finished >= ?',
-                                        self.finished, self.finished])
-        errors.add(:started, "overlaps with the start of another timeslice")
-      end
-      if Timeslice.first(:conditions => ['started >= ? AND finished <= ?',
-                                        self.started, self.finished])
-        errors.add(:started, "overlaps with the start of another timeslice")
+
+      if Timeslice.first(:conditions => [conditions, options])
+        errors.add(:started, "overlaps with another timeslice")
       end
     end
 end

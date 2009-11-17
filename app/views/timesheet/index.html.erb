@@ -1,7 +1,7 @@
 <h1><%= link_to '<', "/timesheet/#{@date.yesterday}" -%>
     <%= @date -%>
     <%= link_to '>', "/timesheet/#{@date.tomorrow}" -%></h1>
-<table>
+<table id="timesheet">
   <thead>
     <tr>
       <th>Date</th>
@@ -22,13 +22,31 @@
     <% for timeslice in @timeslices %>
     <tr>
       <td><%= timeslice.started.to_date %></td>
-      <td><%= link_to timeslice.started, client_task_timeslice_path(timeslice.task.client, timeslice.task, timeslice) %></td>
-      <td><%= link_to timeslice.finished, client_task_timeslice_path(timeslice.task.client, timeslice.task, timeslice) %></td>
+      <td><%= link_to timeslice.started.to_s(:time_only), timeslice_path(timeslice) %></td>
+      <td><%= link_to timeslice.finished.to_s(:time_only), timeslice_path(timeslice) %></td>
       <td><%= link_to timeslice.task.client.name, client_path(timeslice.task.client) %></td>
-      <td><%= link_to timeslice.task.name, client_task_path(timeslice.task.client, timeslice.task) %></td>
+      <td><%= render :partial => timeslice.task %></td>
       <td><%= timeslice.hours_and_minutes %></td>
       <td><%= timeslice.decimal_hours %></td>
     </tr>
     <% end %>
   </tbody>
 </table>
+
+<hr />
+
+<% form_for(@timeslice) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :started %>
+    <%= f.datetime_select :started %>
+  </p>
+  <p>
+    <%= f.label :finished %>
+    <%= f.datetime_select :finished %>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>

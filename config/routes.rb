@@ -1,9 +1,13 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :clients, :shallow => true do |client|
-    client.resources :tasks do |task|
-      task.resources :timeslices
-    end
+  map.resources :clients do |client|
+    client.resources :tasks
   end
+
+  map.resources :tasks do |task|
+    task.resources :timeslices
+  end
+
+  map.resources :timeslices
 
   map.connect 'timesheet/:date', :controller => 'timesheet'
 

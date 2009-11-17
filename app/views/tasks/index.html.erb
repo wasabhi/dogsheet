@@ -2,7 +2,7 @@
 
 <ul>
   <% for task in @tasks %>
-  <li><%= link_to task.name, client_task_path(@client, task) %> (<%= task.duration %>)</li>
+  <li><%= link_to task.name, task_path(task) %> (<%= task.duration %>)</li>
   <% end %>
 </ul>
 

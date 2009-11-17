@@ -8,5 +8,10 @@ class TimesheetController < ApplicationController
     @timeslices = Timeslice.all(:order => 'started ASC',
                     :conditions => ['started >= ? AND finished < ?',
                                     @date.to_time, @date.tomorrow.to_time])
+    @timeslice = Timeslice.new
+    if @timeslices.count > 0
+      @timeslice.started = @timeslices.last.finished
+      @timeslice.finished = @timeslices.last.finished
+    end
   end
 end

@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
 
-  before_filter :find_client
+  before_filter :find_client, :only => [:index, :new, :create]
   before_filter :find_task, :only => [:show, :edit, :update, :destroy]
 
   def index
@@ -18,7 +18,7 @@ class TasksController < ApplicationController
   def create
     @task = @client.tasks.build(params[:task])
     if @task.save
-      redirect_to client_task_url(@client, @task)
+      redirect_to client_url(@client)
     else
       render :action => "new"
     end
@@ -30,7 +30,7 @@ class TasksController < ApplicationController
 
   def update
     if @task.update_attributes(params[:task])
-      redirect_to client_task_url(@client, @task)
+      redirect_to client_url(@task.client)
     else
       render :action => "edit"
     end
@@ -51,6 +51,6 @@ class TasksController < ApplicationController
     end
 
     def find_task
-      @task = @client.tasks.find(params[:id])
+      @task = Task.find(params[:id])
     end
 end

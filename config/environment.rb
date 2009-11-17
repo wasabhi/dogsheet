@@ -65,3 +65,5 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
 end
+
+Time::DATE_FORMATS[:time_only] = '%H:%M'
