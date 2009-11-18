@@ -20,6 +20,26 @@ class Timeslice < ActiveRecord::Base
     self.duration / 60 / 60
   end
 
+  def started_time
+    self.started.to_s(:time_only)
+  end
+
+  def started_time=(started_time)
+    self.started = Time.parse(started_time)
+  rescue ArgumentError
+    @started_time_invalid = true
+  end
+
+  def finished_time
+    self.finished.to_s(:time_only)
+  end
+
+  def finished_time=(finished_time)
+    self.finished = Time.parse(finished_time)
+  rescue ArgumentError
+    @finished_time_invalid = true
+  end
+
   private
     def started_and_finished_set?
       started && finished
@@ -29,6 +49,11 @@ class Timeslice < ActiveRecord::Base
       if started >= finished
         errors.add(:finished, "must be after started time")
       end
+    end
+
+    def validate
+      errors.add(:started_time, "is invalid") if @started_time_invalid
+      errors.add(:finished_time, "is invalid") if @finished_time_invalid
     end
 
     def must_not_overlap

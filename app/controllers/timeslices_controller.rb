@@ -15,6 +15,9 @@ class TimeslicesController < ApplicationController
     if @timeslices.count > 0
       @timeslice.started = @timeslices.last.finished
       @timeslice.finished = @timeslices.last.finished
+    else
+      @timeslice.started = Time.now
+      @timeslice.finished = Time.now
     end
 
     respond_to do |format|

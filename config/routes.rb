@@ -10,6 +10,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :timeslices
 
   map.timesheet '/timesheet/:date', :controller => 'timeslices'
+  map.timesheet '/timesheet/:date.:format', :controller => 'timeslices'
 
   # The priority is based upon order of creation: first created -> highest priority.
 

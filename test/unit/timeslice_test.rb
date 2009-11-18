@@ -100,7 +100,7 @@ class TimesliceTest < ActiveSupport::TestCase
         'started' => '2009-11-14 11:15:00',
         'finished' => '2009-11-14 13:45:00'
     )
-    assert_equal '11:15', timeslice.started.to_s(:time_only), "Start time returned in short format"
-    assert_equal '13:45', timeslice.finished.to_s(:time_only), "Finsihed time returned in short format"
+    assert_equal '11:15', timeslice.started_time, "Start time returned in short format"
+    assert_equal '13:45', timeslice.finished_time, "Finsihed time returned in short format"
   end
 end

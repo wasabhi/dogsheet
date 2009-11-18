@@ -22,6 +22,13 @@ class TimeslicesControllerTest < ActionController::TestCase
                       :finished => '2009-11-14 15:00:00'
                     }
     end
+    assert_difference('Timeslice.count') do
+      post :create, :task_id => tasks(:one).id,
+                    :timeslice => { 
+                      :started_time => '15:00',
+                      :finished_time => '16:00'
+                    }
+    end
   end
 
   def test_should_get_edit

@@ -1,13 +1,5 @@
 <h1>Listing clients</h1>
 
-<ul>
-<% for client in @clients %>
-  <li>
-    <%= render :partial => client %>
-    <%= link_to 'Edit', edit_client_path(client) %>
-    <%= link_to 'Destroy', client, :confirm => 'Are you sure?', :method => :delete %>
-  </li>
-<% end %>
-</ul>
+<%= render :partial => @clients %>
 
 <%= link_to 'New client', new_client_path %>
