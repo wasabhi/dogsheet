@@ -8,10 +8,11 @@
 <h2>Timeslices</h2>
 <ul>
 <% for timeslice in @task.timeslices %>
-  <li><%= render :partial => timeslice %></li>
+  <li><%= render :partial => timeslice %>
+    <%= link_to 'Edit', timeslice_path(timeslice) %></li>
 <% end %>
 </ul>
 
-<%= link_to 'Edit', edit_task_path(@task) %>
-<%= link_to 'Manage timeslices', task_timeslices_path(@task) %>
+<%= link_to 'Edit task', edit_task_path(@task) %>
+<%= link_to 'New timeslice', new_task_timeslice_path(@task) %>
 <%= link_to 'Back', client_tasks_path(@task.client) %>

@@ -1,9 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  client: 
+  client: one
   name: MyString
 
 two:
-  client: 
+  client: one
+  name: MyString
+
+three:
+  client: two
   name: MyString

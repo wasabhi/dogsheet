@@ -1,6 +1,6 @@
-<h1>Editing timeslice for <%= @client.name %> - <%= @task.name %></h1>
+<h1>Editing timeslice for <%= @timeslice.task.client.name %> - <%= @timeslice.task.name %></h1>
 
-<% form_for([@client, @task, @timeslice]) do |f| %>
+<% form_for(@timeslice) do |f| %>
   <%= f.error_messages %>
 
   <p>

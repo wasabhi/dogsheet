@@ -32,9 +32,9 @@ class Timeslice < ActiveRecord::Base
     end
 
     def must_not_overlap
-      conditions = '(started <= :started AND finished >= :started) OR
-                    (started <= :finished AND finished >= :finished) OR
-                    (started >= :started AND finished <= :finished)'
+      conditions = '(started < :started AND finished > :started) OR
+                    (started < :finished AND finished > :finished) OR
+                    (started > :started AND finished < :finished)'
       options = { :started => self.started, :finished => self.finished }
 
       # If this is not a new record, exclude self.id from the search

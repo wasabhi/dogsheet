@@ -1,4 +1,4 @@
-<h1>Timeslice for <%= @client.name %> - <%= @task.name %></h1>
+<h1>Timeslice for <%= @timeslice.task.client.name %> - <%= @timeslice.task.name %></h1>
 
 <p>
   <strong>Started:</strong>
@@ -10,5 +10,5 @@
 </p>
 
 
-<%= link_to 'Edit', edit_client_task_timeslice_path(@client, @task, @timeslice) %>
-<%= link_to 'Back', client_tasks_path(@client) %>
+<%= link_to 'Edit timeslice', edit_timeslice_path(@timeslice) %>
+<%= link_to 'Back', task_path(@timeslice.task) %>
