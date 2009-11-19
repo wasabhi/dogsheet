@@ -2,3 +2,5 @@
 $('#timesheet').append('<%= escape_javascript(render(:partial => 'timesheet_row', :locals => { :timeslice => @timeslice })) %>');
 $('#timeslice_started_time').val('<%= @timeslice.finished_time %>');
 $('#timeslice_finished_time').val('<%= next_finished.to_s(:time_only) %>');
+$('.taskbadge-<%= @timeslice.task.id %>').replaceWith('<%= escape_javascript(render(:partial => @timeslice.task)) %>');
+$('.taskbadge-<%= @timeslice.task.id %>').effect("highlight", {}, 3000);
