@@ -2,10 +2,10 @@
 
 one:
   task: one 
-  started: 2009-11-14 12:00:00
-  finished: 2009-11-14 13:00:00
+  started: <%= Time.parse('2009-11-14 12:00:00').utc.to_s(:db) %>
+  finished: <%= Time.parse('2009-11-14 13:00:00').utc.to_s(:db) %>
 
 two:
   task: one
-  started: 2009-11-14 22:00:00
-  finished: 2009-11-14 23:00:00
+  started: <%= Time.parse('2009-11-14 22:00:00').utc.to_s(:db) %>
+  finished: <%= Time.parse('2009-11-14 23:00:00').utc.to_s(:db) %>

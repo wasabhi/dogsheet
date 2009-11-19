@@ -1,1 +1,4 @@
-<%= link_to task.name, task_path(task) %> (<%= task.hours_and_minutes %>)
+<div class="taskbadge">
+  <div class="client"><%= link_to task.client.name, client_path(task.client) %></div>
+  <div class="task"><%= link_to task.name, task_path(task) %> (<%= task.hours_and_minutes %>)</div>
+</div>

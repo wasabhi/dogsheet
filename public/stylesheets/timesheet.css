@@ -16,3 +16,14 @@ ul#nav {
 ul#nav li {
   display: inline;
 }
+
+div.taskbadge {
+  background-color: #fff;
+  padding: 0.2em;
+  border: 1px solid #ccc;
+}
+
+div.taskbadge div.client {
+  font-size: 1.2em;
+  font-weight: bold;
+}

@@ -1,13 +1,25 @@
+jQuery.ajaxSetup({  
+  'beforeSend': function (xhr) {xhr.setRequestHeader("Accept", "text/javascript")}  
+}); 
+
 $(document).ready(function () {
+
   $('#timeslice_started_time').timeEntry({
                                 show24Hours: true,
                                 timeSteps: [1,15,0],
+                                spinnerImage: '',
                                 beforeShow: limitRange
   });
   $('#timeslice_finished_time').timeEntry({
                                 show24Hours: true,
                                 timeSteps: [1,15,0],
+                                spinnerImage: '',
                                 beforeShow: limitRange
+  });
+
+  $('#new_timeslice').submit(function (){
+    $.post($(this).attr('action'), $(this).serialize(), null, "script");
+    return false;
   });
 });
 

@@ -10,7 +10,7 @@ class TimeslicesController < ApplicationController
     end
     @timeslices = Timeslice.all(:order => 'started ASC',
                     :conditions => ['started >= ? AND finished < ?',
-                                    @date.to_time, @date.tomorrow.to_time])
+                                    @date.to_time.utc, @date.tomorrow.to_time.utc])
     @timeslice = Timeslice.new
     if @timeslices.count > 0
       @timeslice.started = @timeslices.last.finished
@@ -36,10 +36,10 @@ class TimeslicesController < ApplicationController
 
   def create
     @timeslice = @task.timeslices.build(params[:timeslice])
-    if @timeslice.save
-      redirect_to timeslices_url
-    else
-      render :action => "new"
+    @timeslice.save
+    respond_to do |format|
+      format.html { redirect_to timeslices_url }
+      format.js
     end
   end
 

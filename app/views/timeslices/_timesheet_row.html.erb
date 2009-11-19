@@ -1,0 +1,11 @@
+    <tr>
+      <td><%= render :partial => timeslice.task %></td>
+      <td><%= link_to timeslice.started.to_s(:time_only), timeslice_path(timeslice) %></td>
+      <td><%= link_to timeslice.finished.to_s(:time_only), timeslice_path(timeslice) %></td>
+      <td><%= timeslice.hours_and_minutes %></td>
+      <td><%= timeslice.decimal_hours %></td>
+      <td>
+        <%= link_to 'Edit', edit_timeslice_path(timeslice) %>
+        <%= link_to 'Destroy', timeslice, :confirm => 'Are you sure?', :method => :delete %>
+      </td>
+    </tr>
