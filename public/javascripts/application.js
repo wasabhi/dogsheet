@@ -4,6 +4,8 @@ jQuery.ajaxSetup({
 
 $(document).ready(function () {
 
+  $('#task_id').focus();
+
   $('#timeslice_started_time').timeEntry({
                                 show24Hours: true,
                                 timeSteps: [1,15,0],
