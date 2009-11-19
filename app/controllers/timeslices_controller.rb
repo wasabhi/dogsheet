@@ -14,10 +14,10 @@ class TimeslicesController < ApplicationController
     @timeslice = Timeslice.new
     if @timeslices.count > 0
       @timeslice.started = @timeslices.last.finished
-      @timeslice.finished = @timeslices.last.finished
+      @timeslice.finished = @timeslices.last.finished + 15.minutes
     else
       @timeslice.started = Time.now
-      @timeslice.finished = Time.now
+      @timeslice.finished = Time.now + 15.minutes
     end
 
     respond_to do |format|
