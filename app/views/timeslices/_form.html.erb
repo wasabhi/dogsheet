@@ -1,0 +1,6 @@
+<%= form.label :task_id %>
+<%= form.collection_select :task_id, Task.all, :id, :name_with_prefix %>
+<%= form.label :started_time %>
+<%= form.text_field :started_time, :size => 4 %>
+<%= form.label :finished_time %>
+<%= form.text_field :finished_time, :size => 4 %>

@@ -4,25 +4,30 @@ jQuery.ajaxSetup({
 
 $(document).ready(function () {
 
-  $('#task_id').focus();
+  /* Bring the task selector into focus on page load */
+  $('#timeslice_task_id').focus();
 
-  $('#timeslice_started_time').timeEntry({
-                                show24Hours: true,
-                                timeSteps: [1,15,0],
-                                spinnerImage: '',
-                                beforeShow: limitRange
-  });
-  $('#timeslice_finished_time').timeEntry({
-                                show24Hours: true,
-                                timeSteps: [1,15,0],
-                                spinnerImage: '',
-                                beforeShow: limitRange
-  });
+  timeentry_attrs = {
+    show24Hours: true,
+    timeSteps: [1,15,0],
+    spinnerImage: '',
+    beforeShow: limitRange
+  };
 
+  $('#timeslice_started_time').timeEntry(timeentry_attrs);
+  $('#timeslice_finished_time').timeEntry(timeentry_attrs);
+
+  /* Override action of 'Create timeslice' form */
   $('#new_timeslice').submit(function (){
     $.post($(this).attr('action'), $(this).serialize(), null, "script");
     return false;
   });
+
+  $('#new_task').submit(function (){
+    $.post($(this).attr('action'), $(this).serialize(), null, "script");
+    return false;
+  });
+
 });
 
 /* Limit relevant time entry max + min based on value of the other */

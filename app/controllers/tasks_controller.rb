@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
 
-  before_filter :find_client, :only => [:index, :new, :create]
+  before_filter :find_client, :only => [:index, :new]
   before_filter :find_task, :only => [:show, :edit, :update, :destroy]
 
   def index
@@ -16,11 +16,10 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = @client.tasks.build(params[:task])
-    if @task.save
-      redirect_to client_url(@client)
-    else
-      render :action => "new"
+    @task = Task.create! params[:task]
+    respond_to do |format|
+      format.html { redirect_to client_url(@client) }
+      format.js
     end
   end
 
@@ -37,10 +36,11 @@ class TasksController < ApplicationController
   end
 
   def destroy
+    @client = @task.client
     @task.destroy
 
     respond_to do |format|
-      format.html { redirect_to client_tasks_path(@client) }
+      format.html { redirect_to client_path(@client) }
       format.xml  { head :ok }
     end
   end

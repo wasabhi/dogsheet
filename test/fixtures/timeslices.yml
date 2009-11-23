@@ -9,3 +9,8 @@ two:
   task: one
   started: <%= Time.parse('2009-11-14 22:00:00').utc.to_s(:db) %>
   finished: <%= Time.parse('2009-11-14 23:00:00').utc.to_s(:db) %>
+
+three:
+  task: two
+  started: <%= Time.parse('2009-11-12 08:00:00').utc.to_s(:db) %>
+  finished: <%= Time.parse('2009-11-12 08:30:00').utc.to_s(:db) %>

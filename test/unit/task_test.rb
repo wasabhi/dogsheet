@@ -56,4 +56,11 @@ class TaskTest < ActiveSupport::TestCase
     timeslice.save
     assert_equal 1.25, task.decimal_hours, "Duration in decimal hours"
   end
+
+  def test_should_return_name_with_client_shortcode
+    task = Task.new
+    task.name = "Test task"
+    task.client = clients(:one)
+    assert_equal "MYST: Test task", task.name_with_prefix, "Name with client shortcode prefix"
+  end
 end

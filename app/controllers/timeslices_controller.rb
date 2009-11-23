@@ -1,5 +1,5 @@
 class TimeslicesController < ApplicationController
-  before_filter :find_task, :only => [:new, :create]
+  before_filter :find_task, :only => [:new]
   before_filter :find_timeslice, :only => [:show, :edit, :update, :destroy]
 
   def index
@@ -11,18 +11,38 @@ class TimeslicesController < ApplicationController
     @timeslices = Timeslice.all(:order => 'started ASC',
                     :conditions => ['started >= ? AND finished < ?',
                                     @date.to_time.utc, @date.tomorrow.to_time.utc])
+
+    # An empty timeslice for the 'Add timeslice' form
     @timeslice = Timeslice.new
+
     if @timeslices.count > 0
+      last_timeslice = @timeslices.last
       @timeslice.started = @timeslices.last.finished
       @timeslice.finished = @timeslices.last.finished + 15.minutes
+      @timeslice.task = @timeslices.last.task
     else
-      @timeslice.started = Time.now
-      @timeslice.finished = Time.now + 15.minutes
+      last_timeslice = Timeslice.last
+      @timeslice.started = Time.parse(@date.to_s + ' 08:00:00')
+      @timeslice.finished = @timeslice.started + 15.minutes
+      if last_timeslice
+        @timeslice.task = last_timeslice.task
+      end
+    end
+
+    # This is used in the 'New task' for to set the default client.
+    if @timeslices.count > 0
+      @task = @timeslices.last.task.client.tasks.build
+    else
+      @task = Task.new
+      if last_timeslice
+        @task.client = last_timeslice.task.client
+      end
     end
 
     respond_to do |format|
       format.html
       format.xml { render :xml => @timeslices }
+      format.csv { send_data @timeslices.to_csv }
     end
   end
 
@@ -35,10 +55,10 @@ class TimeslicesController < ApplicationController
   end
 
   def create
-    @timeslice = @task.timeslices.build(params[:timeslice])
+    @timeslice = Timeslice.create! params[:timeslice]
     @timeslice.save
     respond_to do |format|
-      format.html { redirect_to timeslices_url }
+      format.html { redirect_to timesheet_url(@timeslice.started.to_date) }
       format.js
     end
   end
@@ -60,14 +80,16 @@ class TimeslicesController < ApplicationController
     @timeslice.destroy
 
     respond_to do |format|
-      format.html { redirect_to timeslices_path }
+      format.html { redirect_to timesheet_path(date) }
       format.xml  { head :ok }
+      format.js
     end
   end
 
   private
     def find_task
       @task = Task.find(params[:task_id])
+      @task = Task.find(params[:timeslice][:task_id]) if @task.nil?
     end
 
     def find_timeslice

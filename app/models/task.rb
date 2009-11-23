@@ -21,4 +21,8 @@ class Task < ActiveRecord::Base
   def decimal_hours
     self.duration / 60 / 60
   end
+
+  def name_with_prefix
+    "#{self.client.shortcode}: #{self.name}"
+  end
 end
