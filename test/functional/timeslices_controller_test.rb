@@ -55,6 +55,19 @@ class TimeslicesControllerTest < ActionController::TestCase
                       :finished_time => '16:00'
                     }
     end
+
+    # Create from timeslice/_form partial and also create task
+    assert_difference(['Timeslice.count','Task.count']) do
+      post :create,  :date => '2009-11-15',
+                    :task => {
+                      :name => 'Dummy task',
+                      :client_id => clients(:one).id
+                    },
+                    :timeslice => { 
+                      :started_time => '15:00',
+                      :finished_time => '16:00'
+                    }
+    end
   end
 
   def test_should_set_default_timeslice_task

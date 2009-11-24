@@ -34,8 +34,8 @@
   <%= form.submit "Create" %>
 <% end %>
 
-<h2>Add task</h2>
 <% form_for @task, :url => '/tasks/create' do |form| %>
+  <h2>Add task</h2>
   <%= form.error_messages %>
   <%= form.label :client_id %>
   <%= form.collection_select(:client_id, Client.all, :id, :name) %>

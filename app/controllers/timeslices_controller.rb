@@ -55,7 +55,13 @@ class TimeslicesController < ApplicationController
   end
 
   def create
-    @timeslice = Timeslice.create! params[:timeslice]
+    if params[:task]
+      @task = Task.create! params[:task]
+      @timeslice = Timeslice.new params[:timeslice]
+      @timeslice.task = @task
+    else
+      @timeslice = Timeslice.create! params[:timeslice]
+    end
     @timeslice.save
     respond_to do |format|
       format.html { redirect_to timesheet_url(@timeslice.started.to_date) }
