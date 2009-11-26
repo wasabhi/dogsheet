@@ -3,14 +3,22 @@ class TimeslicesController < ApplicationController
   before_filter :find_timeslice, :only => [:show, :edit, :update, :destroy]
 
   def index
+    # If no date was passed, set today by default
     if params[:date]
       @date = Date.parse(params[:date])
     else
       @date = Date.today
     end
+
+    # If no end date was passed, make the same as start date
+    if params[:end_date]
+      @end_date = Date.parse(params[:end_date])
+    else
+      @end_date = @date
+    end
     @timeslices = Timeslice.all(:order => 'started ASC',
                     :conditions => ['started >= ? AND finished < ?',
-                                    @date.to_time.utc, @date.tomorrow.to_time.utc])
+                                    @date.to_time.utc, @end_date.tomorrow.to_time.utc])
 
     # An empty timeslice for the 'Add timeslice' form
     @timeslice = Timeslice.new
@@ -42,7 +50,10 @@ class TimeslicesController < ApplicationController
     respond_to do |format|
       format.html
       format.xml { render :xml => @timeslices }
-      format.csv { send_data @timeslices.to_csv }
+      format.csv do
+        response.headers['Content-Type'] = 'text/csv; charset=UTF8; header=present'
+        response.headers['Content-Disposition'] = 'attachment;filename=' + @date.to_s + '.csv'
+      end
     end
   end
 

@@ -1,0 +1,7 @@
+<%= timeslice.started.to_date -%>
+,<%= timeslice.started.to_s(:time_only) -%>
+,<%= timeslice.finished.to_s(:time_only) -%>
+,<%=h timeslice.task.client.name -%>
+,<%=h timeslice.task.name -%>
+,<%=h timeslice.hours_and_minutes -%>
+,<%=h timeslice.decimal_hours %>

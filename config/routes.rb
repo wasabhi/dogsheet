@@ -9,9 +9,15 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :timeslices
 
-  map.timesheet '/timesheet/:date', :controller => 'timeslices'
+  map.timesheet '/timesheet/:date', :controller => 'timeslices',
+    :requirements => { :date => /\d{4}-\d{2}-\d{2}/ }
+  map.timesheet_multiday '/timesheet/:date/:end_date', :controller => 'timeslices',
+    :requirements => { 
+      :date => /\d{4}-\d{2}-\d{2}/, :end_date => /\d{4}-\d{2}-\d{2}/
+    }
   map.timesheet_add '/timesheet/:date/add', :controller => 'timeslices', :action => 'create'
   map.connect '/timesheet/:date.:format', :controller => 'timeslices'
+  map.connect '/timesheet/:date/:end_date.:format', :controller => 'timeslices'
 
   # The priority is based upon order of creation: first created -> highest priority.
 

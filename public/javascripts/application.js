@@ -32,9 +32,10 @@ $(document).ready(function () {
 
 /* Limit relevant time entry max + min based on value of the other */
 function limitRange(input) {
-  return { minTime: (input.id == 'timeslice_finished_time' ?
-    $('#timeslice_started_time').timeEntry('getTime') : null),
+  return { 
+    minTime: (input.id == 'timeslice_finished_time' ?
+      $('#timeslice_started_time').timeEntry('getTime') : null),
     maxTime: (input.id == 'timeslice_started_time' ?
-    $('#timeslice_finished_time').timeEntry('getTime') : null)
+      $('#timeslice_finished_time').timeEntry('getTime') : null)
   }
 }

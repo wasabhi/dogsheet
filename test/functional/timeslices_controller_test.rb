@@ -7,19 +7,64 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:timeslices)
     assert_not_nil assigns(:timeslice)
     assert_not_nil assigns(:task)
+    assert_not_nil assigns(:date)
+    assert_not_nil assigns(:end_date)
+  end
 
-    get :index, :format => :xml
-    assert_not_nil assigns(:timeslices)
+  def test_should_get_index_with_todays_date_by_default
+    get :index
+    assert_not_nil assigns(:date)
+    assert_equal Date.today, assigns(:date), "assigns todays date by default"
+  end
 
+  def test_should_set_start_and_finished_time_on_empty_timesheet
     get :index, :date => '2009-11-16'
     assert_response :success
-    assert_not_nil assigns(:timeslices)
     assert_not_nil assigns(:timeslice)
-    assert_not_nil assigns(:task)
     assert_equal Time.parse('2009-11-16 08:00:00'), assigns(:timeslice).started,
-      "sets timeslice started time to 08:00:00"
+      "sets timeslice started time to 08:00:00 on empty timesheet"
     assert_equal Time.parse('2009-11-16 08:15:00'), assigns(:timeslice).finished,
-      "sets timeslice started time to 08:15:00"
+      "sets timeslice finished time to 08:15:00 on empty timesheet"
+  end
+
+  def test_should_assign_timeslices_from_existing_timesheet
+    get :index, :date => '2009-11-14'
+    assert_response :success
+    assert_not_nil assigns(:timeslices)
+    assert_equal 2, assigns(:timeslices).count, 
+      "Returns two timeslices from existing timesheet"
+  end
+
+  def test_should_assign_timeslices_from_timesheet_spanning_multiple_dates
+    get :index, :date => '2009-11-12', :end_date => '2009-11-14'
+    assert_response :success
+    assert_not_nil assigns(:timeslices)
+    assert_equal 3, assigns(:timeslices).count, 
+      "Returns three timeslices from timesheet spanning multiple days"
+  end
+
+  def test_should_set_start_and_finished_time_following_from_last_task_on_populated_timesheet
+    get :index, :date => '2009-11-14'
+    assert_response :success
+    assert_not_nil assigns(:timeslice)
+    assert_equal Time.parse('2009-11-14 23:00:00'), assigns(:timeslice).started,
+      "sets timeslice started time to 23:00:00 on existing timesheet"
+    assert_equal Time.parse('2009-11-14 23:15:00'), assigns(:timeslice).finished,
+      "sets timeslice finished time to 23:15:00 on existing timesheet"
+  end
+
+  def test_should_get_index_in_xml_format
+    get :index, :format => :xml
+    assert_not_nil assigns(:timeslices)
+  end
+
+  def test_should_get_index_in_csv_format
+    get :index, :date => '2009-11-12', :format => 'csv'
+    assert_not_nil assigns(:timeslices)
+    assert_equal 'text/csv; charset=UTF8; header=present', 
+      @response.headers['type'], 'Content type is CSV'
+    assert_equal 'attachment;filename=2009-11-12.csv',
+      @response.headers['Content-Disposition'], 'Filename is 2009-11-12.csv'
   end
 
   def test_should_get_new
