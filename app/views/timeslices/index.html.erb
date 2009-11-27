@@ -47,13 +47,3 @@
   <%= form.text_field :name %>
   <%= form.submit('Add task') %>
 <% end %>
-
-<% calendar_for(@timeslices) do |t| %>
-  <%= t.head('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri','Sat') %>
-  <% t.day do |day, timeslices| %>
-    <%= day.day %>
-    <% timeslices.each do |timeslice| %>
-      <%= h timeslice.task.name %>
-    <% end %>
-  <% end %>
-<% end %>
