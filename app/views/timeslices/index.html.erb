@@ -1,6 +1,10 @@
 <h1><%= link_to '<', "/timesheet/#{@date.yesterday}" -%>
     <%= @date -%>
     <%= link_to '>', "/timesheet/#{@date.tomorrow}" -%></h1>
+<ul id="context-menu">
+  <li><%= link_to 'CSV', :action => 'index', :date => @date, 
+                          :format => 'csv' %></li>
+</ul>
 <table id="timesheet">
   <thead>
     <tr>
@@ -42,4 +46,14 @@
   <%= form.label :name %>
   <%= form.text_field :name %>
   <%= form.submit('Add task') %>
+<% end %>
+
+<% calendar_for(@timeslices) do |t| %>
+  <%= t.head('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri','Sat') %>
+  <% t.day do |day, timeslices| %>
+    <%= day.day %>
+    <% timeslices.each do |timeslice| %>
+      <%= h timeslice.task.name %>
+    <% end %>
+  <% end %>
 <% end %>
