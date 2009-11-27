@@ -41,9 +41,14 @@
 <% form_for @task, :url => '/tasks/create' do |form| %>
   <h2>Add task</h2>
   <%= form.error_messages %>
-  <%= form.label :client_id %>
-  <%= form.collection_select(:client_id, Client.all, :id, :name) %>
-  <%= form.label :name %>
-  <%= form.text_field :name %>
+  <div class="form-item">
+    <%= form.label :client_id %>
+    <%= form.collection_select(:client_id, Client.all, :id, :name) %>
+  </div>
+  <div class="form-item">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+  <div class="form-item">
   <%= form.submit('Add task') %>
 <% end %>

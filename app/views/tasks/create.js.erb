@@ -4,3 +4,5 @@ $('#timeslice_task_id').replaceWith('<%= escape_javascript(
 $('#timeslice_task_id').val(<%= @task.id %>);
 $('#timeslice_finished_time').focus();
 $('#task_name').val('');
+$('#new_task').after('<div class="flash-notice"><%= escape_javascript(flash.delete(:notice)) %></div>');
+$('.flash-notice').animate({opacity: 1.0}, 3000).fadeOut('slow').remove();

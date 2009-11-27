@@ -1,6 +1,7 @@
 class TimeslicesController < ApplicationController
   before_filter :find_task, :only => [:new]
   before_filter :find_timeslice, :only => [:show, :edit, :update, :destroy]
+  after_filter :copy_errors, :only => [:create, :update]
 
   def index
     # If no date was passed, set today by default
@@ -71,12 +72,18 @@ class TimeslicesController < ApplicationController
       @timeslice = Timeslice.new params[:timeslice]
       @timeslice.task = @task
     else
-      @timeslice = Timeslice.create! params[:timeslice]
+      @timeslice = Timeslice.new params[:timeslice]
     end
-    @timeslice.save
     respond_to do |format|
-      format.html { redirect_to timesheet_url(@timeslice.started.to_date) }
-      format.js
+      if @timeslice.save
+        format.html { redirect_to timesheet_url(@timeslice.started.to_date) }
+        format.js
+      else
+        @timeslice.errors.add(:started_time,@timeslice.errors.on(:started)) if @timeslice.errors.on(:started)
+        @timeslice.errors.add(:finished_time,@timeslice.errors.on(:finished)) if @timeslice.errors.on(:finished)
+        format.html { render :action => 'new' }
+        format.js { render :partial => 'errors' }
+      end
     end
   end
 
@@ -111,5 +118,13 @@ class TimeslicesController < ApplicationController
 
     def find_timeslice
       @timeslice = Timeslice.find(params[:id])
+    end
+
+    # The error messages for the native started and finished attributes
+    # need to be copied to the started_time and finsihed_time attributes
+    # if they are present.
+    def copy_errors
+      @timeslice.errors.add(:started_time,@timeslice.errors.on(:started)) if @timeslice.errors.on(:started_at)
+      @timeslice.errors.add(:finished_time,@timeslice.errors.on(:finished)) if @timeslice.errors.on(:finished_at)
     end
 end

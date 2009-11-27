@@ -27,3 +27,7 @@ div.taskbadge div.client {
   font-size: 1.2em;
   font-weight: bold;
 }
+
+div.form-item {
+  display: inline;
+}

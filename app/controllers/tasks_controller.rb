@@ -16,10 +16,16 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.create! params[:task]
+    @task = Task.new params[:task]
     respond_to do |format|
-      format.html { redirect_to client_url(@client) }
-      format.js
+      if @task.save
+        flash[:notice] = 'Task added';
+        format.html { redirect_to client_url(@client) }
+        format.js
+      else
+        format.html { render :action => 'new' }
+        format.js { render :partial => 'errors' }
+      end
     end
   end
 

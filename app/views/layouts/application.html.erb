@@ -21,7 +21,8 @@
   <li><%= link_to 'Timesheet', '/' %></li>
   <li><%= link_to 'Clients', clients_path %></li>
 </ul>
-<p style="color: green"><%= flash[:notice] %></p>
+
+<p id="flash" style="color: green"><%= flash[:notice] %></p>
 
 <%= yield  %>
 

@@ -1,0 +1,3 @@
+<% @task.errors.each do |attr,msg| %>
+$('#task_<%= escape_javascript(attr) %>').after('<div class="form-error"><%= escape_javascript(msg) %></div>').addClass('fieldWithErrors');
+<% end %>
