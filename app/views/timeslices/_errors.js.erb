@@ -1,3 +1,4 @@
 <% @timeslice.errors.each do |attr,msg| %>
-$('#timeslice_<%= escape_javascript(attr) %>').after('<div class="form-error"><%= escape_javascript(msg) %></div>').addClass('fieldWithErrors');
+$('#timeslice_<%= escape_javascript(attr) %>').addClass('fieldWithErrors');
 <% end %>
+$('#new_timeslice').after('<%= escape_javascript(error_messages_for('timeslice')) %>');

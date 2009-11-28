@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: Test User 1
+  email: testuser1@localhost
+
+two:
+  name: Test User 1
+  email: testuser1@localhost
