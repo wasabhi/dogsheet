@@ -14,6 +14,15 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
 
+  # Before filter to check for user login in any controller
+  def require_login
+    unless current_user
+      flash[:notice] = 'You must be logged in to view this page'
+      redirect_to new_user_session_url
+      return false
+    end
+  end
+
   private
   def current_user_session
     return @current_user_session if defined?(@current_user_session)

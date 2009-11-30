@@ -1,9 +1,11 @@
 class TimeslicesController < ApplicationController
+  before_filter :require_login
   before_filter :find_task, :only => [:new]
   before_filter :find_timeslice, :only => [:show, :edit, :update, :destroy]
   after_filter :copy_errors, :only => [:create, :update]
 
   def index
+
     # If no date was passed, set today by default
     if params[:date]
       @date = Date.parse(params[:date])
@@ -17,12 +19,14 @@ class TimeslicesController < ApplicationController
     else
       @end_date = @date
     end
-    @timeslices = Timeslice.all(:order => 'started ASC',
+    @timeslices = current_user.timeslices.find(:all, :order => 'started ASC',
                     :conditions => ['started >= ? AND finished < ?',
                                     @date.to_time.utc, @end_date.tomorrow.to_time.utc])
 
     # An empty timeslice for the 'Add timeslice' form
     @timeslice = Timeslice.new
+
+    @total_duration = total_duration(@timeslices)
 
     if @timeslices.count > 0
       last_timeslice = @timeslices.last
@@ -68,11 +72,16 @@ class TimeslicesController < ApplicationController
 
   def create
     if params[:task]
-      @task = Task.create! params[:task]
-      @timeslice = Timeslice.new params[:timeslice]
+      @task = current_user.tasks.create params[:task]
+      @timeslice = current_user.timeslices.new params[:timeslice]
       @timeslice.task = @task
     else
-      @timeslice = Timeslice.new params[:timeslice]
+      if params[:task_id]
+        @task = current_user.tasks.find(params[:task_id])
+      else
+        @task = current_user.tasks.find(params[:timeslice][:task_id])
+      end
+      @timeslice = current_user.timeslices.new params[:timeslice]
     end
     respond_to do |format|
       if @timeslice.save
@@ -126,5 +135,12 @@ class TimeslicesController < ApplicationController
     def copy_errors
       @timeslice.errors.add(:started_time,@timeslice.errors.on(:started)) if @timeslice.errors.on(:started_at)
       @timeslice.errors.add(:finished_time,@timeslice.errors.on(:finished)) if @timeslice.errors.on(:finished_at)
+    end
+
+    # Return the sum duration of a set of timeslices
+    def total_duration(timeslices)
+      timeslices.each.inject(0) do |total, timeslice|
+         total + timeslice.duration
+      end
     end
 end

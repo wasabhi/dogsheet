@@ -16,6 +16,16 @@
       <th>Actions</th>
     </tr>
   </thead>
+  <tfoot>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th id="total_duration"><%= hours_and_minutes(@total_duration) %></th>
+      <th id="total_decimal_time"><%= decimal_hours(@total_duration) %></th>
+      <th></th>
+    </tr>
+  </tfoot>
   <tbody id="timesheet">
     <% unless @timeslices.count > 0 %>
     <tr>

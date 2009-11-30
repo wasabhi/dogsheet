@@ -1,23 +1,43 @@
 require 'test_helper'
 
 class TimeslicesControllerTest < ActionController::TestCase
-  def test_should_get_index
+
+  setup :activate_authlogic
+
+  def test_block_logged_out_users
+    get :index
+    assert_redirected_to new_user_session_url
+    get :show
+    assert_redirected_to new_user_session_url
+    get :new
+    assert_redirected_to new_user_session_url
+    get :create
+    assert_redirected_to new_user_session_url
+  end
+
+  def test_should_get_index_logged_in
+    UserSession.create(users(:one))
     get :index
     assert_response :success
+  end
+
+  def test_should_only_assign_active_users_timeslices
+    UserSession.create(users(:one))
+    get :index, :date => '2009-11-14'
+    assert_response :success
     assert_not_nil assigns(:timeslices)
-    assert_not_nil assigns(:timeslice)
-    assert_not_nil assigns(:task)
-    assert_not_nil assigns(:date)
-    assert_not_nil assigns(:end_date)
+    assert_equal 2, assigns(:timeslices).count, "only assigns timeslices for user one"
   end
 
   def test_should_get_index_with_todays_date_by_default
+    UserSession.create(users(:one))
     get :index
     assert_not_nil assigns(:date)
     assert_equal Date.today, assigns(:date), "assigns todays date by default"
   end
 
   def test_should_set_start_and_finished_time_on_empty_timesheet
+    UserSession.create(users(:one))
     get :index, :date => '2009-11-16'
     assert_response :success
     assert_not_nil assigns(:timeslice)
@@ -28,6 +48,7 @@ class TimeslicesControllerTest < ActionController::TestCase
   end
 
   def test_should_assign_timeslices_from_existing_timesheet
+    UserSession.create(users(:one))
     get :index, :date => '2009-11-14'
     assert_response :success
     assert_not_nil assigns(:timeslices)
@@ -36,6 +57,7 @@ class TimeslicesControllerTest < ActionController::TestCase
   end
 
   def test_should_assign_timeslices_from_timesheet_spanning_multiple_dates
+    UserSession.create(users(:one))
     get :index, :date => '2009-11-12', :end_date => '2009-11-14'
     assert_response :success
     assert_not_nil assigns(:timeslices)
@@ -44,6 +66,7 @@ class TimeslicesControllerTest < ActionController::TestCase
   end
 
   def test_should_set_start_and_finished_time_following_from_last_task_on_populated_timesheet
+    UserSession.create(users(:one))
     get :index, :date => '2009-11-14'
     assert_response :success
     assert_not_nil assigns(:timeslice)
@@ -54,11 +77,13 @@ class TimeslicesControllerTest < ActionController::TestCase
   end
 
   def test_should_get_index_in_xml_format
+    UserSession.create(users(:one))
     get :index, :format => :xml
     assert_not_nil assigns(:timeslices)
   end
 
   def test_should_get_index_in_csv_format
+    UserSession.create(users(:one))
     get :index, :date => '2009-11-12', :format => 'csv'
     assert_not_nil assigns(:timeslices)
     assert_equal 'text/csv; charset=UTF8; header=present', 
@@ -67,12 +92,21 @@ class TimeslicesControllerTest < ActionController::TestCase
       @response.headers['Content-Disposition'], 'Filename is 2009-11-12.csv'
   end
 
+  def test_should_assign_total_duration
+    UserSession.create(users(:one))
+    get :index, :date => '2009-11-14'
+    assert_response :success
+    assert_equal 7200, assigns(:total_duration), 'assigns total timeslice duration for timesheet'
+  end
+
   def test_should_get_new
+    UserSession.create(users(:one))
     get :new, :task_id => tasks(:one).id
     assert_response :success
   end
 
   def test_should_create_timeslice
+    UserSession.create(users(:one))
     assert_difference('Timeslice.count') do
       post :create, :task_id => tasks(:one).id,
                     :timeslice => { 
@@ -116,6 +150,7 @@ class TimeslicesControllerTest < ActionController::TestCase
   end
 
   def test_should_set_default_timeslice_task
+    UserSession.create(users(:one))
     get :index, :date => '2009-11-15'
     assert_response :success
     assert_not_nil assigns(:timeslice), "assigns a timeslice"
@@ -130,11 +165,13 @@ class TimeslicesControllerTest < ActionController::TestCase
   end
 
   def test_should_get_edit
+    UserSession.create(users(:one))
     get :edit, :id => timeslices(:one).id
     assert_response :success
   end
 
   def test_should_update_timeslice
+    UserSession.create(users(:one))
     put :update,  :id => timeslices(:one).id,
                   :timeslice => {
                       :started => '2009-11-14 14:00:00',
@@ -143,6 +180,7 @@ class TimeslicesControllerTest < ActionController::TestCase
   end
 
   def test_should_destroy_timeslice
+    UserSession.create(users(:one))
     assert_difference('Timeslice.count', -1) do
       delete :destroy, :id => timeslices(:one).id
     end

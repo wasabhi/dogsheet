@@ -5,6 +5,7 @@ class TimesliceTest < ActiveSupport::TestCase
     timeslice = Timeslice.new
     timeslice.started = '2009-11-15 11:00:00'
     timeslice.finished = '2009-11-15 12:00:00'
+    timeslice.user = users(:one)
     assert timeslice.save, "Saved valid timeslice"
   end
 
@@ -18,6 +19,13 @@ class TimesliceTest < ActiveSupport::TestCase
     timeslice = Timeslice.new
     timeslice.started = '2009-11-15 12:00:00'
     assert !timeslice.save, "Saved timeslice without started"
+  end
+
+  def test_should_not_save_without_user
+    timeslice = Timeslice.new
+    timeslice.started = '2009-11-15 11:00:00'
+    timeslice.finished = '2009-11-15 12:00:00'
+    assert !timeslice.save, "Saved timeslice without user"
   end
 
   def test_should_not_save_timeslice_with_finished_before_or_equal_to_started
@@ -36,71 +44,64 @@ class TimesliceTest < ActiveSupport::TestCase
     assert_equal 3600, timeslice.duration, "Duration is 3600 seconds"
   end
 
-  def test_should_not_save_timeslice_that_overlaps_with_another
-    valid = Timeslice.new
-    valid.started = '2009-11-15 11:00:00'
-    valid.finished = '2009-11-15 12:00:00'
-    assert valid.save, "Saved valid timeslice for overlap test"
 
+  # We're testing failure of the following scenarios, in all cases
+  # 'new timeslice' save should fail.
+  #
+  #   |--- old timeslice ---|
+  #                     |--- new timeslice ---|
+  #
+  #                     |--- old timeslice ---|
+  #   |--- new timeslice ---|
+  #
+  #                     |--- old timeslice ---|
+  #                  |------ new timeslice ------|
+  #
+  def test_should_not_save_timeslice_that_overlaps_with_another
     timeslice = Timeslice.new
-    timeslice.started = '2009-11-15 11:30:00'
-    timeslice.finished = '2009-11-15 12:30:00'
+    timeslice.user = users(:one)
+    timeslice.started = '2009-11-14 12:30:00'
+    timeslice.finished = '2009-11-14 13:30:00'
     assert !timeslice.save, "Saved timeslice which overlaps end of another"
 
-    timeslice = Timeslice.new
-    timeslice.started = '2009-11-15 10:30:00'
-    timeslice.finished = '2009-11-15 11:30:00'
+    timeslice.started = '2009-11-14 11:30:00'
+    timeslice.finished = '2009-11-14 12:30:00'
     assert !timeslice.save, "Saved timeslice which overlaps start of another"
 
-    timeslice = Timeslice.new
-    timeslice.started = '2009-11-15 10:00:00'
-    timeslice.finished = '2009-11-15 13:00:00'
+    timeslice.started = '2009-11-14 11:00:00'
+    timeslice.finished = '2009-11-14 14:00:00'
     assert !timeslice.save, "Saved timeslice which encompasses another"
 
-    valid.started = '2009-11-15 11:30:00'
-    valid.finished = '2009-11-15 12:30:00'
-    assert valid.save, "Updated timeslice with new time overlapping old finished time"
+    fixture = timeslices(:one)
+    fixture.started = '2009-11-14 12:30:00'
+    fixture.finished = '2009-11-14 13:30:00'
+    assert fixture.save, "Updated timeslice with new time overlapping old finished time"
+  end
+
+  def test_should_save_timeslice_that_overlaps_with_another_for_different_user
+    timeslice = Timeslice.new
+    timeslice.user = users(:two)
+    timeslice.started = '2009-11-14 12:30:00'
+    timeslice.finished = '2009-11-14 13:30:00'
+    assert timeslice.save, "Saved timeslice which overlaps end of another users"
+
+    timeslice.started = '2009-11-14 11:30:00'
+    timeslice.finished = '2009-11-14 12:30:00'
+    assert timeslice.save, "Saved timeslice which overlaps start of another users"
+
+    timeslice.started = '2009-11-14 11:00:00'
+    timeslice.finished = '2009-11-14 14:00:00'
+    assert timeslice.save, "Saved timeslice which encompasses another users"
   end
 
   def test_should_save_contiguous_with_another
     timeslice = Timeslice.new
+    timeslice.user = users(:one)
     timeslice.started = '2009-11-14 13:00:00'
     timeslice.finished = '2009-11-14 14:00:00'
     assert timeslice.save, "Saved with start time same as existing timeslice finish time"
     timeslice.started = '2009-11-14 11:00:00'
     timeslice.finished = '2009-11-14 12:00:00'
     assert timeslice.save, "Saved with finished time same as existing timeslice start time"
-  end
-
-  def test_should_return_duration_in_hours_and_minutes
-    timeslice = Timeslice.new
-    timeslice.started = '2009-11-15 11:00:00'
-    timeslice.finished = '2009-11-15 12:45:00'
-    assert_equal '1:45', timeslice.hours_and_minutes, "Duration in hours and minutes"
-    timeslice.finished = '2009-11-16 12:45:00'
-    assert_equal '25:45', timeslice.hours_and_minutes, "Duration in hours over and minutes 24 hours"
-    timeslice.finished = '2009-11-15 12:00:00'
-    assert_equal '1:00', timeslice.hours_and_minutes, "Duration with 0 minutes shows two zeros"
-  end
-
-  def test_should_return_duration_in_decimal_hours
-    timeslice = Timeslice.new(
-        'started' => '2009-11-14 11:00:00',
-        'finished' => '2009-11-14 12:00:00'
-    )
-    assert_equal 1.0, timeslice.decimal_hours, "Duration in decimal hours"
-    timeslice.finished = '2009-11-14 11:45:00'
-    assert_equal 0.75, timeslice.decimal_hours, "Duration in decimal hours with non-integer return"
-    timeslice.finished = '2009-11-15 12:45:00'
-    assert_equal 25.75, timeslice.decimal_hours, "Duration in decimal hours over and minutes 24 hours"
-  end
-
-  def test_should_format_times_in_short_format
-    timeslice = Timeslice.new(
-        'started' => '2009-11-14 11:15:00',
-        'finished' => '2009-11-14 13:45:00'
-    )
-    assert_equal '11:15', timeslice.started_time, "Start time returned in short format"
-    assert_equal '13:45', timeslice.finished_time, "Finsihed time returned in short format"
   end
 end

@@ -1,23 +1,15 @@
 class Timeslice < ActiveRecord::Base
   validates_presence_of :started, :finished
+  validates_presence_of :user_id
   validate :finished_must_be_after_started, :if => :started_and_finished_set?
   validate :must_not_overlap, :if => :started_and_finished_set?
 
   belongs_to :task
+  belongs_to :user
 
   # Duration in seconds
   def duration
     finished - started
-  end
-
-  # Duration as a string in hours and minutes
-  def hours_and_minutes
-    minutes = self.duration.round / 60
-    "%d:%02d" % [minutes / 60, minutes % 60]
-  end
-
-  def decimal_hours
-    self.duration / 60 / 60
   end
 
   def started_time
@@ -42,7 +34,7 @@ class Timeslice < ActiveRecord::Base
 
   private
     def started_and_finished_set?
-      started && finished
+      started && finished && !user_id.nil?
     end
 
     def finished_must_be_after_started
@@ -68,7 +60,7 @@ class Timeslice < ActiveRecord::Base
         options.merge!(:id => self.id)
       end
 
-      if Timeslice.first(:conditions => [conditions, options])
+      if self.user.timeslices.first(:conditions => [conditions, options])
         errors.add(:started, "overlaps with another timeslice")
       end
     end
