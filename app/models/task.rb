@@ -4,6 +4,8 @@ class Task < ActiveRecord::Base
   belongs_to :user
   has_many :timeslices
 
+  acts_as_nested_set
+
   def duration
     duration = 0
     timeslices.each do |timeslice|

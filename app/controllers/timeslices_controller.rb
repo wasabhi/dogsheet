@@ -43,6 +43,7 @@ class TimeslicesController < ApplicationController
     end
 
     @task = current_user.tasks.build
+    @tasks = current_user.tasks
 
     respond_to do |format|
       format.html

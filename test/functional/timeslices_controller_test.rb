@@ -29,6 +29,13 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:timeslices).count, "only assigns timeslices for user one"
   end
 
+  def test_should_assign_active_tasks
+    UserSession.create(users(:one))
+    get :index
+    assert_not_nil assigns(:tasks)
+    assert_equal 1, assigns(:tasks).count
+  end
+
   def test_should_get_index_with_todays_date_by_default
     UserSession.create(users(:one))
     get :index
@@ -86,6 +93,7 @@ class TimeslicesControllerTest < ActionController::TestCase
     UserSession.create(users(:one))
     get :index, :date => '2009-11-12', :format => 'csv'
     assert_not_nil assigns(:timeslices)
+    assert_equal 1, assigns(:timeslices).count
     assert_equal 'text/csv; charset=UTF8; header=present', 
       @response.headers['type'], 'Content type is CSV'
     assert_equal 'attachment;filename=2009-11-12.csv',
