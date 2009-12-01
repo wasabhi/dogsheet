@@ -4,7 +4,7 @@ class TasksController < ApplicationController
   before_filter :find_task, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = @client.tasks
+    @tasks = current_user.tasks.find_all_by_client_id(@client.id)
   end
 
   def show
@@ -58,6 +58,6 @@ class TasksController < ApplicationController
     end
 
     def find_task
-      @task = Task.find(params[:id])
+      @task = current_user.tasks.find(params[:id])
     end
 end

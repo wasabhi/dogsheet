@@ -14,12 +14,30 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
 
+  before_filter :require_login
+
+  # By default throw 404 for all record not found
+  rescue_from ActiveRecord::RecordNotFound, :with => :render_404
+
   # Before filter to check for user login in any controller
   def require_login
     unless current_user
       flash[:notice] = 'You must be logged in to view this page'
       redirect_to new_user_session_url
       return false
+    end
+  end
+
+  protected
+  def render_404
+    respond_to do |format|
+      format.html do
+        render :file => "#{RAILS_ROOT}/public/404.html", 
+                :status => '404 Not Found'
+      end
+      format.xml do
+        render :nothing => true, :status => '404 Not Found'
+      end
     end
   end
 
