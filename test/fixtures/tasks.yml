@@ -1,16 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  client: one
   name: MyString
   user: one
 
 two:
-  client: one
   name: MyString
   user: two
 
 three:
-  client: two
   name: MyString
   user: two

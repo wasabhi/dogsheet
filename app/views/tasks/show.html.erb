@@ -1,4 +1,4 @@
-<h1>Task for <%= @task.client.name %></h1>
+<h1>Task <%= @task.name %></h1>
 
 <p>
   <strong>Name:</strong>
@@ -14,4 +14,3 @@
 </ul>
 
 <%= link_to 'Edit task', edit_task_path(@task) %>
-<%= link_to 'Back', client_tasks_path(@task.client) %>

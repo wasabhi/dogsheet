@@ -140,7 +140,6 @@ class TimeslicesControllerTest < ActionController::TestCase
       post :create,  :date => '2009-11-15',
                     :task => {
                       :name => 'Dummy task',
-                      :client_id => clients(:one).id
                     },
                     :timeslice => { 
                       :started_time => '15:00',

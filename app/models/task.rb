@@ -1,7 +1,6 @@
 class Task < ActiveRecord::Base
   validates_presence_of :name
 
-  belongs_to :client
   belongs_to :user
   has_many :timeslices
 
@@ -21,9 +20,5 @@ class Task < ActiveRecord::Base
 
   def decimal_hours
     self.duration / 60 / 60
-  end
-
-  def name_with_prefix
-    "#{self.client.shortcode}: #{self.name}"
   end
 end

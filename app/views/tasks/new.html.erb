@@ -1,5 +1,5 @@
 <h1>New task</h1>
-<% form_for([@client, @task]) do |f| %>
+<% form_for(@task) do |f| %>
   <%= f.error_messages %>
 
   <p>
@@ -11,4 +11,4 @@
   </p>
 <% end %>
 
-<%= link_to 'Back', client_tasks_path(@client) %>
+<%= link_to 'Back', tasks_path %>

@@ -1,5 +1,5 @@
 $('#timeslice_task_id').replaceWith('<%= escape_javascript(
-  collection_select(:timeslice, :task_id, Task.all, :id, :name_with_prefix)
+  collection_select(:timeslice, :task_id, Task.all, :id, :name)
 ) %>');
 $('#timeslice_task_id').val(<%= @task.id %>);
 $('#timeslice_finished_time').focus();

@@ -1,4 +1,4 @@
-<h1>Tasks for <%= @client.name %></h1>
+<h1>Tasks</h1>
 
 <ul>
   <% for task in @tasks %>
@@ -6,5 +6,4 @@
   <% end %>
 </ul>
 
-<%= link_to 'New task', new_client_task_path(@client) %>
-<%= link_to 'Back to client', @client %>
+<%= link_to 'New task', new_task_path %>

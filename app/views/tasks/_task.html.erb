@@ -1,4 +1,3 @@
 <div class="taskbadge taskbadge-<%= task.id %>">
-  <div class="client"><%= link_to task.client.name, client_path(task.client) %></div>
   <div class="task"><%= link_to task.name, task_path(task) %> (<%= task.hours_and_minutes %></span>) <%= link_to '[x]', task_path(task), :method => 'delete', :confirm => 'Are you sure you want to delete this task?' %></div>
 </div>

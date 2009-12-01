@@ -42,15 +42,7 @@ class TimeslicesController < ApplicationController
       end
     end
 
-    # This is used in the 'New task' for to set the default client.
-    if @timeslices.count > 0
-      @task = @timeslices.last.task.client.tasks.build
-    else
-      @task = Task.new
-      if last_timeslice
-        @task.client = last_timeslice.task.client
-      end
-    end
+    @task = current_user.tasks.build
 
     respond_to do |format|
       format.html

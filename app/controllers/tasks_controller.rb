@@ -1,10 +1,9 @@
 class TasksController < ApplicationController
 
-  before_filter :find_client, :only => [:index, :new]
   before_filter :find_task, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = current_user.tasks.find_all_by_client_id(@client.id)
+    @tasks = current_user.tasks
   end
 
   def show
@@ -12,7 +11,7 @@ class TasksController < ApplicationController
   end
 
   def new
-    @task = @client.tasks.build
+    @task = current_user.tasks.build
   end
 
   def create
@@ -21,7 +20,7 @@ class TasksController < ApplicationController
     respond_to do |format|
       if @task.save
         flash[:notice] = 'Task added';
-        format.html { redirect_to client_url(@client) }
+        format.html { redirect_to tasks_url }
         format.js
       else
         format.html { render :action => 'new' }
@@ -36,27 +35,22 @@ class TasksController < ApplicationController
 
   def update
     if @task.update_attributes(params[:task])
-      redirect_to client_url(@task.client)
+      redirect_to tasks_url
     else
       render :action => "edit"
     end
   end
 
   def destroy
-    @client = @task.client
     @task.destroy
 
     respond_to do |format|
-      format.html { redirect_to client_path(@client) }
+      format.html { redirect_to tasks_url }
       format.xml  { head :ok }
     end
   end
 
   private
-    def find_client
-      @client = Client.find(params[:client_id])
-    end
-
     def find_task
       @task = current_user.tasks.find(params[:id])
     end

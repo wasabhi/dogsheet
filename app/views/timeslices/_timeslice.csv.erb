@@ -1,7 +1,6 @@
 <%= timeslice.started.to_date -%>
 ,<%= timeslice.started.to_s(:time_only) -%>
 ,<%= timeslice.finished.to_s(:time_only) -%>
-,<%=h timeslice.task.client.name -%>
 ,<%=h timeslice.task.name -%>
 ,<%= hours_and_minutes(timeslice.duration) -%>
 ,<%= decimal_hours(timeslice.duration) %>

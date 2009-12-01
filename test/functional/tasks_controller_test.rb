@@ -5,26 +5,26 @@ class TasksControllerTest < ActionController::TestCase
   setup :activate_authlogic
 
   def test_should_redirect_index_if_logged_out
-    get :index, :client_id => clients(:one).id
+    get :index
     assert_redirected_to new_user_session_url
   end
 
   def test_should_get_index
     UserSession.create(users(:one))
-    get :index, :client_id => clients(:one).id
+    get :index
     assert_response :success
     assert_not_nil assigns(:tasks)
     assert_equal 1, assigns(:tasks).count
   end
 
   def test_should_redirect_show_if_logged_out
-    get :show, :client_id => clients(:one).id, :id => tasks(:one).id
+    get :show, :id => tasks(:one).id
     assert_redirected_to new_user_session_url
   end
 
   def test_should_show_task
     UserSession.create(users(:one))
-    get :show, :client_id => clients(:one).id, :id => tasks(:one).id
+    get :show, :id => tasks(:one).id
     assert_response :success
     assert_not_nil assigns(:task)
     assert_equal assigns(:task).id, tasks(:one).id
@@ -32,30 +32,30 @@ class TasksControllerTest < ActionController::TestCase
 
   def test_should_not_show_another_users_task
     UserSession.create(users(:one))
-    get :show, :client_id => clients(:one).id, :id => tasks(:two).id
+    get :show, :id => tasks(:two).id
     assert_response :missing
   end
 
   def test_redirect_new_if_logged_out
-    get :new, :client_id => clients(:one).id
+    get :new
     assert_redirected_to new_user_session_url
   end
 
   def test_should_get_new
     UserSession.create(users(:one))
-    get :new, :client_id => clients(:one).id
+    get :new
     assert_response :success
   end
 
   def test_should_redirect_create_if_logged_out
-    post :create, :client_id => clients(:one).id, :task => { :name => 'Test task' }
+    post :create, :task => { :name => 'Test task' }
     assert_redirected_to new_user_session_url
   end
 
   def test_should_create_task
     UserSession.create(users(:one))
     assert_difference('Task.count') do
-      post :create, :client_id => clients(:one).id, :task => { :name => 'Test task' }
+      post :create, :task => { :name => 'Test task' }
     end
   end
 
@@ -84,7 +84,7 @@ class TasksControllerTest < ActionController::TestCase
   def test_should_update_task
     UserSession.create(users(:one))
     put :update, :id => tasks(:one).id, :task => { :name => 'Test task'}
-    assert_redirected_to client_url(assigns(:task).client)
+    assert_redirected_to tasks_url
   end
 
   def test_should_not_update_another_users_task
