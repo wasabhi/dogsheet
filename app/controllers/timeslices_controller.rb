@@ -121,12 +121,12 @@ class TimeslicesController < ApplicationController
 
   private
     def find_task
-      @task = Task.find(params[:task_id])
-      @task = Task.find(params[:timeslice][:task_id]) if @task.nil?
+      @task = current_user.tasks.find(params[:task_id])
+      @task = current_user.tasks.find(params[:timeslice][:task_id]) if @task.nil?
     end
 
     def find_timeslice
-      @timeslice = Timeslice.find(params[:id])
+      @timeslice = current_user.timeslices.find(params[:id])
     end
 
     # The error messages for the native started and finished attributes

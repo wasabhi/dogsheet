@@ -170,6 +170,12 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_should_not_get_edit_for_other_users_timeslice
+    UserSession.create(users(:one))
+    get :edit, :id => timeslices(:four).id
+    assert_response :missing
+  end
+
   def test_should_update_timeslice
     UserSession.create(users(:one))
     put :update,  :id => timeslices(:one).id,
@@ -177,12 +183,31 @@ class TimeslicesControllerTest < ActionController::TestCase
                       :started => '2009-11-14 14:00:00',
                       :finished => '2009-11-14 15:00:00'
                   }
+    assert_not_nil assigns(:timeslice)
+    assert_redirected_to timeslice_url(assigns(:timeslice))
+  end
+
+  def test_should_not_update_another_users_timeslice
+    UserSession.create(users(:one))
+    put :update,  :id => timeslices(:four).id,
+                  :timeslice => {
+                      :started => '2009-11-14 14:00:00',
+                      :finished => '2009-11-14 15:00:00'
+                  }
+    assert_response :missing
   end
 
   def test_should_destroy_timeslice
     UserSession.create(users(:one))
     assert_difference('Timeslice.count', -1) do
       delete :destroy, :id => timeslices(:one).id
+    end
+  end
+
+  def test_should_not_destroy_another_users_timeslice
+    UserSession.create(users(:one))
+    assert_no_difference('Timeslice.count') do
+      delete :destroy, :id => timeslices(:four).id
     end
   end
 end
