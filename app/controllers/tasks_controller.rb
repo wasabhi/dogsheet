@@ -17,6 +17,7 @@ class TasksController < ApplicationController
   def create
     @task = Task.new params[:task]
     @task.user = current_user
+    @tasks = current_user.tasks
     respond_to do |format|
       if @task.save
         flash[:notice] = 'Task added';

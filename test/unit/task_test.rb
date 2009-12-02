@@ -56,4 +56,23 @@ class TaskTest < ActiveSupport::TestCase
     timeslice.save
     assert_equal 1.25, task.decimal_hours, "Duration in decimal hours"
   end
+
+  def test_should_return_depth_prefix_string
+    assert_equal 'Top level task for user one', tasks(:one).name_with_depth,
+      'top level task has no prefix'
+    assert_equal '-Second level task for user two', tasks(:three).name_with_depth,
+      'second level task has single dash prefix'
+    assert_equal '>Second level task for user two', tasks(:three).name_with_depth('>'),
+      'second level task has custom prefix'
+  end
+
+  def test_should_return_name_with_ancestors
+    assert_equal 'Top level task for user one', tasks(:one).name_with_ancestors,
+      'top level task has no ancestors'
+    assert_equal 'Top level task for user two:Second level task for user two', 
+      tasks(:three).name_with_ancestors, 'second level task has one ancestor'
+    assert_equal 'Top level task for user two > Second level task for user two', 
+      tasks(:three).name_with_ancestors(' > '), 
+      'second level task has custom join string'
+  end
 end

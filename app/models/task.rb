@@ -23,4 +23,18 @@ class Task < ActiveRecord::Base
   def decimal_hours
     self.duration / 60 / 60
   end
+
+  # Return the task name prefixed by the given string multiplied by the
+  # tasks tree depth.
+  def name_with_depth(prefix = '-')
+    "#{prefix * self.level}#{self.name}"
+  end
+
+  def name_with_ancestors(separator = ':')
+    if self.root?
+      return self.name
+    else
+      return self.parent.name_with_ancestors(separator) + separator + self.name
+    end
+  end
 end

@@ -1,6 +1,6 @@
 <div class="form-item">
   <%= form.label :task_id %>
-  <%= form.select :task_id, nested_set_options(Task) {|i| "#{'-' * i.level} #{i.name}"} %>
+  <%= form.collection_select :task_id, @tasks, :id, :name_with_depth %>
 </div>
 <div class="form-item">
   <%= form.label :started_time %>

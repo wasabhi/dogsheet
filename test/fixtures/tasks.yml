@@ -1,13 +1,20 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: MyString
+  name: Top level task for user one
   user: one
+  lft: 1
+  rgt: 2
 
 two:
-  name: MyString
+  name: Top level task for user two
   user: two
+  lft: 1
+  rgt: 4
 
 three:
-  name: MyString
+  name: Second level task for user two
   user: two
+  parent: two
+  lft: 2
+  rgt: 3
