@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   before_filter :find_task, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = current_user.tasks
+    @tasks = Task.find_all_by_user_id(current_user.id, :order => 'lft')
   end
 
   def show
@@ -17,9 +17,9 @@ class TasksController < ApplicationController
   def create
     @task = Task.new params[:task]
     @task.user = current_user
-    @tasks = current_user.tasks
     respond_to do |format|
       if @task.save
+        @tasks = Task.find_all_by_user_id(current_user.id, :order => "lft")
         flash[:notice] = 'Task added';
         format.html { redirect_to tasks_url }
         format.js

@@ -42,8 +42,8 @@ class TimeslicesController < ApplicationController
       end
     end
 
+    @tasks = Task.find_all_by_user_id(current_user.id, :order => "lft")
     @task = current_user.tasks.build
-    @tasks = current_user.tasks
 
     respond_to do |format|
       format.html

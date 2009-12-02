@@ -28,6 +28,16 @@ $(document).ready(function () {
     return false;
   });
 
+  $('#task-tree .task').draggable({revert: "invalid"});
+  $('#task-tree .task').droppable({
+    accept: '#task-tree .task',
+    hoverClass: "accept",
+    drop: function(event, props) {
+      $('#task-tree').load('tasks/move',
+        {drag_id: $(props.draggable).attr('id'),
+         drop_id: $(this).attr('id')});
+    }
+  });
 });
 
 /* Limit relevant time entry max + min based on value of the other */
