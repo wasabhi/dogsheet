@@ -2,7 +2,8 @@ $('#timeslice_task_id').replaceWith('<%= escape_javascript(
   collection_select(:timeslice, :task_id, @tasks, :id, :name_with_depth)
 ) %>');
 $('#task_parent_id').replaceWith('<%= escape_javascript(
-  collection_select(:task, :parent_id, @tasks, :id, :name_with_depth)
+  collection_select(:task, :parent_id, @tasks, :id, :name_with_depth, 
+                    {:prompt => '-- Top level --'})
 ) %>');
 $('#timeslice_task_id').val(<%= @task.id %>);
 $('#timeslice_finished_time').focus();

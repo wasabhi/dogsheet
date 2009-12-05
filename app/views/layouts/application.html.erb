@@ -15,20 +15,21 @@
 </head>
 <body>
 
+<div id="header">
+  <ul id="nav">
+    <% if current_user %>
+      <li><%= link_to 'Timesheet', '/' %></li>
+      <li><%= link_to 'Tasks', tasks_path %></li>
+      <li><%= link_to 'Edit Profile', edit_user_path(:current) %></li>
+      <li><%= link_to 'Logout', logout_path %></li>
+    <% else %>
+      <li><%= link_to 'Register', new_user_path %></li>
+      <li><%= link_to 'Login', login_path %></li>
+    <% end %>
+  </ul>
+</div>
+
 <div id="page">
-
-<ul id="nav">
-  <% if current_user %>
-    <li><%= link_to 'Timesheet', '/' %></li>
-    <li><%= link_to 'Tasks', tasks_path %></li>
-    <li><%= link_to 'Edit Profile', edit_user_path(:current) %></li>
-    <li><%= link_to 'Logout', logout_path %></li>
-  <% else %>
-    <li><%= link_to 'Register', new_user_path %></li>
-    <li><%= link_to 'Login', login_path %></li>
-  <% end %>
-</ul>
-
 <p id="flash" style="color: green"><%= flash[:notice] %></p>
 
 <%= yield  %>

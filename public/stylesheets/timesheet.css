@@ -1,20 +1,42 @@
-body {
-  background-color: #999;
+html {
+  background-color: #dec;
 }
 
-#page {
-  margin: 2em 6em;
-  padding: 0 2em 2em 2em;
-  background-color: #eee;
-  border: 2px solid #555;
+body {
+  margin: 0;
+  background-color: #dec;
+}
+
+#header {
+  background-color: black;
+  padding: 0.5em 4em 0 4em;
+  color: white;
+  border-bottom: 6px solid #777;
+}
+
+#header a {
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+#header a:hover {
+  text-decoration: underline;
 }
 
 ul#nav {
-  padding-left: 0;
+  padding: 0;
+  margin: 0;
 }
 
 ul#nav li {
   display: inline;
+}
+
+#page {
+  margin: 0 4em;
+  padding: 2em;
+  background-color: #eee;
 }
 
 div.taskbadge {

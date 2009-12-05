@@ -4,6 +4,10 @@
   <%= f.error_messages %>
 
   <p>
+    <%= f.label :parent_id %>
+    <%= f.collection_select :parent_id, @tasks, :id, :name_with_depth, {:prompt => '-- Top level --'} %>
+  </p>
+  <p>
     <%= f.label :name %>
     <%= f.text_field :name %>
   </p>

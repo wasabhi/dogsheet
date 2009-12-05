@@ -68,6 +68,8 @@ class TasksControllerTest < ActionController::TestCase
     UserSession.create(users(:one))
     get :edit, :id => tasks(:one).id
     assert_response :success
+    assert_not_nil assigns(:task)
+    assert_not_nil assigns(:tasks)
   end
 
   def test_should_not_edit_another_users_task
