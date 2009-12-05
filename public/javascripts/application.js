@@ -11,11 +11,24 @@ $(document).ready(function () {
     show24Hours: true,
     timeSteps: [1,15,0],
     spinnerImage: '',
+  };
+
+  finished_timeentry_attrs = {
+    beforeShow: limitRange
+  };
+
+  finished_timeentry_attrs = {
     beforeShow: limitRange
   };
 
   $('#timeslice_started_time').timeEntry(timeentry_attrs);
+  $('#timeslice_started_time').change(function() {
+    $('#timeslice_finished_time').timeEntry('change', {
+      minTime: $(this).timeEntry('getTime')
+    });
+  });
   $('#timeslice_finished_time').timeEntry(timeentry_attrs);
+  $('#timeslice_finished_time').timeEntry('change', finished_timeentry_attrs);
 
   /* Override action of 'Create timeslice' form */
   $('#new_timeslice').submit(function (){
