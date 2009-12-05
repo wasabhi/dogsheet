@@ -28,7 +28,7 @@
   </tfoot>
   <tbody id="timesheet">
     <% unless @timeslices.count > 0 %>
-    <tr>
+    <tr id="no-tasks-row" class="timegap">
       <td colspan="7">No tasks</td>
     </tr>
     <% end %>
