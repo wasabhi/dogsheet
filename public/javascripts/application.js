@@ -11,6 +11,7 @@ $(document).ready(function () {
     show24Hours: true,
     timeSteps: [1,15,0],
     spinnerImage: '',
+    initialField: 1,
   };
 
   finished_timeentry_attrs = {
