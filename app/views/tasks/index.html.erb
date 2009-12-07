@@ -2,7 +2,7 @@
 
 <ul>
   <% for task in @tasks %>
-  <li><%= link_to task.name_with_ancestors, task_path(task) %> (<%= task.duration %>)</li>
+  <li><%= render :partial => task %></li>
   <% end %>
 </ul>
 

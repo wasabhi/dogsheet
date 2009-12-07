@@ -9,7 +9,10 @@
 <ul>
 <% for timeslice in @task.timeslices %>
   <li><%= render :partial => timeslice %>
-    <%= link_to 'Edit', timeslice_path(timeslice) %></li>
+    <%= link_to 'Edit', timeslice_path(timeslice) %>
+    <%= link_to 'Destroy', timeslice_path(timeslice), :method => 'delete',
+          :confirm => 'Are you sure?' %>
+  </li>
 <% end %>
 </ul>
 

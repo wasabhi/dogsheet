@@ -48,3 +48,11 @@ div.taskbadge {
 div.form-item {
   display: inline;
 }
+
+tbody#timesheet td {
+  border-bottom: 1px solid #ccc;
+}
+
+th.time, td.time, th.decimal-time, td.decimal-time {
+  text-align: right;
+}
