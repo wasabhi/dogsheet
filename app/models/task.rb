@@ -2,7 +2,7 @@ class Task < ActiveRecord::Base
   validates_presence_of :name
 
   belongs_to :user
-  has_many :timeslices
+  has_many :timeslices, :dependent => :destroy
 
   acts_as_nested_set
 

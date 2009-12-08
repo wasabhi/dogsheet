@@ -75,4 +75,10 @@ class TaskTest < ActiveSupport::TestCase
       tasks(:three).name_with_ancestors(' > '), 
       'second level task has custom join string'
   end
+
+  def test_should_delete_dependent_timeslices
+    assert_difference('Timeslice.count', -3) do
+      tasks(:one).destroy
+    end
+  end
 end
