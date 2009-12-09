@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
+
+  setup :activate_authlogic
+
   def test_should_get_new
     get :new
     assert_not_nil assigns(:user)
@@ -8,18 +11,38 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_should_create_user
-    flunk
+    assert_difference('User.count') do
+      post :create, :user => { 
+        :name => 'Test User', :email => 'test@example.com',
+        :password => 'password', :password_confirmation => 'password'
+      }
+    end
+  end
  
   def test_should_not_edit_user_when_not_logged_in
-    flunk
+    get :edit, :id => users(:one).id
+    assert_redirected_to new_user_session_url
   end
 
   def test_should_edit_user
-    flunk
+    UserSession.create(users(:one))
+    get :edit, :id => users(:one).id
+    assert_response :success
+    assert_not_nil assigns(:user)
   end
 
   def test_should_not_edit_another_user
-    flunk
+    UserSession.create(users(:one))
+    get :edit, :id => users(:two).id
+    assert_response :forbidden
   end
- end
+
+  def test_should_not_create_user_when_logged_in
+    UserSession.create(users(:one))
+    post :create, :user => { 
+      :name => 'Test User', :email => 'test@example.com',
+      :password => 'password', :password_confirmation => 'password'
+    }
+    assert_redirected_to root_url
+  end
 end
