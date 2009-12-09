@@ -1,3 +1,30 @@
 <div class="taskbadge taskbadge-<%= task.id %>">
-  <div class="task"><%= link_to task.name_with_ancestors, task_path(task) %> (<%= task.hours_and_minutes %></span>) <%= link_to '[x]', task_path(task), :method => 'delete', :confirm => 'Are you sure you want to delete this task?' %></div>
+  <div class="task-timeinfo">
+    Total: <%= task.hours_and_minutes %>
+    <div class="task-actions">
+    <%= link_to 'Delete task', task_path(task), :method => 'delete', 
+      :title => 'This will delete this task and all associated timeslices',
+      :confirm => 'Are you sure you want to delete this task?' %>
+    </div>
+  </div>
+  <div class="task">
+    <div class="task-name">
+      <div class="task-toplevel">
+      <%= link_to task.root.name, task_path(task) %>
+      </div>
+      <% if task.level > 1 %>
+      <div class="task-midlevel">
+      <% task.ancestors[1..-1].each do |ancestor| %>
+      <%= link_to ancestor.name, task_path(ancestor) %> &raquo;
+      <% end %>
+      </div>
+      <% end %>
+
+      <% if task.level > 0 %>
+      <div class="task-leaflevel">
+      <%= link_to task.name, task_path(task) %>
+      </div>
+      <% end %>
+    </div>
+  </div>
 </div>

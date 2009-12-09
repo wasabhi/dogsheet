@@ -7,8 +7,20 @@ body {
   background-color: #dec;
 }
 
+h1 {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 #header {
-  background-color: black;
+  background: black url(/images/mutt-48x48.png) no-repeat bottom left;
   padding: 0.5em 4em 0 4em;
   color: white;
   border-bottom: 6px solid #777;
@@ -39,12 +51,6 @@ ul#nav li {
   background-color: #eee;
 }
 
-div.taskbadge {
-  background-color: #fff;
-  padding: 0.2em;
-  border: 1px solid #ccc;
-}
-
 div.form-item {
   display: inline;
 }
@@ -55,4 +61,71 @@ tbody#timesheet td {
 
 th.time, td.time, th.decimal-time, td.decimal-time {
   text-align: right;
+}
+
+img {
+  border: 0;
+}
+
+/* Day header */
+h2.dayheader {
+  color: white;
+  background-color: #2e3436;
+  font-size: 2em;
+  padding: 0.1em 0;
+  margin: 0;
+}
+h2.dayheader img {
+  vertical-align: middle;
+}
+
+/* Timeslice box */
+div.timeslice {
+  clear: left;
+  border: 1px solid #888a85;
+  border-top: none;
+  padding: 0.4em;
+  min-height: 6em;
+  background: white url('/images/timeslice-gradient.png') repeat-x top left;
+}
+
+div.timeslice:hover {
+  background-color: #729fcf;
+}
+
+div.timeslice div.timeinfo {
+  float: left;
+  padding-right: 1em;
+  margin-right: 1em;
+  border-right: 1px dotted #888a85;
+}
+div.timeslice div.timeinfo div.timeslice-delete {
+  float: right;
+}
+div.timeslice div.time {
+  font-size: 2em;
+  line-height: 1.2em;
+}
+
+/* Taskbadge */
+div.taskinfo {
+  margin-left: 140px;
+}
+
+div.taskbadge div.task-name {
+  margin-right: 140px;
+}
+
+div.taskbadge div.task-toplevel {
+  font-size: 2em;
+}
+div.taskbadge div.task-midlevel {
+  font-style: italic;
+  font-color: #ccc;
+}
+div.taskbadge div.task-timeinfo {
+  float: right;
+}
+div.taskbadge div.task-actions a {
+  color: #4e9a06;
 }

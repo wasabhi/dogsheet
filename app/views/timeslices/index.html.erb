@@ -1,42 +1,22 @@
-<h1><%= link_to '<', "/timesheet/#{@date.yesterday}" -%>
-    <%= @date -%>
-    <%= link_to '>', "/timesheet/#{@date.tomorrow}" -%></h1>
 <ul id="context-menu">
   <li><%= link_to 'CSV', :action => 'index', :date => @date, 
                           :format => 'csv' %></li>
 </ul>
-<table id="timesheet">
-  <thead>
-    <tr>
-      <th>Task</th>
-      <th>Started</th>
-      <th>Finished</th>
-      <th>Duration</th>
-      <th>Decimal time</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tfoot>
-    <tr>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th id="total_duration" class="time"><%= hours_and_minutes(@total_duration) %></th>
-      <th id="total_decimal_time" class="decimal-time"><%= decimal_hours(@total_duration) %></th>
-      <th></th>
-    </tr>
-  </tfoot>
-  <tbody id="timesheet">
-    <% unless @timeslices.count > 0 %>
-    <tr id="no-tasks-row" class="timegap">
-      <td colspan="7">No tasks</td>
-    </tr>
-    <% end %>
-    <% for timeslice in @timeslices %>
-    <%= render :partial => 'timesheet_row', :locals => { :timeslice => timeslice } %>
-    <% end %>
-  </tbody>
-</table>
+<h2 class="dayheader">
+  <%= link_to(image_tag('g3625.png'), "/timesheet/#{@date.yesterday}") -%>
+  <%= @date -%>
+  <%= link_to(image_tag('g3631.png'), "/timesheet/#{@date.tomorrow}") -%>
+</h2>
+<div id="timesheet">
+  <% unless @timeslices.count > 0 %>
+  <div id="no-tasks-row" class="timegap">
+    <td colspan="7">No tasks</td>
+  </div>
+  <% end %>
+  <% for timeslice in @timeslices %>
+  <%= render :partial => 'timesheet_row', :locals => { :timeslice => timeslice } %>
+  <% end %>
+</div>
 
 <hr />
 
