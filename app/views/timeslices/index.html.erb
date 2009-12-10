@@ -22,7 +22,7 @@
 
 <h2>Add timeslice</h2>
 <% form_for :timeslice, :url => timesheet_add_path(@date), 
-            :html => { :id => 'new_timeslice' } do |form| %>
+      :html => { :id => 'new_timeslice', :autocomplete => 'off' } do |form| %>
   <%= form.error_messages %>
   <%= render :partial => form %>
   <%= form.submit "Create" %>
