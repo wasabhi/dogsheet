@@ -6,6 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.login 'login', :controller => 'user_sessions', :action => 'new'
   map.logout 'logout', :controller => 'user_sessions', :action => 'destroy'
+  map.profile 'profile', :controller => 'users', :action => 'edit'
   map.resources :user_sessions
 
   map.resources :timeslices

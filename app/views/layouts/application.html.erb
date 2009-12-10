@@ -21,7 +21,7 @@
     <% if current_user %>
       <li><%= link_to 'Timesheet', '/' %></li>
       <li><%= link_to 'Tasks', tasks_path %></li>
-      <li><%= link_to 'Edit Profile', edit_user_path(:current) %></li>
+      <li><%= link_to 'Edit Profile', profile_path %></li>
       <li><%= link_to 'Logout', logout_path %></li>
     <% else %>
       <li><%= link_to 'Register', new_user_path %></li>

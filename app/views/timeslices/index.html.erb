@@ -1,6 +1,6 @@
-<ul id="context-menu">
-  <li><%= link_to 'CSV', :action => 'index', :date => @date, 
-                          :format => 'csv' %></li>
+<ul id="context-nav">
+  <li><%= link_to 'Export', { :action => 'index', :date => @date, 
+                   :format => 'csv' }, :class => 'export' %></li>
 </ul>
 <h2 class="dayheader">
   <%= link_to(image_tag('g3625.png'), "/timesheet/#{@date.yesterday}") -%>
@@ -17,8 +17,6 @@
   <%= render :partial => 'timesheet_row', :locals => { :timeslice => timeslice } %>
   <% end %>
 </div>
-
-<hr />
 
 <h2>Add timeslice</h2>
 <% form_for :timeslice, :url => timesheet_add_path(@date), 
