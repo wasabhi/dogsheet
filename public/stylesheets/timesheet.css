@@ -19,7 +19,7 @@ a:hover {
 }
 
 #header {
-  background: black url(/images/mutt-48x48.png) no-repeat bottom left;
+  background: transparent url(/images/mutt-48x48.png) no-repeat bottom left;
   padding: 0.5em 4em 0 4em;
   color: white;
 }
