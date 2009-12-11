@@ -26,7 +26,6 @@ a:hover {
 
 #header a {
   font-weight: bold;
-  color: white;
   text-decoration: none;
 }
 
@@ -35,12 +34,19 @@ a:hover {
 }
 
 ul#nav,ul#context-nav {
-  padding: 0;
+  padding: 0.4em 0 0 0;
   margin: 0;
 }
 
 ul#nav li,ul#context-nav li {
   display: inline;
+}
+
+ul#nav li {
+  -moz-border-radius: 10px 10px 0 0;
+  padding: 0.4em 0.6em;
+  margin-right: 0.8em;
+  background-color: #eee;
 }
 
 ul#context-nav {
@@ -53,6 +59,7 @@ ul#context-nav li {
   border: 2px solid #555753;
   -moz-border-radius: 10px;
   padding: 0.4em 0.8em;
+  margin-right: 1em;
 }
 ul#context-nav li:hover {
   background-color: #729fcf;
@@ -82,18 +89,23 @@ th.time, td.time, th.decimal-time, td.decimal-time {
 
 img {
   border: 0;
+  vertical-align: middle;
+}
+
+h2 {
+  font-size: 2em;
 }
 
 /* Day header */
-h2.dayheader {
+h3.dayheader {
+  font-size: 1.4em;
   color: white;
   background-color: #2e3436;
-  font-size: 2em;
-  padding: 0.1em 0;
+  padding: 0.2em 1.4em;
   margin: 0;
 }
-h2.dayheader img {
-  vertical-align: middle;
+h3.dayheader a {
+  color: white;
 }
 
 /* Timeslice box */
@@ -122,6 +134,13 @@ div.timeslice div.timeinfo div.timeslice-delete {
 div.timeslice div.time {
   font-size: 2em;
   line-height: 1.2em;
+}
+div.timegap {
+  border-left: 2px dotted #777;
+  border-right: 2px dotted #777;
+  padding: 0.5em;
+  font-style: italic;
+  color: #777;
 }
 
 /* Taskbadge */

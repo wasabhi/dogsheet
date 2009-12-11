@@ -68,3 +68,4 @@ end
 
 Time::DATE_FORMATS[:time_only] = '%H:%M'
 Time::DATE_FORMATS[:date_only] = '%Y-%m-%d'
+Date::DATE_FORMATS[:human] = '%a %m %b %Y'

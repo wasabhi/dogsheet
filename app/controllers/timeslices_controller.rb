@@ -20,8 +20,10 @@ class TimeslicesController < ApplicationController
       @end_date = @date
     end
     @timeslices = current_user.timeslices.find(:all, :order => 'started ASC',
-                    :conditions => ['started >= ? AND finished < ?',
-                                    @date.to_time.utc, @end_date.tomorrow.to_time.utc])
+                    :conditions => [
+                      'started >= ? AND finished < ?',
+                      @date.to_time.utc, @end_date.tomorrow.to_time.utc
+                    ])
 
     # An empty timeslice for the 'Add timeslice' form
     @timeslice = Timeslice.new
@@ -49,8 +51,13 @@ class TimeslicesController < ApplicationController
       format.html
       format.xml { render :xml => @timeslices }
       format.csv do
+        if @date == @end_date
+          filename = "#{@date}.csv"
+        else
+          filename = "#{@date}_#{@end_date}.csv"
+        end
         response.headers['Content-Type'] = 'text/csv; charset=UTF8; header=present'
-        response.headers['Content-Disposition'] = 'attachment;filename=' + @date.to_s + '.csv'
+        response.headers['Content-Disposition'] = 'attachment;filename=' + filename
       end
     end
   end

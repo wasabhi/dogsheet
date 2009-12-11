@@ -1,22 +1,31 @@
+
 <ul id="context-nav">
-  <li><%= link_to 'Export', { :action => 'index', :date => @date, 
-                   :format => 'csv' }, :class => 'export' %></li>
+  <li>
+    <%= link_to(image_tag('g3625.png'), "/timesheet/#{@date.yesterday}") -%>
+    <%= @date -%>
+    <%= " - #{@end_date}" if @date != @end_date %>
+    <%= link_to(image_tag('g3631.png'), "/timesheet/#{@end_date.tomorrow}") -%>
+  </li>
+  <li>
+    <% if @date == @end_date %>
+    <%= link_to 'Export', { :action => 'index', :date => @date, 
+                   :format => 'csv' }, :class => 'export' %>
+    <% else %>
+    <%= link_to 'Export', { :action => 'index', :date => @date, 
+                   :end_date => @end_date, :format => 'csv' }, 
+                   :class => 'export' %>
+    <% end %>
+  </li>
 </ul>
-<h2 class="dayheader">
-  <%= link_to(image_tag('g3625.png'), "/timesheet/#{@date.yesterday}") -%>
-  <%= @date -%>
-  <%= link_to(image_tag('g3631.png'), "/timesheet/#{@date.tomorrow}") -%>
-</h2>
-<div id="timesheet">
-  <% unless @timeslices.count > 0 %>
-  <div id="no-tasks-row" class="timegap">
-    <td colspan="7">No tasks</td>
-  </div>
-  <% end %>
-  <% for timeslice in @timeslices %>
-  <%= render :partial => 'timesheet_row', :locals => { :timeslice => timeslice } %>
-  <% end %>
-</div>
+
+<%#
+Split the timeslices array into multiple days
+-%>
+<% (@date..@end_date).each do |date|%>
+<%= render :partial => 'day', :locals => { 
+          :timeslices => @timeslices.find_all {|t| t.started.to_date == date}, 
+          :date => date } %>
+<% end %>
 
 <h2>Add timeslice</h2>
 <% form_for :timeslice, :url => timesheet_add_path(@date), 

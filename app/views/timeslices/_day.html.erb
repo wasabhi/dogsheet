@@ -1,0 +1,13 @@
+<h3 class="dayheader">
+  <%= link_to date.to_s(:human), timesheet_path(date) -%>
+</h3>
+<div id="timesheet-<%= date %>" class="timeslice-list">
+  <% unless timeslices.count > 0 %>
+  <div class="timegap">
+    There is currently no time recorded on this day.
+  </div>
+  <% end %>
+  <% for timeslice in timeslices %>
+  <%= render :partial => 'timesheet_row', :locals => { :timeslice => timeslice } %>
+  <% end %>
+</div>
