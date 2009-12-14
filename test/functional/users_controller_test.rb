@@ -20,21 +20,15 @@ class UsersControllerTest < ActionController::TestCase
   end
  
   def test_should_not_edit_user_when_not_logged_in
-    get :edit, :id => users(:one).id
+    get :edit
     assert_redirected_to new_user_session_url
   end
 
   def test_should_edit_user
     UserSession.create(users(:one))
-    get :edit, :id => users(:one).id
+    get :edit
     assert_response :success
     assert_not_nil assigns(:user)
-  end
-
-  def test_should_not_edit_another_user
-    UserSession.create(users(:one))
-    get :edit, :id => users(:two).id
-    assert_response :forbidden
   end
 
   def test_should_not_create_user_when_logged_in
