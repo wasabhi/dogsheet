@@ -132,6 +132,9 @@ class TimeslicesControllerTest < ActionController::TestCase
                       :finished_time => '16:00'
                     }
     end
+    assert_not_nil assigns(:timeslice)
+    assert_equal Date.parse('2009-11-15'),assigns(:timeslice).started.to_date,
+                  "assigns timeslice to correct date"
 
     # Create from timeslice/_form partial
     assert_difference('Timeslice.count') do
@@ -142,6 +145,9 @@ class TimeslicesControllerTest < ActionController::TestCase
                       :finished_time => '16:00'
                     }
     end
+    assert_not_nil assigns(:timeslice)
+    assert_equal Date.parse('2009-11-15'),assigns(:timeslice).started.to_date,
+                  "assigns timeslice to correct date"
 
     # Create from timeslice/_form partial and also create task
     assert_difference(['Timeslice.count','Task.count']) do
