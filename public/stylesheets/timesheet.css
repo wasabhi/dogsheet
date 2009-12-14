@@ -123,10 +123,10 @@ div.timeslice:hover {
 }
 
 div.timeslice div.timeinfo {
-  float: left;
-  padding-right: 1em;
-  margin-right: 1em;
-  border-right: 1px dotted #888a85;
+  padding-left: 1em;
+  margin-left: 1em;
+  border-left: 1px dotted #888a85;
+  float: right;
 }
 div.timeslice div.timeinfo div.timeslice-delete {
   float: right;
@@ -138,6 +138,7 @@ div.timeslice div.time {
 div.timegap {
   border-left: 2px dotted #777;
   border-right: 2px dotted #777;
+  border-bottom: 2px dotted #777;
   padding: 0.5em;
   font-style: italic;
   color: #777;
@@ -145,7 +146,8 @@ div.timegap {
 
 /* Taskbadge */
 div.taskinfo {
-  margin-left: 140px;
+  /* float: left; */
+  margin-right: 150px;
 }
 
 div.taskbadge div.task-name {

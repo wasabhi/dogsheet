@@ -7,8 +7,8 @@
 </ul>
 
 <ul id="task-tree">
-<% Task.roots.each do |t| %>
-<%= task_tree(t) %>
+<% @tasks.each do |t| %>
+<%= task_tree(t) if t.root? %>
 <% end %>
 </ul>
 
