@@ -7,6 +7,14 @@
     <%= link_to(image_tag('g3631.png'), "/timesheet/#{@end_date.tomorrow}") -%>
   </li>
   <li>
+    <%
+      daterange = @date.to_s
+      daterange += ' - ' + @end_date.to_s if @date != @end_date 
+    %>
+    <input id="dateselect" type="text" value="<%= daterange %>"/>
+    <input id="dateselect-go" type="button" value="Go" />
+  </li>
+  <li>
     <% if @date == @end_date %>
     <%= link_to 'Export', { :action => 'index', :date => @date, 
                    :format => 'csv' }, :class => 'export' %>

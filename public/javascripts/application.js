@@ -52,6 +52,15 @@ $(document).ready(function () {
          drop_id: $(this).attr('id')});
     }
   });
+
+  $('#dateselect').daterangepicker({
+    dateFormat:'yy-mm-dd'
+  });
+
+  $('#dateselect-go').click(function(){
+    window.location.href = '/timesheet/' + 
+                            $('#dateselect').val().split(' - ').join('/');
+  });
 });
 
 /* Limit relevant time entry max + min based on value of the other */
