@@ -2,17 +2,13 @@
 <ul id="context-nav">
   <li>
     <%= link_to(image_tag('g3625.png'), "/timesheet/#{@date.yesterday}") -%>
-    <%= @date -%>
-    <%= " - #{@end_date}" if @date != @end_date %>
-    <%= link_to(image_tag('g3631.png'), "/timesheet/#{@end_date.tomorrow}") -%>
-  </li>
-  <li>
     <%
       daterange = @date.to_s
       daterange += ' - ' + @end_date.to_s if @date != @end_date 
     %>
     <input id="dateselect" type="text" value="<%= daterange %>"/>
     <input id="dateselect-go" type="button" value="Go" />
+    <%= link_to(image_tag('g3631.png'), "/timesheet/#{@end_date.tomorrow}") -%>
   </li>
   <li>
     <% if @date == @end_date %>
