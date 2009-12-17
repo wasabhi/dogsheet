@@ -2,23 +2,11 @@ class TimeslicesController < ApplicationController
   before_filter :require_login
   before_filter :find_task, :only => [:new]
   before_filter :find_timeslice, :only => [:show, :edit, :update, :destroy]
+  before_filter :set_dates, :only => [:index, :create]
   after_filter :copy_errors, :only => [:create, :update]
 
   def index
 
-    # If no date was passed, set today by default
-    if params[:date]
-      @date = Date.parse(params[:date])
-    else
-      @date = Date.today
-    end
-
-    # If no end date was passed, make the same as start date
-    if params[:end_date]
-      @end_date = Date.parse(params[:end_date])
-    else
-      @end_date = @date
-    end
     @timeslices = current_user.timeslices.find(:all, :order => 'started ASC',
                     :conditions => [
                       'started >= ? AND finished < ?',
@@ -83,6 +71,14 @@ class TimeslicesController < ApplicationController
       end
       @timeslice = current_user.timeslices.new params[:timeslice]
     end
+
+    # If date was passed explicitly, make sure the timeslice is set
+    # to this date.  This is for entry formats which have time only
+    # input fields, in which case the date will be an extra parameter
+    if params[:date]
+      @timeslice.date = @date
+    end
+
     respond_to do |format|
       if @timeslice.save
         format.html { redirect_to timesheet_url(@timeslice.started.to_date) }
@@ -127,6 +123,22 @@ class TimeslicesController < ApplicationController
 
     def find_timeslice
       @timeslice = current_user.timeslices.find(params[:id])
+    end
+
+    def set_dates
+      # If no date was passed, set today by default
+      if params[:date]
+        @date = Date.parse(params[:date])
+      else
+        @date = Date.today
+      end
+
+      # If no end date was passed, make the same as start date
+      if params[:end_date]
+        @end_date = Date.parse(params[:end_date])
+      else
+        @end_date = @date
+      end
     end
 
     # The error messages for the native started and finished attributes

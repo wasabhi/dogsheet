@@ -32,6 +32,15 @@ class Timeslice < ActiveRecord::Base
     @finished_time_invalid = true
   end
 
+  def date
+    started.to_date
+  end
+
+  def date=(date)
+    self.started = Time.parse("#{date} #{self.started.strftime('%H:%M:%S')}")
+    self.finished = Time.parse("#{date} #{self.finished.strftime('%H:%M:%S')}")
+  end
+
   private
     def started_and_finished_set?
       started && finished && !user_id.nil?

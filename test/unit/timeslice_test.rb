@@ -104,4 +104,17 @@ class TimesliceTest < ActiveSupport::TestCase
     timeslice.finished = '2009-11-14 12:00:00'
     assert timeslice.save, "Saved with finished time same as existing timeslice start time"
   end
+
+  # Should be able to change just the date of a timeslice
+  def test_should_change_date
+    timeslice = Timeslice.new
+    timeslice.user = users(:one)
+    timeslice.started = '2009-11-14 13:00:00'
+    timeslice.finished = '2009-11-14 14:00:00'
+    assert_equal Date.parse('2009-11-14'), timeslice.date
+    timeslice.date = Date.parse('2009-11-15')
+    assert_equal Date.parse('2009-11-15'), timeslice.date
+    assert_equal Time.parse('2009-11-15 13:00:00'), timeslice.started
+    assert_equal Time.parse('2009-11-15 14:00:00'), timeslice.finished
+  end
 end
