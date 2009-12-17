@@ -63,8 +63,18 @@ $(document).ready(function () {
   });
 
   $('h3.dayheader').click(function() {
-    $(this).next().toggle();
+    $(this).next().toggle('fast');
+    $(this).toggleClass('closed');
     return false;
+  });
+
+  $('#collapse-all').click(function() {
+    $('.timeslice-list').toggle(false);
+    $('h3.dayheader').addClass('closed');
+  });
+  $('#expand-all').click(function() {
+    $('.timeslice-list').toggle(true);
+    $('h3.dayheader').removeClass('closed');
   });
 });
 

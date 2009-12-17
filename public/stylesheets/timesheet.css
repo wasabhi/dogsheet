@@ -75,6 +75,14 @@ ul#context-nav li a.export {
   background-color: #eee;
 }
 
+ul#expand-collapse-controls {
+  display: inline;
+  text-align: right;
+}
+ul#expand-collapse-controls li {
+  display: inline;
+}
+
 div.form-item {
   display: inline;
 }
@@ -100,9 +108,14 @@ h2 {
 h3.dayheader {
   font-size: 1.4em;
   color: white;
-  background-color: #2e3436;
-  padding: 0.2em 1.4em;
+  background: #2e3436 url(/images/dayheader-open.png) 5px center no-repeat;
+  padding: 0.2em 35px;
   margin: 0;
+  cursor: pointer;
+}
+h3.dayheader.closed {
+  background-image: url(/images/dayheader-closed.png);
+  border-bottom: 1px solid #777;
 }
 h3.dayheader a {
   color: white;
