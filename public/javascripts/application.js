@@ -61,6 +61,11 @@ $(document).ready(function () {
     window.location.href = '/timesheet/' + 
                             $('#dateselect').val().split(' - ').join('/');
   });
+
+  $('h3.dayheader').click(function() {
+    $(this).next().toggle();
+    return false;
+  });
 });
 
 /* Limit relevant time entry max + min based on value of the other */
