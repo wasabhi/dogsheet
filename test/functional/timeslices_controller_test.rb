@@ -162,6 +162,34 @@ class TimeslicesControllerTest < ActionController::TestCase
     end
   end
 
+  # The AJAX insert requires an @next variable when there is an existing
+  # timeslice on the same day at a later time
+  def test_should_set_next_if_existing_on_same_day
+    UserSession.create(users(:one))
+    xhr :post, :create,
+                  :date => '2009-11-14',
+                  :timeslice => { 
+                    :task_id => tasks(:one).id, 
+                    :started_time => '11:00',
+                    :finished_time => '12:00'
+                  }
+    assert_not_nil assigns(:next)
+    assert_equal timeslices(:one), assigns(:next),
+      "assigns next timeslice to @next"
+  end
+
+  def test_should_not_set_next_if_not_existing_on_same_day
+    UserSession.create(users(:one))
+    xhr :post, :create,
+                  :date => '2009-11-14',
+                  :timeslice => { 
+                    :task_id => tasks(:one).id, 
+                    :started_time => '23:00',
+                    :finished_time => '23:30'
+                  }
+    assert_nil assigns(:next), "does not assign @next on last timeslice of day"
+  end
+
   def test_should_set_default_timeslice_task
     UserSession.create(users(:one))
     get :index, :date => '2009-11-15'

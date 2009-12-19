@@ -117,4 +117,49 @@ class TimesliceTest < ActiveSupport::TestCase
     assert_equal Time.parse('2009-11-15 13:00:00'), timeslice.started
     assert_equal Time.parse('2009-11-15 14:00:00'), timeslice.finished
   end
+
+  # Should get the previous timeslice for the correct user
+  def test_should_get_previous
+    assert_nil timeslices(:three).previous, 
+      "should return nil when there is no previous timeslice"
+    assert_equal timeslices(:one), timeslices(:two).previous,
+      "returns previous timeslice" 
+    assert_nil timeslices(:four).previous,
+      "should ignore other users timeslices"
+  end
+
+  # Should get the next timeslice for the correct user
+  def test_should_get_previous
+    assert_nil timeslices(:two).next, 
+      "should return nil when there is no next timeslice"
+    assert_equal timeslices(:two), timeslices(:one).next,
+      "returns next timeslice" 
+    assert_nil timeslices(:four).previous,
+      "should ignore other users timeslices"
+  end
+
+  def test_should_compare_date
+    t1 = Timeslice.new
+    t1 = Timeslice.new
+    t1.user = users(:two)
+    t1.started = '2009-11-14 00:00:00'
+    t1.finished = '2009-11-14 00:15:00'
+
+    t2 = Timeslice.new
+    t2.user = users(:two)
+    t2.started = '2009-11-14 23:30:00'
+    t2.finished = '2009-11-14 23:45:00'
+
+    assert_equal true, t1.same_day_as?(t2),
+      "returns true when comparing timeslices on the same day"
+
+    t2 = Timeslice.new
+    t2.user = users(:two)
+    t2.started = '2009-11-13 23:30:00'
+    t2.finished = '2009-11-13 23:45:00'
+
+    assert_equal false, t1.same_day_as?(t2),
+      "returns false when comparing timeslices on different days"
+
+  end
 end

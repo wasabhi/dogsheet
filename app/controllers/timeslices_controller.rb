@@ -79,6 +79,14 @@ class TimeslicesController < ApplicationController
       @timeslice.date = @date
     end
 
+    # When using the AJAX create, it may be necessary to insert the timeslice
+    # before an existing timeslice on the current day view.  Set up a
+    # variable containing the next timeslice if the date is the same as the
+    # timeslice being created.
+    if @timeslice.next && @timeslice.next.same_day_as?(@timeslice)
+      @next = @timeslice.next
+    end
+
     respond_to do |format|
       if @timeslice.save
         format.html { redirect_to timesheet_url(@timeslice.started.to_date) }

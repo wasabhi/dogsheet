@@ -41,6 +41,26 @@ class Timeslice < ActiveRecord::Base
     self.finished = Time.parse("#{date} #{self.finished.strftime('%H:%M:%S')}")
   end
 
+  # Returns the previous timeslice (for the same user)
+  def previous
+    Timeslice.find(:first, 
+      :conditions => ["finished <= ? AND user_id = ?", started, user_id],
+      :order => 'finished DESC')
+  end
+
+  # Returns the next timeslice (for the same user)
+  def next
+    Timeslice.find(:first, 
+      :conditions => ["started >= ? AND user_id = ?", finished, user_id],
+      :order => 'finished ASC')
+  end
+
+  # Compares the timeslice passed with this timeslice to see if they
+  # are on the same day.
+  def same_day_as?(timeslice)
+    return self.date == timeslice.date
+  end
+
   private
     def started_and_finished_set?
       started && finished && !user_id.nil?

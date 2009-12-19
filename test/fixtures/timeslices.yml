@@ -1,4 +1,9 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# The timeslice chronological order is:
+#
+# User one
+#  three
+#  one
+#  two
 
 one:
   task: one 

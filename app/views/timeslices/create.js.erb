@@ -1,5 +1,10 @@
 <% next_finished = @timeslice.finished + 15.minutes %>
-$('#timesheet-<%= @timeslice.started.to_date %>').append('<%= escape_javascript(render(:partial => 'timesheet_row', :locals => { :timeslice => @timeslice })) %>');
+new_timeslice = '<%= escape_javascript(render(:partial => 'timesheet_row', :locals => { :timeslice => @timeslice })) %>';
+<% if @next %>
+$('#timeslice-<%= @next.id %>').before(new_timeslice);
+<% else %>
+$('#timesheet-<%= @timeslice.started.to_date %>').append(new_timeslice);
+<% end %>
 $('#timeslice_started_time').val('<%= @timeslice.finished_time %>');
 $('#timeslice_finished_time').val('<%= next_finished.to_s(:time_only) %>');
 $('.taskbadge-<%= @timeslice.task.id %>').replaceWith('<%= escape_javascript(render(:partial => @timeslice.task)) %>');
