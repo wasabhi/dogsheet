@@ -1,4 +1,4 @@
-<h3 class="dayheader">
+<h3 id="dayheader-<%= date %>" class="dayheader">
   <%= render :partial => 'timesummary', :locals => {:timeslices => timeslices} %>
   <%= link_to date.to_s(:human), timesheet_path(date) -%>
 </h3>

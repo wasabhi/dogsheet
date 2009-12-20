@@ -162,6 +162,20 @@ class TimeslicesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_should_create_from_ajax
+    UserSession.create(users(:one))
+    xhr :post, :create, :date => '2009-11-14',
+      :timeslice => { 
+        :task_id => tasks(:one).id, 
+        :started_time => '11:00',
+        :finished_time => '12:00'
+      }
+    assert_not_nil assigns(:timeslice)
+    assert_not_nil assigns(:timeslices)
+    assert_equal 3, assigns(:timeslices).count,
+      "assigns array of timeslices for the day"
+  end
+
   # The AJAX insert requires an @next variable when there is an existing
   # timeslice on the same day at a later time
   def test_should_set_next_if_existing_on_same_day
@@ -174,6 +188,8 @@ class TimeslicesControllerTest < ActionController::TestCase
                     :finished_time => '12:00'
                   }
     assert_not_nil assigns(:next)
+    assert_not_nil assigns(:timeslices)
+    assert_equal 3, assigns(:timeslices).count
     assert_equal timeslices(:one), assigns(:next),
       "assigns next timeslice to @next"
   end
