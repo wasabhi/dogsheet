@@ -7,6 +7,11 @@ class Timeslice < ActiveRecord::Base
   belongs_to :task
   belongs_to :user
 
+  # Returns a sum of the total duration of an array of timeslices
+  def Timeslice.total_duration(timeslices)
+    timeslices.inject(0) {|total,timeslice| total += timeslice.duration}
+  end
+
   # Duration in seconds
   def duration
     finished - started

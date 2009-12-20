@@ -1,8 +1,5 @@
-<% total_duration = timeslices.inject(0) {|total,timeslice| total += timeslice.duration} %>
 <h3 class="dayheader">
-  <span class="summary">
-    <%= hours_and_minutes(total_duration) %> (<%= decimal_hours(total_duration) %>)
-  </span>
+  <%= render :partial => 'timesummary', :locals => {:timeslices => timeslices} %>
   <%= link_to date.to_s(:human), timesheet_path(date) -%>
 </h3>
 <div id="timesheet-<%= date %>" class="timeslice-list">

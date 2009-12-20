@@ -162,4 +162,9 @@ class TimesliceTest < ActiveSupport::TestCase
       "returns false when comparing timeslices on different days"
 
   end
+
+  def test_should_return_total_duration_of_timeslice_array
+    assert_equal 12600, Timeslice.total_duration(Timeslice.all),
+      "returns total duration of an array of timeslices"
+  end
 end
