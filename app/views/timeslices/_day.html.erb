@@ -1,9 +1,9 @@
-<h3 id="dayheader-<%= date %>" class="dayheader">
+<h3 id="dayheader-<%= date %>" class="dayheader<%= " closed" if timeslices.empty? %>">
   <%= render :partial => 'timesummary', :locals => {:timeslices => timeslices} %>
   <%= link_to date.to_s(:human), timesheet_path(date) -%>
 </h3>
 <div id="timesheet-<%= date %>" class="timeslice-list">
-  <% unless timeslices.count > 0 %>
+  <% if timeslices.empty? %>
   <div class="timegap no-timeslices">
     There is currently no time recorded on this day.
   </div>

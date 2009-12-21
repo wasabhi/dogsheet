@@ -62,6 +62,8 @@ $(document).ready(function () {
                             $('#dateselect').val().split(' - ').join('/');
   });
 
+  $('h3.dayheader.closed').next().toggle(false);
+
   $('h3.dayheader').click(function() {
     $(this).next().toggle('fast');
     $(this).toggleClass('closed');
