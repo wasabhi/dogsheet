@@ -2,7 +2,7 @@ new_timeslice = '<%= escape_javascript(render(:partial => 'timesheet_row', :loca
 <% if @next %>
 $('#timeslice-<%= @next.id %>').before(new_timeslice);
 <% else %>
-$('#timesheet-<%= @timeslice.started.to_date %>').append(new_timeslice);
+$('#timesheet-<%= @timeslice.date %>').append(new_timeslice);
 <% end %>
 
 $('#dayheader-<%= @timeslice.date %> > span.summary').replaceWith('<%= escape_javascript(render(:partial => 'timesummary', :locals => { :timeslices => @timeslices })) %>');
@@ -13,4 +13,6 @@ $('.taskbadge-<%= @timeslice.task.id %>').replaceWith('<%= escape_javascript(ren
 $('#timeslice_started_time').val('<%= @timeslice.finished_time %>');
 $('#timeslice_finished_time').val('<%= next_finished.to_s(:time_only) %>');
 $('#timeslice_task_id').focus();
-$('#timesheet-<%= @timeslice.started.to_date %> .no-timeslices').hide();
+$('#timesheet-<%= @timeslice.date %> .no-timeslices').hide();
+$('#timesheet-<%= @timeslice.date %>').toggle(true);
+$('#dayheader-<%= @timeslice.date %>').removeClass('closed');
