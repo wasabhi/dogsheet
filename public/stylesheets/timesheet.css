@@ -128,6 +128,7 @@ h3.dayheader span.summary {
   background: #888a85 url(/images/clock.png) no-repeat 5px center;
   padding-left: 35px;
   padding-right: 1em;
+  min-width: 5em;
 }
 
 /* Timeslice box */
@@ -149,6 +150,7 @@ div.timeslice div.timeinfo {
   margin-left: 1em;
   border-left: 1px dotted #888a85;
   float: right;
+  min-width: 10em;
 }
 div.timeslice div.timeinfo div.timeslice-delete {
   float: right;
