@@ -35,16 +35,8 @@ Split the timeslices array into multiple days
           :date => date } %>
 <% end %>
 
-<h2>Add timeslice</h2>
-<% form_for :timeslice, :url => timesheet_add_path(@date), 
-      :html => { :id => 'new_timeslice', :autocomplete => 'off' } do |form| %>
-  <%= form.error_messages %>
-  <%= render :partial => form %>
-  <%= form.submit "Create" %>
-<% end %>
-
+<h2>Add task</h2>
 <% form_for @task, :url => '/tasks/create' do |form| %>
-  <h2>Add task</h2>
   <%= form.error_messages %>
   <div class="form-item">
     <%= form.label :parent_id %>
@@ -56,4 +48,5 @@ Split the timeslices array into multiple days
   </div>
   <div class="form-item">
   <%= form.submit('Add task') %>
+  </div>
 <% end %>

@@ -100,10 +100,6 @@ img {
   vertical-align: middle;
 }
 
-h2 {
-  font-size: 2em;
-}
-
 /* Day header */
 h3.dayheader {
   font-size: 1.4em;
@@ -190,4 +186,21 @@ div.taskbadge div.task-timeinfo {
 }
 div.taskbadge div.task-actions a {
   color: #4e9a06;
+}
+
+/* Timeslice form */
+div.timeslice-form {
+  border: 1px solid #777;
+  border-top: none;
+  background: white;
+  padding: 1em;
+}
+div.timeslice-form > form {
+  margin: 2em;
+}
+div.timeslice-form div.timeslice-time-entry {
+  margin-top: 0.5em;
+}
+#timeslice-form-errors {
+  float: right;
 }
