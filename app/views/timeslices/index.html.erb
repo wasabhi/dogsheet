@@ -26,6 +26,7 @@
   <li id="expand-all">Expand all</li>
 </ul>
 
+<div id="timesheet" class="<%= @multiday ? "multiday" : "singleday" %>">
 <%#
 Split the timeslices array into multiple days
 -%>
@@ -34,6 +35,7 @@ Split the timeslices array into multiple days
           :timeslices => @timeslices.find_all {|t| t.started.to_date == date}, 
           :date => date } %>
 <% end %>
+</div>
 
 <h2>Add task</h2>
 <% form_for @task, :url => '/tasks/create' do |form| %>

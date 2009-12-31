@@ -144,8 +144,10 @@ class TimeslicesController < ApplicationController
       # If no end date was passed, make the same as start date
       if params[:end_date]
         @end_date = Date.parse(params[:end_date])
+        @multiday = true
       else
         @end_date = @date
+        @multiday = false
       end
     end
 

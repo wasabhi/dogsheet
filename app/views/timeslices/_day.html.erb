@@ -1,4 +1,4 @@
-<h3 id="dayheader-<%= date %>" class="dayheader<%= " closed" if timeslices.empty? %>">
+<h3 id="dayheader-<%= date %>" class="dayheader<%= " closed" if @multiday && timeslices.empty? %>">
   <%= render :partial => 'timesummary', :locals => {:timeslices => timeslices} %>
   <%= link_to date.to_s(:human), timesheet_path(date) -%>
 </h3>
