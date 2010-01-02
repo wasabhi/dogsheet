@@ -67,7 +67,6 @@ $(document).ready(function () {
   $('h3.dayheader').click(function() {
     $(this).next().toggle('fast');
     $(this).toggleClass('closed');
-    return false;
   });
 
   $('#collapse-all').click(function() {
