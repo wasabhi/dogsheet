@@ -161,7 +161,7 @@ class TimeslicesController < ApplicationController
 
     # Return the sum duration of a set of timeslices
     def total_duration(timeslices)
-      timeslices.each.inject(0) do |total, timeslice|
+      timeslices.inject(0) do |total, timeslice|
          total + timeslice.duration
       end
     end
