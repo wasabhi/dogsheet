@@ -14,7 +14,7 @@ class TasksControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:tasks)
-    assert_equal 1, assigns(:tasks).count
+    assert_equal 1, assigns(:tasks).length
   end
 
   def test_should_redirect_show_if_logged_out

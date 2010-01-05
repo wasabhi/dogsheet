@@ -14,7 +14,7 @@ class TimeslicesController < ApplicationController
 
     @total_duration = total_duration(@timeslices)
 
-    if @timeslices.count > 0
+    if @timeslices.length > 0
       last_timeslice = @timeslices.last
       @timeslice.started = @timeslices.last.finished
       @timeslice.finished = @timeslices.last.finished + 15.minutes

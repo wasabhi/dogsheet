@@ -26,7 +26,7 @@ class TimeslicesControllerTest < ActionController::TestCase
     get :index, :date => '2009-11-14'
     assert_response :success
     assert_not_nil assigns(:timeslices)
-    assert_equal 2, assigns(:timeslices).count, "only assigns timeslices for user one"
+    assert_equal 2, assigns(:timeslices).length, "only assigns timeslices for user one"
   end
 
   def test_should_assign_multiday_var
@@ -52,7 +52,7 @@ class TimeslicesControllerTest < ActionController::TestCase
     UserSession.create(users(:one))
     get :index
     assert_not_nil assigns(:tasks)
-    assert_equal 1, assigns(:tasks).count
+    assert_equal 1, assigns(:tasks).length
   end
 
   def test_should_get_index_with_todays_date_by_default
@@ -78,7 +78,7 @@ class TimeslicesControllerTest < ActionController::TestCase
     get :index, :date => '2009-11-14'
     assert_response :success
     assert_not_nil assigns(:timeslices)
-    assert_equal 2, assigns(:timeslices).count, 
+    assert_equal 2, assigns(:timeslices).length, 
       "Returns two timeslices from existing timesheet"
   end
 
@@ -87,7 +87,7 @@ class TimeslicesControllerTest < ActionController::TestCase
     get :index, :date => '2009-11-12', :end_date => '2009-11-14'
     assert_response :success
     assert_not_nil assigns(:timeslices)
-    assert_equal 3, assigns(:timeslices).count, 
+    assert_equal 3, assigns(:timeslices).length, 
       "Returns three timeslices from timesheet spanning multiple days"
   end
 
@@ -112,7 +112,7 @@ class TimeslicesControllerTest < ActionController::TestCase
     UserSession.create(users(:one))
     get :index, :date => '2009-11-12', :format => 'csv'
     assert_not_nil assigns(:timeslices)
-    assert_equal 1, assigns(:timeslices).count
+    assert_equal 1, assigns(:timeslices).length
     assert_equal 'text/csv; charset=UTF8; header=present', 
       @response.headers['type'], 'Content type is CSV'
     assert_equal 'attachment;filename=2009-11-12.csv',
@@ -191,7 +191,7 @@ class TimeslicesControllerTest < ActionController::TestCase
       }
     assert_not_nil assigns(:timeslice)
     assert_not_nil assigns(:timeslices)
-    assert_equal 3, assigns(:timeslices).count,
+    assert_equal 3, assigns(:timeslices).length,
       "assigns array of timeslices for the day"
   end
 
@@ -208,7 +208,7 @@ class TimeslicesControllerTest < ActionController::TestCase
                   }
     assert_not_nil assigns(:next)
     assert_not_nil assigns(:timeslices)
-    assert_equal 3, assigns(:timeslices).count
+    assert_equal 3, assigns(:timeslices).length
     assert_equal timeslices(:one), assigns(:next),
       "assigns next timeslice to @next"
   end
