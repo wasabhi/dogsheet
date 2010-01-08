@@ -14,6 +14,26 @@ a {
   text-decoration: none;
 }
 
+input[type='button'],
+input[type='submit'] {
+  background: #24365d url('/images/button-bg.png') repeat-x top left;
+  color: #ccc;
+  font-weight: bold;
+  border: 0;
+  padding: 0.2em 1em;
+}
+
+input[type='button']:hover,
+input[type='submit']:hover {
+  color: #fff;
+}
+
+input[type='button']:active,
+input[type='submit']:active {
+  color: #fff;
+  background: #416dd6 url('/images/button-active-bg.png') repeat-x top left;
+}
+
 a:hover {
   text-decoration: underline;
 }
