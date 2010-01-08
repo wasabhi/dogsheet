@@ -27,36 +27,6 @@ class TaskTest < ActiveSupport::TestCase
     assert_equal 4500, task.duration, "Returned duration of tasks timeslices in seconds"
   end
 
-  def test_should_return_duration_in_hours_and_minutes
-    task = Task.new
-    task.name = "Test task"
-    task.save
-    timeslice = task.timeslices.build
-    timeslice.started = '2009-11-13 12:00:00'
-    timeslice.finished = '2009-11-13 13:00:00'
-    timeslice.save
-    timeslice = task.timeslices.build
-    timeslice.started = '2009-11-13 13:00:00'
-    timeslice.finished = '2009-11-13 13:15:00'
-    timeslice.save
-    assert_equal '1:15', task.hours_and_minutes, "Duration in hours and minutes"
-  end
-
-  def test_should_return_duration_in_hours_and_minutes
-    task = Task.new
-    task.name = "Test task"
-    task.save
-    timeslice = task.timeslices.build
-    timeslice.started = '2009-11-13 12:00:00'
-    timeslice.finished = '2009-11-13 13:00:00'
-    timeslice.save
-    timeslice = task.timeslices.build
-    timeslice.started = '2009-11-13 13:00:00'
-    timeslice.finished = '2009-11-13 13:15:00'
-    timeslice.save
-    assert_equal 1.25, task.decimal_hours, "Duration in decimal hours"
-  end
-
   def test_should_return_depth_prefix_string
     assert_equal 'Top level task for user one', tasks(:one).name_with_depth,
       'top level task has no prefix'

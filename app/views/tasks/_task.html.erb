@@ -1,6 +1,6 @@
 <div class="taskbadge taskbadge-<%= task.id %>">
   <div class="task-timeinfo">
-    <div>Total: <%= task.hours_and_minutes %> (<%= task.decimal_hours %>)</div>
+    <div>Total: <%= hours_and_minutes(task.duration) %> (<%= decimal_hours(task.duration) %>)</div>
     <div>Active for 
       <%= distance_of_time_in_words(task.timeslices.first.started, 
                                     task.timeslices.last.finished) %>

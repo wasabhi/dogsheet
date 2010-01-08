@@ -1,13 +1,18 @@
 class TimeslicesController < ApplicationController
+
+  # TODO Make increment configurable per user
+  INCREMENT = 15
+  # TODO Make start time configurable per user
+  DAYSTART = '08:00:00'
+
   before_filter :require_login
   before_filter :find_task, :only => [:new]
   before_filter :find_timeslice, :only => [:show, :edit, :update, :destroy]
   before_filter :set_dates, :only => [:index, :create]
+  before_filter :find_timeslices, :only => [:index]
   after_filter :copy_errors, :only => [:create, :update]
 
   def index
-
-    @timeslices = current_user.timeslices_by_date @date, @end_date
 
     # An empty timeslice for the 'Add timeslice' form
     @timeslice = Timeslice.new
@@ -17,12 +22,12 @@ class TimeslicesController < ApplicationController
     if @timeslices.length > 0
       last_timeslice = @timeslices.last
       @timeslice.started = @timeslices.last.finished
-      @timeslice.finished = @timeslices.last.finished + 15.minutes
+      @timeslice.finished = @timeslices.last.finished + INCREMENT.minutes
       @timeslice.task = @timeslices.last.task
     else
       last_timeslice = Timeslice.last
-      @timeslice.started = Time.parse(@date.to_s + ' 08:00:00')
-      @timeslice.finished = @timeslice.started + 15.minutes
+      @timeslice.started = Time.parse(@date.to_s + ' ' + DAYSTART)
+      @timeslice.finished = @timeslice.started + INCREMENT.minutes
       if last_timeslice
         @timeslice.task = last_timeslice.task
       end
@@ -35,11 +40,6 @@ class TimeslicesController < ApplicationController
       format.html
       format.xml { render :xml => @timeslices }
       format.csv do
-        if @date == @end_date
-          filename = "#{@date}.csv"
-        else
-          filename = "#{@date}_#{@end_date}.csv"
-        end
         response.headers['Content-Type'] = 'text/csv; charset=UTF8; header=present'
         response.headers['Content-Disposition'] = 'attachment;filename=' + filename
       end
@@ -133,6 +133,11 @@ class TimeslicesController < ApplicationController
       @timeslice = current_user.timeslices.find(params[:id])
     end
 
+    # Find the timeslices for a range of dates
+    def find_timeslices
+      @timeslices = current_user.timeslices_by_date @date, @end_date
+    end
+
     def set_dates
       # If no date was passed, set today by default
       if params[:date]
@@ -164,5 +169,11 @@ class TimeslicesController < ApplicationController
       timeslices.inject(0) do |total, timeslice|
          total + timeslice.duration
       end
+    end
+
+    # Return the filename for export actions.  Extension defaults to .csv
+    def filename(prefix = '', extension = '.csv')
+      datestr = @multiday ? "#{@date}_#{@end_date}" : "#{@date}"
+      prefix + datestr + extension
     end
 end

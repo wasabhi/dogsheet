@@ -7,6 +7,7 @@ $(document).ready(function () {
   /* Bring the task selector into focus on page load */
   $('#timeslice_task_id').focus();
 
+  /* TODO Make increment configurable per user */
   timeentry_attrs = {
     show24Hours: true,
     timeSteps: [1,15,0],

@@ -119,6 +119,19 @@ class TimeslicesControllerTest < ActionController::TestCase
       @response.headers['Content-Disposition'], 'Filename is 2009-11-12.csv'
   end
 
+  def test_should_get_multi_day_index_in_csv_format
+    UserSession.create(users(:one))
+    get :index, :date => '2009-11-12', :end_date => '2009-11-14', 
+                :format => 'csv'
+    assert_not_nil assigns(:timeslices)
+    assert_equal 3, assigns(:timeslices).length
+    assert_equal 'text/csv; charset=UTF8; header=present', 
+      @response.headers['type'], 'Content type is CSV'
+    assert_equal 'attachment;filename=2009-11-12_2009-11-14.csv',
+      @response.headers['Content-Disposition'], 
+      'Filename is 2009-11-12_2009-11-14.csv'
+  end
+
   def test_should_assign_total_duration
     UserSession.create(users(:one))
     get :index, :date => '2009-11-14'

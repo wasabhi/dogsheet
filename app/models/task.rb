@@ -14,16 +14,6 @@ class Task < ActiveRecord::Base
     duration
   end
 
-  # TODO - Repeated in Timeslice
-  def hours_and_minutes
-    minutes = self.duration.round / 60
-    "#{minutes / 60}:#{minutes % 60}"
-  end
-
-  def decimal_hours
-    self.duration / 60 / 60
-  end
-
   # Return the task name prefixed by the given string multiplied by the
   # tasks tree depth.
   def name_with_depth(prefix = '-')
