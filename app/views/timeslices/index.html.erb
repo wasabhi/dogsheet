@@ -37,18 +37,8 @@ Split the timeslices array into multiple days
 <% end %>
 </div>
 
+
 <h2>Add task</h2>
 <% form_for @task, :url => '/tasks/create' do |form| %>
-  <%= form.error_messages %>
-  <div class="form-item">
-    <%= form.label :parent_id %>
-    <%= form.collection_select :parent_id, @tasks, :id, :name_with_depth, {:prompt => '-- Top level --'} %>
-  </div>
-  <div class="form-item">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-  <div class="form-item">
-  <%= form.submit('Add task') %>
-  </div>
+<%= render :partial => 'tasks/form', :object => form %>
 <% end %>
