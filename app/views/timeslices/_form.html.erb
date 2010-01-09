@@ -5,7 +5,7 @@
 <div class="timeslice-task-selector">
   <div class="form-item">
     <%= form.label :task_id %>
-    <%= form.collection_select :task_id, @tasks, :id, :name_with_depth %>
+    <%= form.collection_select :task_id, @tasks, :id, :name_with_ancestors, {}, {:class => 'autocomplete'} %>
   </div>
 </div>
 <div class="timeslice-time-entry">

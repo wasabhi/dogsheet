@@ -4,8 +4,15 @@ jQuery.ajaxSetup({
 
 $(document).ready(function () {
 
+  autocomplete_options = {
+    matchContains: false,
+  };
+
+  /* Add the autocomplete select behaviour */
+  $('select.autocomplete').select_autocomplete(autocomplete_options);
+
   /* Bring the task selector into focus on page load */
-  $('#timeslice_task_id').focus();
+  $('#timeslice_task_id').next('input.ac_input').focus();
 
   /* TODO Make increment configurable per user */
   timeentry_attrs = {

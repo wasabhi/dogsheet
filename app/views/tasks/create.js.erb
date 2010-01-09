@@ -1,11 +1,17 @@
 $('#timeslice_task_id').replaceWith('<%= escape_javascript(
-  collection_select(:timeslice, :task_id, @tasks, :id, :name_with_depth)
+  collection_select(:timeslice, :task_id, @tasks, :id, :name_with_ancestors,
+                    {}, {:class => 'autocomplete'})
 ) %>');
+$('#timeslice_task_id').next('input.ac_input').remove();
+$('#timeslice_task_id').select_autocomplete();
 $('#task_parent_id').replaceWith('<%= escape_javascript(
-  collection_select(:task, :parent_id, @tasks, :id, :name_with_depth, 
-                    {:prompt => '-- Top level --'})
+  collection_select(:task, :parent_id, @tasks, :id, :name_with_ancestors, 
+                    {:prompt => '-- Top level --'},{:class => 'autocomplete'})
 ) %>');
+$('#task_parent_id').next('input.ac_input').remove();
+$('#task_parent_id').select_autocomplete();
 $('#timeslice_task_id').val(<%= @task.id %>);
+$('#timeslice_task_id').next('input.ac_input').val('<%= @task.name_with_ancestors %>');
 $('#timeslice_finished_time').focus();
 $('#task_name').val('');
 $('#new_task').after('<div class="flash-notice"><%= escape_javascript(flash.delete(:notice)) %></div>');
