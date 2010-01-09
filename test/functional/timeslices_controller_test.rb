@@ -55,6 +55,13 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_equal 1, assigns(:tasks).length
   end
 
+  def test_should_assign_active_leaf_tasks
+    UserSession.create(users(:two))
+    get :index
+    assert_not_nil assigns(:leaf_tasks)
+    assert_equal 1, assigns(:leaf_tasks).length
+  end
+
   def test_should_get_index_with_todays_date_by_default
     UserSession.create(users(:one))
     get :index

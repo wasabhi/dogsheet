@@ -34,6 +34,10 @@ class TimeslicesController < ApplicationController
     end
 
     @tasks = Task.find_all_by_user_id(current_user.id, :order => "lft")
+    @leaf_tasks = []
+    @tasks.each do |task|
+      @leaf_tasks.concat(task.leaves) if task.root?
+    end
     @task = current_user.tasks.build
 
     respond_to do |format|
