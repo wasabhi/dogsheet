@@ -1,10 +1,12 @@
 <div class="taskbadge taskbadge-<%= task.id %>">
   <div class="task-timeinfo">
     <div>Total: <%= hours_and_minutes(task.duration) %> (<%= decimal_hours(task.duration) %>)</div>
+    <% if task.timeslices.length > 0 %>
     <div>Active for 
       <%= distance_of_time_in_words(task.timeslices.first.started, 
                                     task.timeslices.last.finished) %>
     </div>
+    <% end %>
     <div class="task-actions">
     <%# FIXME Make this unobtrusive JS %>
     <%= link_to 'Delete task', task_path(task), :method => 'delete', 

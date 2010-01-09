@@ -52,7 +52,7 @@ class TimeslicesControllerTest < ActionController::TestCase
     UserSession.create(users(:one))
     get :index
     assert_not_nil assigns(:tasks)
-    assert_equal 1, assigns(:tasks).length
+    assert_equal 2, assigns(:tasks).length
   end
 
   def test_should_assign_active_leaf_tasks

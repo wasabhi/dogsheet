@@ -9,12 +9,18 @@ one:
 two:
   name: Top level task for user two
   user: two
-  lft: 1
-  rgt: 4
+  lft: 3
+  rgt: 6
 
 three:
   name: Second level task for user two
   user: two
   parent: two
-  lft: 2
-  rgt: 3
+  lft: 4
+  rgt: 5
+
+four:
+  name: Task with no timeslices
+  user: one
+  lft: 7
+  rgt: 8
