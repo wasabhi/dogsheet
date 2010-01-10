@@ -167,4 +167,12 @@ class TimesliceTest < ActiveSupport::TestCase
     assert_equal 12600, Timeslice.total_duration(Timeslice.all),
       "returns total duration of an array of timeslices"
   end
+
+  def test_should_get_by_date_range
+    assert_equal 1, Timeslice.by_date(Date.parse('2009-11-12')).length,
+      "should return by date with single date argument"
+    assert_equal 4, Timeslice.by_date(Date.parse('2009-11-12'),
+                                      Date.parse('2009-11-14')).length,
+      "should return by date with date range"
+  end
 end

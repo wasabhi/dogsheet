@@ -7,6 +7,24 @@ class Timeslice < ActiveRecord::Base
   belongs_to :task
   belongs_to :user
 
+  named_scope :by_date, lambda { |start_date,*end_date| 
+    { 
+      :conditions => [ 'started >= ? AND finished < ?',
+      start_date.to_time.utc, 
+      end_date.first ? end_date.first.tomorrow.to_time.utc : start_date.tomorrow.to_time.utc ]
+    }
+  }
+
+  # By default, sort all finders by start time
+  def self.find(*args)
+    options = args.last.is_a?(Hash) ? args.pop : {}
+    if not options.include? :order
+      options[:order] = 'started asc'
+    end
+    args.push(options)
+    super
+  end
+
   # Returns a sum of the total duration of an array of timeslices
   def Timeslice.total_duration(timeslices)
     timeslices.inject(0) {|total,timeslice| total += timeslice.duration}

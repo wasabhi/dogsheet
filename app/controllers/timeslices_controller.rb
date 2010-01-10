@@ -91,7 +91,7 @@ class TimeslicesController < ApplicationController
       if @timeslice.save
         # The AJAX create also needs an array of timeslices for the day to
         # update the time summary in the header
-        @timeslices = current_user.timeslices_by_date(@date)
+        @timeslices = current_user.timeslices.by_date(@date)
 
         format.html { redirect_to timesheet_url(@timeslice.started.to_date) }
         format.js
@@ -139,7 +139,7 @@ class TimeslicesController < ApplicationController
 
     # Find the timeslices for a range of dates
     def find_timeslices
-      @timeslices = current_user.timeslices_by_date @date, @end_date
+      @timeslices = current_user.timeslices.by_date @date, @end_date
     end
 
     def set_dates
