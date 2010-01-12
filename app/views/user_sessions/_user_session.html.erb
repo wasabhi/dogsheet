@@ -1,14 +1,14 @@
 <% form_for @user_session do |form| %>
 <%= form.error_messages %>
-<p>
+<div class="form-item form-item-block">
   <%= form.label :email %>
   <%= form.text_field :email %>
-</p>
-<p>
+</div>
+<div class="form-item form-item-block">
   <%= form.label :password %>
   <%= form.password_field :password %>
-</p>
-<p>
+</div>
+<div class="form-item form-item-block">
   <%= form.submit "Login" %>
-</p>
+</div>
 <% end %>
