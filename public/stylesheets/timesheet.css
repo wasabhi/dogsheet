@@ -1,9 +1,10 @@
+/* Generic Elements */
 html {
 }
 
 body {
   margin: 0;
-  background: white url('/images/body-gradient.png') repeat-x top left;
+  background-color: #D9D9D9;
 }
 
 h1 {
@@ -14,34 +15,72 @@ a {
   text-decoration: none;
 }
 
-input[type='button'],
-input[type='submit'] {
-  background: #24365d url('/images/button-bg.png') repeat-x top left;
-  color: #ccc;
-  font-weight: bold;
-  border: 0;
-  padding: 0.2em 1em;
-}
-
-input[type='button']:hover,
-input[type='submit']:hover {
-  color: #fff;
-}
-
-input[type='button']:active,
-input[type='submit']:active {
-  color: #fff;
-  background: #416dd6 url('/images/button-active-bg.png') repeat-x top left;
-}
-
 a:hover {
   text-decoration: underline;
 }
 
+/* Forms */
+label:after {
+  content: ":";
+}
+
+input {
+  background: #eee;
+  color: #383838;
+  font-weight: bold;
+  border: 1px solid #D9D9D9;
+  padding: 0.2em;
+}
+
+input:focus {
+  background: #fff;
+}
+
+input[type='button'],
+input[type='submit'] {
+  background: #eee;
+  color: #383838;
+  font-weight: bold;
+  border: 1px outset #D9D9D9;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+    padding: 0.2em 1em;
+}
+
+input[type='button']:hover,
+input[type='submit']:hover {
+  border: 1px outset #383838;
+}
+
+input[type='button']:active,
+input[type='submit']:active {
+  border: 1px inset #383838;
+}
+
+div.form-item-inline {
+  display: inline;
+}
+
+div.form-item-block {
+  margin-bottom: 5px;
+}
+
+div.form-item-block label {
+  min-width: 200px;
+  display: inline-block;
+}
+
+/* Header */
 #header {
-  background: transparent url(/images/mutt-48x48.png) no-repeat bottom left;
-  padding: 0.5em 4em 0 4em;
+  background: #383838 url('/images/mutt-48x48.png') no-repeat bottom left;
+  padding: 0.5em 4em;
   color: white;
+}
+
+#header h1 a, #header h1 a:hover {
+  color: white;
+  text-decoration: none;
 }
 
 #header a {
@@ -49,50 +88,94 @@ a:hover {
   text-decoration: none;
 }
 
-#header a:hover {
-  text-decoration: underline;
-}
-
-ul#nav,ul#context-nav {
-  padding: 0.4em 0 0 0;
-  margin: 0;
-}
-
-ul#nav li,ul#context-nav li {
-  display: inline;
+/* Navigation */
+ul#nav {
+  margin: 0.5em 0;
+  padding: 0;
+  text-align: right;
+  position: absolute;
+  right: 3.5em;
+  top: 0.6em;
 }
 
 ul#nav li {
-  -moz-border-radius: 10px 10px 0 0;
-  padding: 0.4em 0.6em;
+  display: inline;
+}
+
+ul#nav li a {
+  font-weight: normal;
+}
+
+ul#nav li {
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  padding: 0.2em 0.5em;
   margin-right: 0.8em;
   background-color: #eee;
 }
 
+ul#nav li:hover {
+  background: #D9D9D9;
+}
+
+ul#nav li a:hover {
+  text-decoration: none;
+}
+
+ul#nav li:last {
+  margin-right: 0;
+}
+
 ul#context-nav {
+  padding: 1em 0.8em;
+  margin: 0;
+  background-color: #fff;
+  border: 1px #777 solid;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
   font-size: 1.4em;
   margin: 0.8em 0;
 }
 
 ul#context-nav li {
-  background: white url('/images/timeslice-gradient.png') repeat-x top left;
-  border: 2px solid #555753;
-  -moz-border-radius: 10px;
+  display: inline;
+  background: #eee;
+  border: 0;
   padding: 0.4em 0.8em;
   margin-right: 1em;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
 }
 ul#context-nav li:hover {
-  background-color: #729fcf;
+  background-color: #D9D9D9;
 }
 ul#context-nav li a.export {
   background: transparent url('/images/spreadsheet.png') no-repeat left;
   padding: 0.2em 0.2em 0.2em 30px;
 }
 
+/* Page */
 #page {
-  margin: 0 4em;
+  margin: 1em 4em;
   padding: 2em;
   background-color: #eee;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+/* Footer */
+#footer {
+  margin: 1em 4em;
+  padding: 1em;
+  background: #383838;
+  color: #D9D9D9;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
 }
 
 ul#expand-collapse-controls {
@@ -100,10 +183,6 @@ ul#expand-collapse-controls {
   text-align: right;
 }
 ul#expand-collapse-controls li {
-  display: inline;
-}
-
-div.form-item {
   display: inline;
 }
 
@@ -125,13 +204,13 @@ h3.dayheader {
   font-size: 1.4em;
   line-height: 1.8em;
   color: white;
-  background: #2e3436 url(/images/dayheader-open.png) 5px center no-repeat;
+  background: #383838 url('/images/dayheader-open.png') 5px center no-repeat;
   padding: 0 0 0 35px;
   margin: 0;
   cursor: pointer;
 }
 h3.dayheader.closed {
-  background-image: url(/images/dayheader-closed.png);
+  background-image: url('/images/dayheader-closed.png');
   border-bottom: 1px solid #777;
 }
 h3.dayheader a {
@@ -141,7 +220,7 @@ h3.dayheader a {
 
 h3.dayheader span.summary {
   float: right;
-  background: #888a85 url(/images/clock.png) no-repeat 5px center;
+  background: #777 url('/images/clock.png') no-repeat 5px center;
   padding-left: 35px;
   padding-right: 1em;
   min-width: 5em;
@@ -150,21 +229,21 @@ h3.dayheader span.summary {
 /* Timeslice box */
 div.timeslice {
   clear: left;
-  border: 1px solid #888a85;
+  border: 1px solid #777;
   border-top: none;
   padding: 0.4em;
   min-height: 6em;
-  background: white url('/images/timeslice-gradient.png') repeat-x top left;
+  background: white;
 }
 
 div.timeslice:hover {
-  background-color: #729fcf;
+  background-color: #D9D9D9;
 }
 
 div.timeslice div.timeinfo {
   padding-left: 1em;
   margin-left: 1em;
-  border-left: 1px dotted #888a85;
+  border-left: 1px dotted #777;
   float: right;
   min-width: 10em;
 }
@@ -186,7 +265,6 @@ div.timegap {
 
 /* Taskbadge */
 div.taskinfo {
-  /* float: left; */
   margin-right: 150px;
 }
 
@@ -223,4 +301,16 @@ div.timeslice-form div.timeslice-time-entry {
 }
 #timeslice-form-errors {
   float: right;
+}
+
+/* Task form */
+div.task-form {
+  background: white;
+  padding: 1em;
+  border: 1px solid #777;
+  margin-top: 1em;
+}
+
+div.task-form h2 {
+  margin: 0;
 }
