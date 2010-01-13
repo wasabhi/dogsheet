@@ -15,6 +15,7 @@ class TasksControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:tasks)
     assert_equal 2, assigns(:tasks).length
+    assert_not_nil assigns(:task)
   end
 
   def test_should_redirect_show_if_logged_out
@@ -57,6 +58,15 @@ class TasksControllerTest < ActionController::TestCase
     assert_difference('Task.count') do
       post :create, :task => { :name => 'Test task' }
     end
+    assert_redirected_to tasks_url
+  end
+
+  def test_should_create_sub_task
+    UserSession.create(users(:one))
+    assert_difference('Task.count') do
+      post :create, :task => { :name => 'Test task', :parent_id => tasks(:one).id }
+    end
+    assert_redirected_to task_url(tasks(:one))
   end
 
   def test_should_redirect_edit_if_logged_out

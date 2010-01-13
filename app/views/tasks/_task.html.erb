@@ -1,10 +1,15 @@
 <div class="taskbadge taskbadge-<%= task.id %>">
   <div class="task-timeinfo">
-    <div>Total: <%= hours_and_minutes(task.duration) %> (<%= decimal_hours(task.duration) %>)</div>
+    <div>Total: <%= hours_and_minutes(task.branch_duration) %> (<%= decimal_hours(task.branch_duration) %>)</div>
     <% if task.timeslices.length > 0 %>
     <div>Active for 
       <%= distance_of_time_in_words(task.timeslices.first.started, 
                                     task.timeslices.last.finished) %>
+    </div>
+    <% end %>
+    <% unless task.leaf? %>
+    <div>
+      <%= pluralize(task.children.count, 'sub-task') %>
     </div>
     <% end %>
     <div class="task-actions">

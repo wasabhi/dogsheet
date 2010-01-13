@@ -45,11 +45,6 @@ $(document).ready(function () {
     return false;
   });
 
-  $('#new_task').submit(function (){
-    $.post($(this).attr('action'), $(this).serialize(), null, "script");
-    return false;
-  });
-
   $('#task-tree .task').draggable({revert: "invalid"});
   $('#task-tree .task').droppable({
     accept: '#task-tree .task',

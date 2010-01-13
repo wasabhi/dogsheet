@@ -147,8 +147,8 @@ h3.dayheader span.summary {
   min-width: 5em;
 }
 
-/* Timeslice box */
-div.timeslice {
+/* This class of block element gets a grey gradient with blue on hover */
+.gradientbox {
   clear: left;
   border: 1px solid #888a85;
   border-top: none;
@@ -157,7 +157,7 @@ div.timeslice {
   background: white url('/images/timeslice-gradient.png') repeat-x top left;
 }
 
-div.timeslice:hover {
+.gradientbox:hover {
   background-color: #729fcf;
 }
 
