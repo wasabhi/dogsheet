@@ -10,7 +10,7 @@ class UserSessionsControllerTest < ActionController::TestCase
 
   def test_should_get_create
     post :create, :user_session => { 
-      :email => 'testuser1@localhost', :password => 'testpass' }
+      :email => 'testuser1@example.com', :password => 'testpass' }
     assert_equal 'Logged in.', flash[:notice]
     assert_redirected_to root_url
   end

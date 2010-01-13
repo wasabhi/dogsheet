@@ -9,7 +9,7 @@ $('#dayheader-<%= @timeslice.date %> > span.summary').replaceWith('<%= escape_ja
 
 $('.taskbadge-<%= @timeslice.task.id %>').replaceWith('<%= escape_javascript(render(:partial => @timeslice.task)) %>');
 
-<% next_finished = @timeslice.finished + 15.minutes %>
+<% next_finished = @timeslice.finished + current_user.time_step.minutes %>
 $('#timeslice_started_time').val('<%= @timeslice.finished_time %>');
 $('#timeslice_finished_time').val('<%= next_finished.to_s(:time_only) %>');
 $('#timeslice_task_id').focus();

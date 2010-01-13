@@ -17,7 +17,7 @@ $(document).ready(function () {
   /* TODO Make increment configurable per user */
   timeentry_attrs = {
     show24Hours: true,
-    timeSteps: [1,15,0],
+    timeSteps: [1,TIMESLICE_GRANULARITY,0],
     spinnerImage: '',
     initialField: 1,
   };

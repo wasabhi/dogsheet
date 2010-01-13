@@ -1,5 +1,6 @@
 <% content_for :head do %>
   <%= javascript_include_tag 'taskform' %>
+  <%= javascript_tag("TIMESLICE_GRANULARITY = #{current_user.time_step}") %>
 <% end %>
 <ul id="context-nav">
   <li>

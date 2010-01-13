@@ -8,6 +8,6 @@ module ApplicationHelper
 
   # Returns a duration in seconds formatted as decimal hours
   def decimal_hours(seconds)
-    seconds / 60 / 60
+    ("%.2f" % [seconds / 60 / 60]).to_f
   end
 end

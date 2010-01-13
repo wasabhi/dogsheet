@@ -1,7 +1,5 @@
 class TimeslicesController < ApplicationController
 
-  # TODO Make increment configurable per user
-  INCREMENT = 15
   # TODO Make start time configurable per user
   DAYSTART = '08:00:00'
 
@@ -22,12 +20,12 @@ class TimeslicesController < ApplicationController
     if @timeslices.length > 0
       last_timeslice = @timeslices.last
       @timeslice.started = @timeslices.last.finished
-      @timeslice.finished = @timeslices.last.finished + INCREMENT.minutes
+      @timeslice.finished = @timeslices.last.finished + current_user.time_step.minutes
       @timeslice.task = @timeslices.last.task
     else
       last_timeslice = Timeslice.last
       @timeslice.started = Time.parse(@date.to_s + ' ' + DAYSTART)
-      @timeslice.finished = @timeslice.started + INCREMENT.minutes
+      @timeslice.finished = @timeslice.started + current_user.time_step.minutes
       if last_timeslice
         @timeslice.task = last_timeslice.task
       end
