@@ -14,6 +14,11 @@ class Task < ActiveRecord::Base
     duration
   end
 
+  # Return the duration of this task and all it's children
+  def branch_duration
+    self.self_and_descendants.inject(0) { |sum,task| sum + task.duration }
+  end
+
   # Return the task name prefixed by the given string multiplied by the
   # tasks tree depth.
   def name_with_depth(prefix = '-')
@@ -26,5 +31,15 @@ class Task < ActiveRecord::Base
     else
       return self.parent.name_with_ancestors(separator) + separator + self.name
     end
+  end
+
+  # By default, sort all finders by lft
+  def self.find(*args)
+    options = args.last.is_a?(Hash) ? args.pop : {}
+    if not options.include? :order
+      options[:order] = 'lft'
+    end
+    args.push(options)
+    super
   end
 end

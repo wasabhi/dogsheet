@@ -27,6 +27,11 @@ class TaskTest < ActiveSupport::TestCase
     assert_equal 4500, task.duration, "Returned duration of tasks timeslices in seconds"
   end
 
+  # Should return the total duration of this task and all it's children
+  def test_should_return_branch_duration_in_seconds
+    assert_equal(1800, tasks(:two).branch_duration)
+  end
+
   def test_should_return_depth_prefix_string
     assert_equal 'Top level task for user one', tasks(:one).name_with_depth,
       'top level task has no prefix'
