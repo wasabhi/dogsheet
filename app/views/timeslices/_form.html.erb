@@ -3,17 +3,17 @@
 </div>
 <h2>Add timeslice</h2>
 <div class="timeslice-task-selector">
-  <div class="form-item">
+  <div class="form-item form-item-inline">
     <%= form.label :task_id %>
     <%= form.collection_select :task_id, @tasks, :id, :name_with_ancestors, {}, {:class => 'autocomplete'} %>
   </div>
 </div>
 <div class="timeslice-time-entry">
-  <div class="form-item">
+  <div class="form-item form-item-inline">
     <%= form.label :started_time %>
     <%= form.text_field :started_time, :size => 4 %>
   </div>
-  <div class="form-item">
+  <div class="form-item form-item-inline">
     <%= form.label :finished_time %>
     <%= form.text_field :finished_time, :size => 4 %>
   </div>

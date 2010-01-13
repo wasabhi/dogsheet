@@ -1,12 +1,12 @@
 <%= form.error_messages %>
-<div class="form-item">
+<div class="form-item form-item-inline">
   <%= form.label :parent_id %>
   <%= form.collection_select :parent_id, @tasks, :id, :name_with_ancestors, {:prompt => '-- Top level --'}, {:class => 'autocomplete'} %>
 </div>
-<div class="form-item">
+<div class="form-item form-item-inline">
   <%= form.label :name %>
   <%= form.text_field :name %>
 </div>
-<div class="form-item">
+<div class="form-item form-item-inline">
 <%= form.submit('Add task') %>
 </div>
