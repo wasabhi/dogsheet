@@ -9,6 +9,16 @@ $('#dayheader-<%= @timeslice.date %> > span.summary').replaceWith('<%= escape_ja
 
 $('.taskbadge-<%= @timeslice.task.id %>').replaceWith('<%= escape_javascript(render(:partial => @timeslice.task)) %>');
 
+/* Update the task select, in case a new task has been created */
+$('#timeslice_task_id').replaceWith('<%= escape_javascript(
+  collection_select(:timeslice, :task_id, @tasks, :id, :name_with_ancestors, 
+                    {:include_blank => '-- Top level --'},{:class => 'autocomplete'})
+) %>');
+$('#timeslice_task_id').next('input.ac_input').remove();
+$('#timeslice_task_id').select_autocomplete();
+$('#timeslice_task_id').val(<%= @task.id %>);
+$('#task_name').val('');
+
 <% next_finished = @timeslice.finished + current_user.time_step.minutes %>
 $('#timeslice_started_time').val('<%= @timeslice.finished_time %>');
 $('#timeslice_finished_time').val('<%= next_finished.to_s(:time_only) %>');

@@ -39,10 +39,3 @@ Split the timeslices array into multiple days
           :date => date } %>
 <% end %>
 </div>
-
-<div class="task-form">
-<h2>Add task</h2>
-<% form_for @task, :url => '/tasks/create' do |form| %>
-<%= render :partial => 'tasks/form', :object => form %>
-<% end %>
-</div>

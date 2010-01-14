@@ -55,13 +55,6 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:tasks).length
   end
 
-  def test_should_assign_active_leaf_tasks
-    UserSession.create(users(:two))
-    get :index
-    assert_not_nil assigns(:leaf_tasks)
-    assert_equal 1, assigns(:leaf_tasks).length
-  end
-
   def test_should_get_index_with_todays_date_by_default
     UserSession.create(users(:one))
     get :index
@@ -202,6 +195,7 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:timeslices)
     assert_equal 3, assigns(:timeslices).length,
       "assigns array of timeslices for the day"
+    assert_not_nil assigns(:tasks)
   end
 
   # The AJAX insert requires an @next variable when there is an existing

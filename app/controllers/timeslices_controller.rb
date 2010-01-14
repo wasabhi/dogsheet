@@ -5,6 +5,7 @@ class TimeslicesController < ApplicationController
 
   before_filter :require_login
   before_filter :find_task, :only => [:new]
+  before_filter :find_tasks, :only => [:index,:create]
   before_filter :find_timeslice, :only => [:show, :edit, :update, :destroy]
   before_filter :set_dates, :only => [:index, :create]
   before_filter :find_timeslices, :only => [:index]
@@ -30,13 +31,6 @@ class TimeslicesController < ApplicationController
         @timeslice.task = last_timeslice.task
       end
     end
-
-    @tasks = Task.find_all_by_user_id(current_user.id, :order => "lft")
-    @leaf_tasks = []
-    @tasks.each do |task|
-      @leaf_tasks.concat(task.leaves) if task.root?
-    end
-    @task = current_user.tasks.build
 
     respond_to do |format|
       format.html
@@ -129,6 +123,10 @@ class TimeslicesController < ApplicationController
     def find_task
       @task = current_user.tasks.find(params[:task_id])
       @task = current_user.tasks.find(params[:timeslice][:task_id]) if @task.nil?
+    end
+
+    def find_tasks
+      @tasks = current_user.tasks
     end
 
     def find_timeslice
