@@ -187,18 +187,27 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:timeslice)
     assert_equal Date.parse('2009-11-15'),assigns(:timeslice).started.to_date,
                   "assigns timeslice to correct date"
+  end
 
-    # Create from timeslice/_form partial and also create task
+  # If task[name] is not empty, create a new task with parent id of
+  # timeslice[task_id]
+  def test_should_create_timeslice_and_task
+    UserSession.create(users(:one))
     assert_difference(['Timeslice.count','Task.count']) do
-      post :create,  :date => '2009-11-15',
+      post :create, :date => '2009-11-15',
                     :task => {
                       :name => 'Dummy task',
                     },
                     :timeslice => { 
+                      :task_id => tasks(:one).id,
                       :started_time => '15:00',
                       :finished_time => '16:00'
                     }
     end
+    assert_not_nil assigns(:task)
+    assert_equal tasks(:one).id, assigns(:task).parent_id,
+      "assigns the correct parent id to new task"
+    assert_equal 'Dummy task', assigns(:task).name
   end
 
   def test_should_create_from_ajax

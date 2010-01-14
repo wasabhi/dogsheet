@@ -5,7 +5,11 @@
 <div class="timeslice-task-selector">
   <div class="form-item form-item-inline">
     <%= form.label :task_id %>
-    <%= form.collection_select :task_id, @tasks, :id, :name_with_ancestors, {}, {:class => 'autocomplete'} %>
+    <%= form.collection_select :task_id, @tasks, :id, :name_with_ancestors, {:prompt => '-- Top level --'}, {:class => 'autocomplete'} %>
+  </div>
+  <div class="form-item form-item-inline">
+    <%= form.label :new_task %>
+    <%= text_field :task, :name %>
   </div>
 </div>
 <div class="timeslice-time-entry">

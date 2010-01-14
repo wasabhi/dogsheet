@@ -57,8 +57,11 @@ class TimeslicesController < ApplicationController
   end
 
   def create
-    if params[:task]
-      @task = current_user.tasks.create params[:task]
+    if params[:task][:name]
+      @task = current_user.tasks.create(
+                :name => params[:task][:name], 
+                :parent_id => params[:timeslice][:task_id]
+      )
       @timeslice = current_user.timeslices.new params[:timeslice]
       @timeslice.task = @task
     else
