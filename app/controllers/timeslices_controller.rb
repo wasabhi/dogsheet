@@ -57,20 +57,17 @@ class TimeslicesController < ApplicationController
   end
 
   def create
-    if params[:task][:name]
+
+    @timeslice = current_user.timeslices.new params[:timeslice]
+
+    if params[:task] && params[:task][:name].length > 0
       @task = current_user.tasks.create(
                 :name => params[:task][:name], 
                 :parent_id => params[:timeslice][:task_id]
       )
-      @timeslice = current_user.timeslices.new params[:timeslice]
       @timeslice.task = @task
     else
-      if params[:task_id]
-        @task = current_user.tasks.find(params[:task_id])
-      else
-        @task = current_user.tasks.find(params[:timeslice][:task_id])
-      end
-      @timeslice = current_user.timeslices.new params[:timeslice]
+      @task = current_user.tasks.find(params[:timeslice][:task_id])
     end
 
     # If date was passed explicitly, make sure the timeslice is set

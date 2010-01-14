@@ -154,26 +154,6 @@ class TimeslicesControllerTest < ActionController::TestCase
 
   def test_should_create_timeslice
     UserSession.create(users(:one))
-    assert_difference('Timeslice.count') do
-      post :create, :task_id => tasks(:one).id,
-                    :timeslice => { 
-                      :started => '2009-11-14 14:00:00',
-                      :finished => '2009-11-14 15:00:00'
-                    }
-    end
-    assert_redirected_to timesheet_path('2009-11-14')
-
-    # Create with date and times as separate params
-    assert_difference('Timeslice.count') do
-      post :create, :task_id => tasks(:one).id, :date => '2009-11-15',
-                    :timeslice => { 
-                      :started_time => '15:00',
-                      :finished_time => '16:00'
-                    }
-    end
-    assert_not_nil assigns(:timeslice)
-    assert_equal Date.parse('2009-11-15'),assigns(:timeslice).started.to_date,
-                  "assigns timeslice to correct date"
 
     # Create from timeslice/_form partial
     assert_difference('Timeslice.count') do
