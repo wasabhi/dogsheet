@@ -280,7 +280,7 @@ class TimeslicesControllerTest < ActionController::TestCase
                       :finished => '2009-11-14 15:00:00'
                   }
     assert_not_nil assigns(:timeslice)
-    assert_redirected_to timeslice_url(assigns(:timeslice))
+    assert_redirected_to timesheet_url(assigns(:timeslice).date)
   end
 
   def test_should_not_update_another_users_timeslice

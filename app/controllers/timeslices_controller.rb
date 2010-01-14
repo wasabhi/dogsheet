@@ -108,7 +108,7 @@ class TimeslicesController < ApplicationController
 
   def update
     if @timeslice.update_attributes(params[:timeslice])
-      redirect_to timeslice_url(@timeslice)
+      redirect_to timesheet_url(@timeslice.date)
     else
       render :action => "edit"
     end
