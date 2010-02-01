@@ -13,24 +13,19 @@ class TimeslicesController < ApplicationController
 
   def index
 
+    @total_duration = total_duration(@timeslices)
+
     # An empty timeslice for the 'Add timeslice' form
     @timeslice = Timeslice.new
 
-    @total_duration = total_duration(@timeslices)
-
     if @timeslices.length > 0
-      last_timeslice = @timeslices.last
       @timeslice.started = @timeslices.last.finished
-      @timeslice.finished = @timeslices.last.finished + current_user.time_step.minutes
-      @timeslice.task = @timeslices.last.task
+      @timeslice.task = @timeslices.last.task.parent
     else
-      last_timeslice = Timeslice.last
       @timeslice.started = Time.parse(@date.to_s + ' ' + DAYSTART)
-      @timeslice.finished = @timeslice.started + current_user.time_step.minutes
-      if last_timeslice
-        @timeslice.task = last_timeslice.task
-      end
     end
+
+    @timeslice.finished = @timeslice.started + current_user.time_step.minutes
 
     respond_to do |format|
       format.html

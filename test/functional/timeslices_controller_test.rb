@@ -228,19 +228,21 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_nil assigns(:next), "does not assign @next on last timeslice of day"
   end
 
-  def test_should_set_default_timeslice_task
+  def test_should_assign_timeslice_with_blank_task_on_empty_day
     UserSession.create(users(:one))
     get :index, :date => '2009-11-15'
     assert_response :success
-    assert_not_nil assigns(:timeslice), "assigns a timeslice"
-    assert_equal timeslices(:one).task, assigns(:timeslice).task, 
-      "assigns a timeslice with the most recently worked task when day sheet is empty"
-    
+    assert_not_nil assigns(:timeslice)
+    assert_nil assigns(:timeslice).task
+  end
+  
+  def test_should_set_default_timeslice_parent_of_previous_task
+    UserSession.create(users(:one))
     get :index, :date => '2009-11-12'
     assert_response :success
     assert_not_nil assigns(:timeslice), "assigns a timeslice"
-    assert_equal timeslices(:three).task, assigns(:timeslice).task, 
-      "assigns a timeslice with the last task worked on for an active day sheet"
+    assert_equal timeslices(:three).task.parent, assigns(:timeslice).task, 
+      "assigns @timeslice as the parent of the last task worked on for an active day sheet"
   end
 
   def test_should_get_edit

@@ -15,8 +15,8 @@ $('#timeslice_task_id').replaceWith('<%= escape_javascript(
                     {:include_blank => '-- Top level --'},{:class => 'autocomplete'})
 ) %>');
 $('#timeslice_task_id').next('input.ac_input').remove();
+$('#timeslice_task_id').val(<%= @task.parent_id %>);
 $('#timeslice_task_id').select_autocomplete();
-$('#timeslice_task_id').val(<%= @task.id %>);
 $('#task_name').val('');
 
 <% next_finished = @timeslice.finished + current_user.time_step.minutes %>
