@@ -15,6 +15,12 @@ class Timeslice < ActiveRecord::Base
     }
   }
 
+  named_scope :by_task_ids, lambda { |task_ids| 
+    {
+      :conditions => { :task_id => task_ids }
+    }
+  }
+
   # By default, sort all finders by start time
   def self.find(*args)
     options = args.last.is_a?(Hash) ? args.pop : {}

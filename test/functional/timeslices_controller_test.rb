@@ -83,7 +83,7 @@ class TimeslicesControllerTest < ActionController::TestCase
   end
 
   def test_should_assign_timeslices_from_timesheet_spanning_multiple_dates
-    UserSession.create(users(:one))
+    UserSession.create(users(:two))
     get :index, :date => '2009-11-12', :end_date => '2009-11-14'
     assert_response :success
     assert_not_nil assigns(:timeslices)
@@ -102,6 +102,28 @@ class TimeslicesControllerTest < ActionController::TestCase
       "sets timeslice finished time to 23:15:00 on existing timesheet"
   end
 
+  def test_should_get_index_for_specific_task_and_subtasks
+    UserSession.create(users(:two))
+    get :index, :task_id => tasks(:two).id
+    assert_response :success
+    assert_not_nil assigns(:timeslices)
+    assert_not_nil assigns(:date)
+    assert_not_nil assigns(:end_date)
+    assert_equal assigns(:date), assigns(:timeslices).first.date
+    #assert_equal assigns(:end_date), assigns(:timeslices).last.date
+    assert_equal 3, assigns(:timeslices).length
+  end
+
+  def test_should_get_index_for_specific_task_and_subtasks_by_date
+    UserSession.create(users(:two))
+    get :index, :task_id => tasks(:two).id, :date => '2009-11-14'
+    assert_response :success
+    assert_not_nil assigns(:timeslices)
+    assert_not_nil assigns(:date)
+    assert_not_nil assigns(:end_date)
+    assert_equal 2, assigns(:timeslices).length
+  end
+
   def test_should_get_index_in_xml_format
     UserSession.create(users(:one))
     get :index, :format => :xml
@@ -110,13 +132,13 @@ class TimeslicesControllerTest < ActionController::TestCase
 
   def test_should_get_index_in_csv_format
     UserSession.create(users(:one))
-    get :index, :date => '2009-11-12', :format => 'csv'
+    get :index, :date => '2009-11-14', :format => 'csv'
     assert_not_nil assigns(:timeslices)
-    assert_equal 1, assigns(:timeslices).length
+    assert_equal 2, assigns(:timeslices).length
     assert_equal 'text/csv; charset=UTF8; header=present', 
       @response.headers['type'], 'Content type is CSV'
-    assert_equal 'attachment;filename=2009-11-12.csv',
-      @response.headers['Content-Disposition'], 'Filename is 2009-11-12.csv'
+    assert_equal 'attachment;filename=2009-11-14.csv',
+      @response.headers['Content-Disposition'], 'Filename is 2009-11-14.csv'
   end
 
   def test_should_get_multi_day_index_in_csv_format
@@ -124,12 +146,36 @@ class TimeslicesControllerTest < ActionController::TestCase
     get :index, :date => '2009-11-12', :end_date => '2009-11-14', 
                 :format => 'csv'
     assert_not_nil assigns(:timeslices)
-    assert_equal 3, assigns(:timeslices).length
+    assert_equal 2, assigns(:timeslices).length
     assert_equal 'text/csv; charset=UTF8; header=present', 
       @response.headers['type'], 'Content type is CSV'
     assert_equal 'attachment;filename=2009-11-12_2009-11-14.csv',
       @response.headers['Content-Disposition'], 
       'Filename is 2009-11-12_2009-11-14.csv'
+  end
+
+  def test_should_get_index_for_specific_task_in_csv_format
+    UserSession.create(users(:one))
+    get :index, :date => '2009-11-14', :task_id => tasks(:one).id,
+        :format => 'csv'
+    assert_not_nil assigns(:timeslices)
+    assert_equal 2, assigns(:timeslices).length
+    assert_equal 'text/csv; charset=UTF8; header=present', 
+      @response.headers['type'], 'Content type is CSV'
+    assert_equal 'attachment;filename=2009-11-14.csv',
+      @response.headers['Content-Disposition'], 'Filename is 2009-11-14.csv'
+  end
+
+  def test_should_get_index_for_specific_task_and_subtasks_in_csv_format
+    UserSession.create(users(:two))
+    get :index, :date => '2009-11-14', :task_id => tasks(:two).id,
+        :format => 'csv'
+    assert_not_nil assigns(:timeslices)
+    assert_equal 2, assigns(:timeslices).length
+    assert_equal 'text/csv; charset=UTF8; header=present', 
+      @response.headers['type'], 'Content type is CSV'
+    assert_equal 'attachment;filename=2009-11-14.csv',
+      @response.headers['Content-Disposition'], 'Filename is 2009-11-14.csv'
   end
 
   def test_should_assign_total_duration

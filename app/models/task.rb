@@ -33,6 +33,11 @@ class Task < ActiveRecord::Base
     end
   end
 
+  # Returns the ids for this task and all it's descandants as an array
+  def branch_ids
+    self.self_and_descendants.collect { |task| task.id }
+  end
+
   # By default, sort all finders by lft
   def self.find(*args)
     options = args.last.is_a?(Hash) ? args.pop : {}

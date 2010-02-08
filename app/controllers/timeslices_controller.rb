@@ -129,8 +129,25 @@ class TimeslicesController < ApplicationController
     end
 
     # Find the timeslices for a range of dates
+    # FIXME Getting to comlpex, employ anonymous scopes?
     def find_timeslices
-      @timeslices = current_user.timeslices.by_date @date, @end_date
+      if params[:task_id]
+        # Generally, we want the timeslices for this task and all
+        # its children
+        ids = current_user.tasks.find(params[:task_id]).branch_ids
+
+        if params[:date]
+          @timeslices = current_user.timeslices.by_task_ids(ids).by_date @date, 
+                                                                      @end_date
+        else
+          @timeslices = current_user.timeslices.by_task_ids(ids)
+          @date = @timeslices.first.date
+          # FIXME @timeslices.last throws an error here ?!
+          @end_date = @timeslices[@timeslices.length - 1].date
+        end
+      else
+        @timeslices = current_user.timeslices.by_date @date, @end_date
+      end
     end
 
     def set_dates
