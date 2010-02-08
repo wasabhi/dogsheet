@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
 
   before_filter :find_task, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_sub_tasks, :only => [:show]
   before_filter :find_all_tasks, :only => [:index, :edit, :update, :destroy]
   before_filter :empty_task, :only => [:index]
 
@@ -59,6 +60,10 @@ class TasksController < ApplicationController
   private
     def find_task
       @task = current_user.tasks.find(params[:id])
+    end
+
+    def find_sub_tasks
+      @sub_tasks = @task.children
     end
 
     def find_all_tasks
