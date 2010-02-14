@@ -7,12 +7,20 @@
 
 <h2>Timeslices</h2>
 <ul>
-<% for timeslice in @task.timeslices %>
+<% for timeslice in @task.timeslices.by_task_ids(@task.branch_ids) %>
   <li><%= render :partial => timeslice %>
+    <%=h "(Sub task: #{timeslice.task.name})" if timeslice.task != @task %>
     <%= link_to 'Edit', timeslice_path(timeslice) %>
     <%= link_to 'Destroy', timeslice_path(timeslice), :method => 'delete',
           :confirm => 'Are you sure?' %>
   </li>
+<% end %>
+</ul>
+
+<h2>Sub tasks</h2>
+<ul>
+<% for task in @task.children %>
+  <li><%= link_to task.name, task_path(task) %></li>
 <% end %>
 </ul>
 

@@ -124,7 +124,7 @@ class TimesliceTest < ActiveSupport::TestCase
       "should return nil when there is no previous timeslice"
     assert_equal timeslices(:one), timeslices(:two).previous,
       "returns previous timeslice" 
-    assert_nil timeslices(:four).previous,
+    assert_nil timeslices(:one).previous,
       "should ignore other users timeslices"
   end
 
@@ -134,7 +134,7 @@ class TimesliceTest < ActiveSupport::TestCase
       "should return nil when there is no next timeslice"
     assert_equal timeslices(:two), timeslices(:one).next,
       "returns next timeslice" 
-    assert_nil timeslices(:four).previous,
+    assert_nil timeslices(:one).previous,
       "should ignore other users timeslices"
   end
 
@@ -164,15 +164,20 @@ class TimesliceTest < ActiveSupport::TestCase
   end
 
   def test_should_return_total_duration_of_timeslice_array
-    assert_equal 12600, Timeslice.total_duration(Timeslice.all),
+    assert_equal 7200, Timeslice.total_duration(tasks(:one).timeslices),
       "returns total duration of an array of timeslices"
   end
 
   def test_should_get_by_date_range
     assert_equal 1, Timeslice.by_date(Date.parse('2009-11-12')).length,
       "should return by date with single date argument"
-    assert_equal 4, Timeslice.by_date(Date.parse('2009-11-12'),
+    assert_equal 5, Timeslice.by_date(Date.parse('2009-11-12'),
                                       Date.parse('2009-11-14')).length,
       "should return by date with date range"
+  end
+
+  def test_should_get_by_task_ids
+    assert_equal 3, Timeslice.by_task_ids([tasks(:two),tasks(:three)]).count,
+      "should return timeslices for list of task ids"
   end
 end

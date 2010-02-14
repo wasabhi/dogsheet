@@ -29,7 +29,7 @@ class TaskTest < ActiveSupport::TestCase
 
   # Should return the total duration of this task and all it's children
   def test_should_return_branch_duration_in_seconds
-    assert_equal(1800, tasks(:two).branch_duration)
+    assert_equal(7200, tasks(:two).branch_duration)
   end
 
   def test_should_return_depth_prefix_string
@@ -52,7 +52,7 @@ class TaskTest < ActiveSupport::TestCase
   end
 
   def test_should_delete_dependent_timeslices
-    assert_difference('Timeslice.count', -3) do
+    assert_difference('Timeslice.count', -2) do
       tasks(:one).destroy
     end
   end
