@@ -1,6 +1,8 @@
 class Task < ActiveRecord::Base
   validates_presence_of :name
 
+  NAME_SEPARATOR = ':'
+
   belongs_to :user
   has_many :timeslices, :dependent => :destroy
 
@@ -25,7 +27,7 @@ class Task < ActiveRecord::Base
     "#{prefix * self.level}#{self.name}"
   end
 
-  def name_with_ancestors(separator = ':')
+  def name_with_ancestors(separator = NAME_SEPARATOR)
     if self.root?
       return self.name
     else
