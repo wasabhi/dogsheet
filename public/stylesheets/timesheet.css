@@ -178,6 +178,11 @@ ul#context-nav li a.export {
   border-radius: 5px;
 }
 
+#footer a {
+  color: #D9D9D9;
+  font-weight: bold;
+}
+
 ul#expand-collapse-controls {
   display: inline;
   text-align: right;
@@ -292,9 +297,6 @@ div.timeslice-form {
   border-top: none;
   background: white;
   padding: 1em;
-}
-div.timeslice-form > form {
-  margin: 2em;
 }
 div.timeslice-form div.timeslice-time-entry {
   margin-top: 0.5em;
