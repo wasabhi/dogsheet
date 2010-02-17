@@ -11,10 +11,12 @@
   <% for timeslice in timeslices %>
   <%= render :partial => 'timesheet_row', :locals => { :timeslice => timeslice } %>
   <% end %>
+  <% unless @multiday %>
   <div id="timeslice-form-<%= date %>" class="timeslice-form">
     <% form_for :timeslice, :url => timesheet_add_path(date), 
        :html => { :id => 'new_timeslice', :autocomplete => 'off' } do |form| %>
       <%= render :partial => form %>
     <% end %>
   </div>
+  <% end %>
 </div>
