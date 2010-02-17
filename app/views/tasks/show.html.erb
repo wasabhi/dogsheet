@@ -1,9 +1,13 @@
 <h1>Task <%= @task.name %></h1>
 
-<p>
-  <strong>Name:</strong>
-  <%=h @task.name %>
-</p>
+<dl>
+  <dt>Task total time:</dt>
+  <dd><%= hours_and_minutes(@task.branch_duration) %> (<%= decimal_hours(@task.branch_duration) %>)</dd>
+  <dt>Active for</dt>
+  <dd><%= distance_of_time_in_words(@task.timeslices.first.started, 
+                                    @task.timeslices.last.finished) %>
+  </dd>
+</dl>
 
 <h2>Timeslices</h2>
 <ul>
