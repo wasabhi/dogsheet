@@ -1,0 +1,5 @@
+<ul id="task_list" class="mcdropdown_menu">
+<% current_user.tasks.roots.each do |task| %>
+  <%= task_tree(task) %>
+<% end %>
+</ul>

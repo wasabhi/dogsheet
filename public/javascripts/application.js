@@ -4,17 +4,10 @@ jQuery.ajaxSetup({
 
 $(document).ready(function () {
 
-  autocomplete_options = {
-    matchContains: false,
-  };
+  $('#timeslice_task_id').mcDropdown('#task_list', { 
+    allowParentSelect: true
+  });
 
-  /* Add the autocomplete select behaviour */
-  $('select.autocomplete').select_autocomplete(autocomplete_options);
-
-  /* Bring the task selector into focus on page load */
-  $('#timeslice_task_id').next('input.ac_input').focus();
-
-  /* TODO Make increment configurable per user */
   timeentry_attrs = {
     show24Hours: true,
     timeSteps: [1,TIMESLICE_GRANULARITY,0],
@@ -45,16 +38,6 @@ $(document).ready(function () {
     return false;
   });
 
-  $('#task-tree .task').draggable({revert: "invalid"});
-  $('#task-tree .task').droppable({
-    accept: '#task-tree .task',
-    hoverClass: "accept",
-    drop: function(event, props) {
-      $('#task-tree').load('tasks/move',
-        {drag_id: $(props.draggable).attr('id'),
-         drop_id: $(this).attr('id')});
-    }
-  });
 
   $('#dateselect').daterangepicker({
     dateFormat:'yy-mm-dd'

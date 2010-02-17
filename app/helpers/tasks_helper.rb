@@ -1,6 +1,6 @@
 module TasksHelper
   def task_tree(task)
-    content_tag :li, :id => "task-#{task.id}", :class => "task" do
+    content_tag :li, :rel => task.id, :class => "task" do
       if task.leaf?
         task.name
       else
