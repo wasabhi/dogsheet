@@ -8,6 +8,8 @@ $(document).ready(function () {
     allowParentSelect: true
   });
 
+  $('#timeslice_task_id').mcDropdown().focus();
+
   timeentry_attrs = {
     show24Hours: true,
     timeSteps: [1,TIMESLICE_GRANULARITY,0],

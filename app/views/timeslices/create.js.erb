@@ -18,6 +18,7 @@ $('#timeslice_task_id').mcDropdown('#task_list', {
 });
 var dd = $('#timeslice_task_id').mcDropdown();
 dd.setValue(<%= @task.parent_id %>);
+dd.focus();
 $('#task_name').val('');
 
 <% next_finished = @timeslice.finished + current_user.time_step.minutes %>
