@@ -39,6 +39,7 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_select "div#timesheet.singleday"
     assert_select "div#timesheet.multiday", false
     assert_select "div#timeslice-form-2009-11-14"
+    assert_select "ul#expand-collapse-controls", false
   end
 
   def test_should_assign_multiday_var
@@ -51,6 +52,7 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_select "div#timesheet.multiday"
     assert_select "div#timesheet.singleday", false
     assert_select "div.timeslice-form", false
+    assert_select "ul#expand-collapse-controls"
   end
 
   def test_should_assign_active_tasks

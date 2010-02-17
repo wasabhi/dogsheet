@@ -24,10 +24,13 @@
     <% end %>
   </li>
 </ul>
+
+<% if @multiday %>
 <ul id="expand-collapse-controls">
   <li id="collapse-all">Collapse all</li>
   <li id="expand-all">Expand all</li>
 </ul>
+<% end %>
 
 <div id="timesheet" class="<%= @multiday ? "multiday" : "singleday" %>">
 <%#
