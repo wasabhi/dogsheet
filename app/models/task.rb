@@ -35,6 +35,11 @@ class Task < ActiveRecord::Base
     end
   end
 
+  # Returns the task name sanitized for filesystem use.  
+  def safe_name
+    name.strip.gsub(/[^0-9A-Za-z.\-_ ]/, '').gsub(/ +/,'_')
+  end
+
   # Returns the ids for this task and all it's descandants as an array
   def branch_ids
     self.self_and_descendants.collect { |task| task.id }
