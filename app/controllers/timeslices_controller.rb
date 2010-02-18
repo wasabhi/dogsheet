@@ -131,7 +131,7 @@ class TimeslicesController < ApplicationController
     # Find the timeslices for a range of dates
     # FIXME Getting to comlpex, employ anonymous scopes?
     def find_timeslices
-      if params[:task_id]
+      unless params[:task_id].blank?
         # Generally, we want the timeslices for this task and all
         # its children
         ids = current_user.tasks.find(params[:task_id]).branch_ids

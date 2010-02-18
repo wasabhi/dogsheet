@@ -4,24 +4,19 @@
 <% end %>
 <ul id="context-nav">
   <li>
+    <%= form_tag(timeslices_path, :method => :get, :id => 'timesheet_filter') %>
     <%= link_to(image_tag('g3625.png'), "/timesheet/#{@date.yesterday}") -%>
-    <%
-      daterange = @date.to_s
-      daterange += ' - ' + @end_date.to_s if @date != @end_date 
-    %>
-    <input id="dateselect" type="text" value="<%= daterange %>"/>
-    <input id="dateselect-go" type="button" value="Go" />
+    <input class="dateselect" type="text" name="date" size="10" value="<%= @date.to_s %>"/>
+    <input class="dateselect" type="text" name="end_date" size="10" value="<%= @end_date.to_s %>"/>
     <%= link_to(image_tag('g3631.png'), "/timesheet/#{@end_date.tomorrow}") -%>
+    <%= select_tag(:task_id, '<option value="">-- All tasks --</option>' +
+      options_from_collection_for_select(current_user.tasks.roots, :id, :name,
+        params[:task_id].to_i)) %>
+    <input id="dateselect-go" type="submit" value="Go" />
+    </form>
   </li>
   <li>
-    <% if @date == @end_date %>
-    <%= link_to 'Export', { :action => 'index', :date => @date, 
-                   :format => 'csv' }, :class => 'export' %>
-    <% else %>
-    <%= link_to 'Export', { :action => 'index', :date => @date, 
-                   :end_date => @end_date, :format => 'csv' }, 
-                   :class => 'export' %>
-    <% end %>
+    <%= export_link('Export') %>
   </li>
 </ul>
 
