@@ -156,6 +156,12 @@ ul#context-nav li a.export {
   background: transparent url('/images/spreadsheet.png') no-repeat left;
   padding: 0.2em 0.2em 0.2em 30px;
 }
+form#timesheet_filter {
+  display: inline;
+}
+form#timesheet_filter select#task_id {
+  width: 10em;
+}
 
 /* Page */
 #page {
@@ -190,14 +196,14 @@ ul#expand-collapse-controls {
 }
 ul#expand-collapse-controls li {
   display: inline;
-  background-color: #eee;
+  background-color: #d9d9d9;
   padding: 0.2em 1em 0;
   cursor: pointer;
   -moz-border-radius-topleft: 10px;
   -moz-border-radius-topright: 10px;
 }
 ul#expand-collapse-controls li:hover {
-  background-color: #d9d9d9;
+  background-color: #fff;
 }
 
 tbody#timesheet td {

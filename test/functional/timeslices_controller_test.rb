@@ -169,8 +169,8 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:timeslices).length
     assert_equal 'text/csv; charset=UTF8; header=present', 
       @response.headers['type'], 'Content type is CSV'
-    assert_equal 'attachment;filename=2009-11-14.csv',
-      @response.headers['Content-Disposition'], 'Filename is 2009-11-14.csv'
+    assert_equal "attachment;filename=#{tasks(:one).safe_name}-2009-11-14.csv",
+      @response.headers['Content-Disposition'], "Filename is #{tasks(:one).safe_name}-2009-11-14.csv"
   end
 
   def test_should_get_index_for_specific_task_and_subtasks_in_csv_format
@@ -181,8 +181,8 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:timeslices).length
     assert_equal 'text/csv; charset=UTF8; header=present', 
       @response.headers['type'], 'Content type is CSV'
-    assert_equal 'attachment;filename=2009-11-14.csv',
-      @response.headers['Content-Disposition'], 'Filename is 2009-11-14.csv'
+    assert_equal "attachment;filename=#{tasks(:two).safe_name}-2009-11-14.csv",
+      @response.headers['Content-Disposition'], "Filename is #{tasks(:two).safe_name}-2009-11-14.csv"
   end
 
   def test_should_assign_total_duration

@@ -40,14 +40,15 @@ $(document).ready(function () {
     return false;
   });
 
-
-  $('#dateselect').daterangepicker({
-    dateFormat:'yy-mm-dd'
-  });
-
-  $('#dateselect-go').click(function(){
-    window.location.href = '/timesheet/' + 
-                            $('#dateselect').val().split(' - ').join('/');
+  $('input.dateselect').daterangepicker({
+    dateFormat:'yy-mm-dd',
+    presetRanges: [
+			{text: 'Today', dateStart: 'today', dateEnd: 'today' },
+      {text: 'Working week to date', dateStart: function(){ return Date.parse('today').is().monday() ? Date.parse('today') : Date.parse('last Monday') }, dateEnd: 'Today' },
+			{text: 'Month to date', dateStart: function(){ return Date.parse('today').moveToFirstDayOfMonth();  }, dateEnd: 'today' },
+			{text: 'Last month', dateStart: function(){ return Date.parse('1 month ago').moveToFirstDayOfMonth();  }, dateEnd: function(){ return Date.parse('1 month ago').moveToLastDayOfMonth();  } }
+    ],
+    presets: {specificDate: 'Specific date',dateRange: 'Date range'}
   });
 
   $('h3.dayheader.closed').next().toggle(false);

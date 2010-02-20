@@ -131,7 +131,7 @@ class TimeslicesController < ApplicationController
     # Find the timeslices for a range of dates
     # FIXME Getting to comlpex, employ anonymous scopes?
     def find_timeslices
-      if params[:task_id]
+      unless params[:task_id].blank?
         # Generally, we want the timeslices for this task and all
         # its children
         ids = current_user.tasks.find(params[:task_id]).branch_ids
@@ -186,6 +186,10 @@ class TimeslicesController < ApplicationController
     # Return the filename for export actions.  Extension defaults to .csv
     def filename(prefix = '', extension = '.csv')
       datestr = @multiday ? "#{@date}_#{@end_date}" : "#{@date}"
+      unless params[:task_id].blank?
+        task = current_user.tasks.find(params[:task_id])
+        prefix += task.safe_name + '-' unless task.nil?
+      end
       prefix + datestr + extension
     end
 end

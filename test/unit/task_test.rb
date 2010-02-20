@@ -51,6 +51,11 @@ class TaskTest < ActiveSupport::TestCase
       'second level task has custom join string'
   end
 
+  def test_should_return_filename_safe
+    task = Task.new(:name => ' T@sk with / !n_valid \ ch*r$ ')
+    assert_equal('Tsk_with_n_valid_chr', task.safe_name)
+  end
+
   def test_should_delete_dependent_timeslices
     assert_difference('Timeslice.count', -2) do
       tasks(:one).destroy
