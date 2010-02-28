@@ -37,6 +37,12 @@
       <%= link_to task.name, task_path(task) %>
       </div>
       <% end %>
+      <% if task.root? %>
+      <div class="task-activity">
+        Activity (4w):
+        <span class="sparkline"><%= task.sparkline %></span>
+      </div>
+      <% end %>
     </div>
   </div>
 </div>

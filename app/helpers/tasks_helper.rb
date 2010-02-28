@@ -10,4 +10,8 @@ module TasksHelper
       end
     end
   end
+
+  def task_sparkline(task, range = 13.days.ago .. Date.today)
+    range.collect { |date| task.branch_duration(date) }.join(',')
+  end
 end

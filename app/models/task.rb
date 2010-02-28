@@ -8,17 +8,32 @@ class Task < ActiveRecord::Base
 
   acts_as_nested_set
 
-  def duration
+  def duration(date = nil)
     duration = 0
-    timeslices.each do |timeslice|
+    if date.nil?
+      slices = timeslices.each
+    else
+      slices = timeslices.by_date(date).each
+    end
+    slices.each do |timeslice|
       duration += timeslice.duration
     end
     duration
   end
 
   # Return the duration of this task and all it's children
-  def branch_duration
-    self.self_and_descendants.inject(0) { |sum,task| sum + task.duration }
+  def branch_duration(date = nil)
+    self.self_and_descendants.inject(0) { |sum,task| sum + task.duration(date) }
+  end
+
+  # Returns an array of durations for each day in daterange
+  def branch_duration_array(daterange)
+    daterange.collect { |date| branch_duration(date) }
+  end
+
+  # Returns a string for use in the jquery sparkline graphs
+  def sparkline(daterange = 28.days.ago.to_date .. Date.today)
+    branch_duration_array(daterange).join(',')
   end
 
   # Return the task name prefixed by the given string multiplied by the

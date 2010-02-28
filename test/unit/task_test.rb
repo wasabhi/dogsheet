@@ -32,6 +32,21 @@ class TaskTest < ActiveSupport::TestCase
     assert_equal(7200, tasks(:two).branch_duration)
   end
 
+  def test_should_return_branch_duration_for_date_range
+    date_range = Date.parse('2009-11-01') .. Date.parse('2009-11-14')
+    array = tasks(:two).branch_duration_array(date_range)
+    assert_instance_of(Array, array)
+    assert_equal(14, array.length)
+  end
+
+  def test_should_get_duration_for_date
+    assert_equal(7200,tasks(:one).duration(Date.parse('2009-11-14')))
+  end
+
+  def test_should_get_branch_duration_for_date
+    assert_equal(5400,tasks(:two).branch_duration(Date.parse('2009-11-14')))
+  end
+
   def test_should_return_depth_prefix_string
     assert_equal 'Top level task for user one', tasks(:one).name_with_depth,
       'top level task has no prefix'
@@ -60,5 +75,10 @@ class TaskTest < ActiveSupport::TestCase
     assert_difference('Timeslice.count', -2) do
       tasks(:one).destroy
     end
+  end
+
+  def test_should_return_sparkline
+    date_range = Date.parse('2009-11-11') .. Date.parse('2009-11-14')
+    assert_equal('0,0,0,7200.0', tasks(:one).sparkline(date_range))
   end
 end

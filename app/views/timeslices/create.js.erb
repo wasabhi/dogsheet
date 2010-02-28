@@ -31,3 +31,7 @@ $('#dayheader-<%= @timeslice.date %>').removeClass('closed');
 
 $('#timeslice-form-<%= @timeslice.date %> *').removeClass('fieldWithErrors');
 $('#timeslice-form-errors').empty();
+
+<% if @task.root? %>
+$('#timeslice-<%= @timeslice.id %> .sparkline').sparkline('html', {type: 'bar', barColor: '#383838'});
+<% end %>
