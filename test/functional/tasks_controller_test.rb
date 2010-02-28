@@ -31,6 +31,14 @@ class TasksControllerTest < ActionController::TestCase
     assert_equal assigns(:task).id, tasks(:one).id
   end
 
+  def test_should_show_task_with_no_timeslices
+    UserSession.create(users(:one))
+    get :show, :id => tasks(:four).id
+    assert_response :success
+    assert_not_nil assigns(:task)
+    assert_equal assigns(:task).id, tasks(:four).id
+  end
+
   def test_should_not_show_another_users_task
     UserSession.create(users(:one))
     get :show, :id => tasks(:two).id

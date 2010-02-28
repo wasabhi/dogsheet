@@ -3,10 +3,12 @@
 <dl>
   <dt>Task total time:</dt>
   <dd><%= hours_and_minutes(@task.branch_duration) %> (<%= decimal_hours(@task.branch_duration) %>)</dd>
+  <% unless @task.timeslices.empty? %>
   <dt>Active for</dt>
   <dd><%= distance_of_time_in_words(@task.timeslices.first.started, 
                                     @task.timeslices.last.finished) %>
   </dd>
+  <% end %>
 </dl>
 
 <h2>Timeslices</h2>
