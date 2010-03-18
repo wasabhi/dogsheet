@@ -46,7 +46,7 @@ $(document).ready(function () {
 			{text: 'Month to date', dateStart: function(){ return Date.parse('today').moveToFirstDayOfMonth();  }, dateEnd: 'today' },
 			{text: 'Last month', dateStart: function(){ return Date.parse('1 month ago').moveToFirstDayOfMonth();  }, dateEnd: function(){ return Date.parse('1 month ago').moveToLastDayOfMonth();  } }
     ],
-    presets: {specificDate: 'Specific date',dateRange: 'Date range'}
+    presets: {dateRange: 'Date range', specificDate: 'Specific date'}
   });
 
   $('h3.dayheader.closed').next().toggle(false);
