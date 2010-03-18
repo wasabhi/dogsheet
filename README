@@ -35,9 +35,7 @@ Timesheets for arbitrary periods can be exported to CSV
 
 This app is in the early stages of development.  Planned features are:
 
-* Tab auto-complete on task selection
 * Pivotal tracker integration
-* Configurable granularity for timeslice durations (default 15 mins)
 * An API
 * Configurable import/export
 * Sharing task branches with other users
