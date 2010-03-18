@@ -36,6 +36,8 @@ $(document).ready(function () {
     return false;
   });
 
+  $('#timeslice_submit').throbber({image: '/images/throbber.gif'});
+
   $('input.dateselect').daterangepicker({
     dateFormat:'yy-mm-dd',
     presetRanges: [
