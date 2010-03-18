@@ -20,4 +20,9 @@ class UserTest < ActiveSupport::TestCase
     user = User.new
     assert_equal 15, user.time_step, "time step defaults to 15"
   end
+
+  def test_should_set_default_time_zone
+    user = User.new
+    assert_equal 'Auckland', user.time_zone, "time zone defaults to Auckland"
+  end
 end

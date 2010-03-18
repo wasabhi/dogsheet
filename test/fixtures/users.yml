@@ -7,6 +7,7 @@ one:
   crypted_password: <%= Authlogic::CryptoProviders::Sha512.encrypt("testpass" + salt) %>
   persistence_token: <%= Authlogic::Random.hex_token %>
   time_step: 15
+  time_zone: Auckland
 
 two:
   name: Test User 2
@@ -15,3 +16,4 @@ two:
   crypted_password: <%= Authlogic::CryptoProviders::Sha512.encrypt("testpass" + salt) %>
   persistence_token: <%= Authlogic::Random.hex_token %>
   time_step: 15
+  time_zone: Auckland

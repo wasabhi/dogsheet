@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
   # filter_parameter_logging :password
 
   before_filter :require_login
+  before_filter :set_time_zone
 
   # By default throw 404 for all record not found
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
@@ -26,6 +27,10 @@ class ApplicationController < ActionController::Base
       redirect_to new_user_session_url
       return false
     end
+  end
+
+  def set_time_zone
+    Time.zone = current_user.time_zone if current_user
   end
 
   protected

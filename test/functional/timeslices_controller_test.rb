@@ -344,4 +344,12 @@ class TimeslicesControllerTest < ActionController::TestCase
       delete :destroy, :id => timeslices(:four).id
     end
   end
+
+  def test_should_set_time_zone_for_user
+    users(:one).time_zone = 'Kamchatka'
+    UserSession.create(users(:one))
+    get :index
+    assert_equal ActiveSupport::TimeZone['Kamchatka'], Time.zone,
+                  'sets time zone for current user'
+  end
 end

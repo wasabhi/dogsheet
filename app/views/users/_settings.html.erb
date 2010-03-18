@@ -1,6 +1,10 @@
 <fieldset>
   <legend>Preferences</legend>
   <div class="form-item form-item-block">
+    <%= form.label :time_zone %>
+    <%= form.time_zone_select :time_zone %>
+  </div>
+  <div class="form-item form-item-block">
     <%= form.label :time_step %>
     <%= form.select :time_step, User::TIME_STEPS %>
   </div>
