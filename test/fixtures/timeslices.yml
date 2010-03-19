@@ -7,31 +7,31 @@
 
 one:
   task: one 
-  started: <%= Time.parse('2009-11-14 12:00:00').utc.to_s(:db) %>
-  finished: <%= Time.parse('2009-11-14 13:00:00').utc.to_s(:db) %>
+  started: <%= Time.zone.parse('2009-11-14 12:00:00').utc.to_s(:db) %>
+  finished: <%= Time.zone.parse('2009-11-14 13:00:00').utc.to_s(:db) %>
   user: one
 
 two:
   task: one
-  started: <%= Time.parse('2009-11-14 22:00:00').utc.to_s(:db) %>
-  finished: <%= Time.parse('2009-11-14 23:00:00').utc.to_s(:db) %>
+  started: <%= Time.zone.parse('2009-11-14 22:00:00').utc.to_s(:db) %>
+  finished: <%= Time.zone.parse('2009-11-14 23:00:00').utc.to_s(:db) %>
   user: one
 
 three:
   task: two
-  started: <%= Time.parse('2009-11-12 08:00:00').utc.to_s(:db) %>
-  finished: <%= Time.parse('2009-11-12 08:30:00').utc.to_s(:db) %>
+  started: <%= Time.zone.parse('2009-11-12 08:00:00').utc.to_s(:db) %>
+  finished: <%= Time.zone.parse('2009-11-12 08:30:00').utc.to_s(:db) %>
   user: two
 
 four:
   task: two
-  started: <%= Time.parse('2009-11-14 22:00:00').utc.to_s(:db) %>
-  finished: <%= Time.parse('2009-11-14 23:00:00').utc.to_s(:db) %>
+  started: <%= Time.zone.parse('2009-11-14 22:00:00').utc.to_s(:db) %>
+  finished: <%= Time.zone.parse('2009-11-14 23:00:00').utc.to_s(:db) %>
   user: two
 
 five:
   task: three
-  started: <%= Time.parse('2009-11-14 23:00:00').utc.to_s(:db) %>
-  finished: <%= Time.parse('2009-11-14 23:30:00').utc.to_s(:db) %>
+  started: <%= Time.zone.parse('2009-11-14 23:00:00').utc.to_s(:db) %>
+  finished: <%= Time.zone.parse('2009-11-14 23:30:00').utc.to_s(:db) %>
   user: two
 

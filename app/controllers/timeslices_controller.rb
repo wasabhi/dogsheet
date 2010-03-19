@@ -22,7 +22,7 @@ class TimeslicesController < ApplicationController
       @timeslice.started = @timeslices.last.finished
       @timeslice.task = @timeslices.last.task.parent
     else
-      @timeslice.started = Time.parse(@date.to_s + ' ' + DAYSTART)
+      @timeslice.started = Time.zone.parse(@date.to_s + ' ' + DAYSTART)
     end
 
     @timeslice.finished = @timeslice.started + current_user.time_step.minutes

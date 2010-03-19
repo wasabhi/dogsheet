@@ -74,9 +74,9 @@ class TimeslicesControllerTest < ActionController::TestCase
     get :index, :date => '2009-11-16'
     assert_response :success
     assert_not_nil assigns(:timeslice)
-    assert_equal Time.parse('2009-11-16 08:00:00'), assigns(:timeslice).started,
+    assert_equal Time.zone.parse('2009-11-16 08:00:00'), assigns(:timeslice).started,
       "sets timeslice started time to 08:00:00 on empty timesheet"
-    assert_equal Time.parse('2009-11-16 08:15:00'), assigns(:timeslice).finished,
+    assert_equal Time.zone.parse('2009-11-16 08:15:00'), assigns(:timeslice).finished,
       "sets timeslice finished time to 08:15:00 on empty timesheet"
   end
 
@@ -103,9 +103,9 @@ class TimeslicesControllerTest < ActionController::TestCase
     get :index, :date => '2009-11-14'
     assert_response :success
     assert_not_nil assigns(:timeslice)
-    assert_equal Time.parse('2009-11-14 23:00:00'), assigns(:timeslice).started,
+    assert_equal Time.zone.parse('2009-11-14 23:00:00'), assigns(:timeslice).started,
       "sets timeslice started time to 23:00:00 on existing timesheet"
-    assert_equal Time.parse('2009-11-14 23:15:00'), assigns(:timeslice).finished,
+    assert_equal Time.zone.parse('2009-11-14 23:15:00'), assigns(:timeslice).finished,
       "sets timeslice finished time to 23:15:00 on existing timesheet"
   end
 
