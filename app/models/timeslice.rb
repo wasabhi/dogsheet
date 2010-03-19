@@ -10,8 +10,8 @@ class Timeslice < ActiveRecord::Base
   named_scope :by_date, lambda { |start_date,*end_date| 
     { 
       :conditions => [ 'started >= ? AND finished < ?',
-      start_date.to_time.utc, 
-      end_date.first ? end_date.first.tomorrow.to_time.utc : start_date.tomorrow.to_time.utc ]
+      Time.zone.local(start_date.year,start_date.month,start_date.day).utc.to_s(:db), 
+      end_date.first ? Time.zone.local(end_date.first.tomorrow.year,end_date.first.tomorrow.month,end_date.first.tomorrow.day).utc : Time.zone.local(start_date.tomorrow.year,start_date.tomorrow.month,start_date.tomorrow.day).utc ]
     }
   }
 
@@ -46,7 +46,7 @@ class Timeslice < ActiveRecord::Base
   end
 
   def started_time=(started_time)
-    self.started = Time.parse(started_time)
+    self.started = Time.zone.parse(started_time)
   rescue ArgumentError
     @started_time_invalid = true
   end
@@ -56,7 +56,7 @@ class Timeslice < ActiveRecord::Base
   end
 
   def finished_time=(finished_time)
-    self.finished = Time.parse(finished_time)
+    self.finished = Time.zone.parse(finished_time)
   rescue ArgumentError
     @finished_time_invalid = true
   end
@@ -66,8 +66,10 @@ class Timeslice < ActiveRecord::Base
   end
 
   def date=(date)
-    self.started = Time.parse("#{date} #{self.started.strftime('%H:%M:%S')}")
-    self.finished = Time.parse("#{date} #{self.finished.strftime('%H:%M:%S')}")
+    date = Date.parse(date) unless date.kind_of?(Date)
+    opts = {:year => date.year, :month => date.month, :day => date.day}
+    self.started = self.started.change(opts)
+    self.finished = self.finished.change(opts)
   end
 
   # Returns the previous timeslice (for the same user)

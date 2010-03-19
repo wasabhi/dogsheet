@@ -112,10 +112,15 @@ class TimesliceTest < ActiveSupport::TestCase
     timeslice.started = '2009-11-14 13:00:00'
     timeslice.finished = '2009-11-14 14:00:00'
     assert_equal Date.parse('2009-11-14'), timeslice.date
-    timeslice.date = Date.parse('2009-11-15')
-    assert_equal Date.parse('2009-11-15'), timeslice.date
-    assert_equal Time.parse('2009-11-15 13:00:00'), timeslice.started
-    assert_equal Time.parse('2009-11-15 14:00:00'), timeslice.finished
+    timeslice.date = Date.parse('2009-12-15')
+    assert_equal Date.parse('2009-12-15'), timeslice.date
+    assert_equal Time.zone.parse('2009-12-15 13:00:00'), timeslice.started
+    assert_equal Time.zone.parse('2009-12-15 14:00:00'), timeslice.finished
+    # Should accept a string aswell as a Date object
+    timeslice.date = '2009-12-25'
+    assert_equal Date.parse('2009-12-25'), timeslice.date
+    assert_equal Time.zone.parse('2009-12-25 13:00:00'), timeslice.started
+    assert_equal Time.zone.parse('2009-12-25 14:00:00'), timeslice.finished
   end
 
   # Should get the previous timeslice for the correct user
