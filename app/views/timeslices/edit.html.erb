@@ -5,11 +5,11 @@
 
   <p>
     <%= f.label :started %>
-    <%= f.datetime_select :started %>
+    <%= f.datetime_select :started, :minute_step => current_user.time_step %>
   </p>
   <p>
     <%= f.label :finished %>
-    <%= f.datetime_select :finished %>
+    <%= f.datetime_select :finished, :minute_step => current_user.time_step %>
   </p>
   <p>
     <%= f.submit "Save" %>
