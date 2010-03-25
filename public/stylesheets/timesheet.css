@@ -309,9 +309,13 @@ div.taskbadge div.task-actions a {
 /* Timeslice form */
 div.timeslice-form {
   border: 1px solid #777;
-  border-top: none;
+  border-bottom: none;
   background: white;
   padding: 1em;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-topright: 10px;
+  -webkit-border-radius-topleft: 10px;
+  -webkit-border-radius-topright: 10px;
 }
 div.timeslice-form div.timeslice-time-entry {
   margin-top: 0.5em;

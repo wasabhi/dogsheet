@@ -28,6 +28,15 @@
 </ul>
 <% end %>
 
+<% unless @multiday %>
+<div id="timeslice-form-<%= @date %>" class="timeslice-form">
+  <% form_for :timeslice, :url => timesheet_add_path(@date), 
+     :html => { :id => 'new_timeslice', :autocomplete => 'off' } do |form| %>
+    <%= render :partial => form %>
+  <% end %>
+</div>
+<% end %>
+
 <div id="timesheet" class="<%= @multiday ? "multiday" : "singleday" %>">
 <%#
 Split the timeslices array into multiple days

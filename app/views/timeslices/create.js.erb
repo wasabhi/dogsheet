@@ -2,7 +2,7 @@ new_timeslice = '<%= escape_javascript(render(:partial => 'timesheet_row', :loca
 <% if @next %>
 $('#timeslice-<%= @next.id %>').before(new_timeslice);
 <% else %>
-$('#timeslice-form-<%= @timeslice.date %>').before(new_timeslice);
+$('#timesheet-<%= @timeslice.date %>').append(new_timeslice);
 <% end %>
 
 $('#dayheader-<%= @timeslice.date %> > span.summary').replaceWith('<%= escape_javascript(render(:partial => 'timesummary', :locals => { :timeslices => @timeslices })) %>');
