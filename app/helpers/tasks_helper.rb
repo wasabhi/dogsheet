@@ -5,7 +5,7 @@ module TasksHelper
         task.name
       else
         task.name + content_tag(:ul) do
-          task.children.map {|t| task_tree(t)}.join
+          task.children.reverse.map {|t| task_tree(t)}.join
         end
       end
     end
