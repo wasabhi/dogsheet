@@ -24,7 +24,7 @@ $(document).ready(function () {
   $('#timeslice_started_time').timeEntry(timeentry_attrs);
   $('#timeslice_started_time').change(function() {
     $('#timeslice_finished_time').timeEntry('change', {
-      minTime: $(this).timeEntry('getTime')
+      minTime: $(this).timeEntry('getTime').add(TIMESLICE_GRANULARITY).minutes()
     });
   });
   $('#timeslice_finished_time').timeEntry(timeentry_attrs);
@@ -70,8 +70,7 @@ $(document).ready(function () {
 function limitRange(input) {
   return { 
     minTime: (input.id == 'timeslice_finished_time' ?
-      $('#timeslice_started_time').timeEntry('getTime') : null),
-    maxTime: (input.id == 'timeslice_started_time' ?
-      $('#timeslice_finished_time').timeEntry('getTime') : null)
+      $('#timeslice_started_time').timeEntry('getTime').add(TIMESLICE_GRANULARITY).minutes() : null),
+    maxTime: null
   }
 }
