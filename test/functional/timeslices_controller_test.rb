@@ -29,9 +29,22 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:timeslices).length, "only assigns timeslices for user one"
   end
 
-  def test_should_assign_not_assign_multiday_var
+  def test_should_not_assign_multiday_var
     UserSession.create(users(:one))
     get :index, :date => '2009-11-14'
+    assert_response :success
+    assert_not_nil assigns(:multiday)
+    assert_equal false, assigns(:multiday),
+      "assigns multiday to false in single day view"
+    assert_select "div#timesheet.singleday"
+    assert_select "div#timesheet.multiday", false
+    assert_select "div#timeslice-form-2009-11-14"
+    assert_select "ul#expand-collapse-controls", false
+  end
+
+  def test_should_not_assign_multiday_var_when_start_and_end_date_the_same
+    UserSession.create(users(:one))
+    get :index, :date => '2009-11-14', :end_date => '2009-11-14'
     assert_response :success
     assert_not_nil assigns(:multiday)
     assert_equal false, assigns(:multiday),

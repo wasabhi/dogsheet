@@ -161,11 +161,12 @@ class TimeslicesController < ApplicationController
       # If no end date was passed, make the same as start date
       if params[:end_date]
         @end_date = Date.parse(params[:end_date])
-        @multiday = true
       else
         @end_date = @date
-        @multiday = false
       end
+
+      # If start and end date are the same, this value should be true.
+      @multiday = @date != @end_date
     end
 
     # The error messages for the native started and finished attributes
