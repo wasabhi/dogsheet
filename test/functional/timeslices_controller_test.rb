@@ -249,6 +249,46 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_equal 'Dummy task', assigns(:task).name
   end
 
+  def test_should_create_timeslice_and_task_at_root_level
+    UserSession.create(users(:one))
+
+    assert_difference(['Timeslice.count','Task.count']) do
+      post :create, :date => '2009-11-15',
+                    :task => {
+                      :name => 'Dummy task',
+                    },
+                    :timeslice => { 
+                      :task_id => '',
+                      :started_time => '15:00',
+                      :finished_time => '16:00'
+                    }
+    end
+    assert_not_nil assigns(:task)
+    assert assigns(:task).root?, "task is a root level task"
+    assert_equal 'Dummy task', assigns(:task).name
+  end
+
+  def test_should_create_timeslice_and_multiple_tasks
+    UserSession.create(users(:one))
+    assert_difference 'Task.count', 2 do
+      post :create, :date => '2009-11-15',
+                    :task => {
+                      :name => 'Task 1:Task 2',
+                    },
+                    :timeslice => { 
+                      :task_id => tasks(:one).id,
+                      :started_time => '15:00',
+                      :finished_time => '16:00'
+                    }
+    end
+    assert_not_nil assigns(:task)
+    assert_equal 'Task 2', assigns(:task).name
+    assert_equal 'Task 1', assigns(:task).parent.name,
+      "assigns the correct parent to the second new task"
+    assert_equal tasks(:one), assigns(:task).parent.parent,
+      "assigns the correct parent id to the first new task"
+  end
+
   def test_should_create_from_ajax
     UserSession.create(users(:one))
     xhr :post, :create, :date => '2009-11-14',

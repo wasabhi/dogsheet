@@ -50,10 +50,15 @@ class TimeslicesController < ApplicationController
     @timeslice = current_user.timeslices.new params[:timeslice]
 
     if params[:task] && params[:task][:name].length > 0
-      @task = current_user.tasks.create(
-                :name => params[:task][:name], 
-                :parent_id => params[:timeslice][:task_id]
-      )
+      unless params[:timeslice][:task_id].blank?
+        parent = current_user.tasks.find(params[:timeslice][:task_id])
+      end
+      tasks = Task.split_and_create(params[:task][:name], parent)
+      tasks.each do |task|
+        task.user = current_user
+        task.save
+      end
+      @task = tasks.last
       @timeslice.task = @task
     else
       @task = current_user.tasks.find(params[:timeslice][:task_id])

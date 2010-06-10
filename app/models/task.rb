@@ -8,6 +8,25 @@ class Task < ActiveRecord::Base
 
   acts_as_nested_set
 
+  # Creates an array of tasks by splitting the passed string on NAME_SEPARATOR.
+  # Each task will be the child of the previous in the string.
+  #
+  # If root_task is passed, this will be set as the parent of the first task
+  # created.  Otherwise, the first task will be a root level task.
+  def self.split_and_create(string, root_task = nil)
+    tasks = string.split(':').collect do |name|
+      Task.create :name => name.strip
+    end
+    tasks.inject(root_task) do |previous,current|
+      unless previous.nil? or !current.instance_of?(Task)
+        current.parent = previous
+        current.save
+      end
+      current
+    end
+    tasks
+  end
+
   def duration(date = nil)
     duration = 0
     if date.nil?

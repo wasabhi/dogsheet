@@ -81,4 +81,27 @@ class TaskTest < ActiveSupport::TestCase
     date_range = Date.parse('2009-11-11') .. Date.parse('2009-11-14')
     assert_equal('0,0,0,7200.0', tasks(:one).sparkline(date_range))
   end
+
+  # If passed a string containing NAME_SEPARATOR, create multiple tasks
+  # as children of each other
+  def test_split_and_create
+    assert_difference 'Task.count', 3 do
+      tasks = Task.split_and_create('Test 1 : Test 2:Test 3')
+      assert_instance_of Array, tasks
+      tasks.inject(nil) do |previous,current|
+        assert_instance_of Task, current
+        assert_equal previous, current.parent unless previous.nil?
+        current
+      end
+    end
+  end
+
+  # Task#split_and_create should take an optional root task to be set
+  # as the parent of the first created task
+  def test_split_and_create_with_root_task
+    assert_difference 'Task.count', 2 do
+      tasks = Task.split_and_create('Test:Test', tasks(:one))
+      assert_equal tasks(:one), tasks.first.parent
+    end
+  end
 end
