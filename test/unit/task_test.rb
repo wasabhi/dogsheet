@@ -104,4 +104,16 @@ class TaskTest < ActiveSupport::TestCase
       assert_equal tasks(:one), tasks.first.parent
     end
   end
+
+  # Task name should be unique per branch
+  def test_name_should_be_unique_per_branch
+    assert_difference 'Task.count' do
+      assert Task.create(:name => tasks(:two).name, :parent => tasks(:two)),
+             "can have the same task name on different levels"
+    end
+    assert_no_difference 'Task.count' do
+      assert Task.create(:name => tasks(:three).name, :parent => tasks(:two)),
+             "cannot have the same task name on the same branch"
+    end
+  end
 end
