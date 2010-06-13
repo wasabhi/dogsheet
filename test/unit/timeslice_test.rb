@@ -185,4 +185,27 @@ class TimesliceTest < ActiveSupport::TestCase
     assert_equal 3, Timeslice.by_task_ids([tasks(:two),tasks(:three)]).count,
       "should return timeslices for list of task ids"
   end
+
+  def test_should_get_started_time_only
+    assert_equal '12:00', timeslices(:one).started_time
+  end
+
+  def test_should_get_finished_time_only
+    assert_equal '13:00', timeslices(:one).finished_time
+  end
+
+  def test_should_get_duration_in_minutes
+    assert_equal 60, timeslices(:one).minutes
+    assert_equal 30, timeslices(:three).minutes
+  end
+
+  def test_should_get_hours_and_minutes
+    assert_equal '1:00', timeslices(:one).hours_and_minutes
+    assert_equal '0:30', timeslices(:three).hours_and_minutes
+  end
+
+  def test_should_get_decimal_hours
+    assert_equal 1.00, timeslices(:one).decimal_hours
+    assert_equal 0.50, timeslices(:three).decimal_hours
+  end
 end

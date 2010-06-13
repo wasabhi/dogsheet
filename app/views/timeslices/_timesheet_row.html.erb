@@ -3,11 +3,11 @@
     <div class="timeslice-delete">
       <%= link_to(image_tag('g3340.png'), timeslice, :confirm => 'Are you sure?', :method => :delete) %>
     </div>
-    <div class="time startedtime"><%= link_to timeslice.started.to_s(:time_only), edit_timeslice_path(timeslice) %></div>
-    <div class="time finishedtime"><%= link_to timeslice.finished.to_s(:time_only), edit_timeslice_path(timeslice) %></div>
+    <div class="time startedtime"><%= link_to timeslice.started_time, edit_timeslice_path(timeslice) %></div>
+    <div class="time finishedtime"><%= link_to timeslice.finished_time, edit_timeslice_path(timeslice) %></div>
     <div class="duration">
-      Duration: <%= hours_and_minutes(timeslice.duration) %>
-      (<%= decimal_hours(timeslice.duration) %>)
+      Duration: <%= timeslice.hours_and_minutes %>
+      (<%= timeslice.decimal_hours %>)
     </div>
   </div>
   <div class="taskinfo">

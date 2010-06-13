@@ -31,8 +31,7 @@ class TimeslicesController < ApplicationController
       format.html
       format.xml { render :xml => @timeslices }
       format.csv do
-        response.headers['Content-Type'] = 'text/csv; charset=UTF8; header=present'
-        response.headers['Content-Disposition'] = 'attachment;filename=' + filename
+        render :csv => @timeslices, :filename => filename
       end
     end
   end

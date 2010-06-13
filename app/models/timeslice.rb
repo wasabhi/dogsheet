@@ -7,6 +7,16 @@ class Timeslice < ActiveRecord::Base
   belongs_to :task
   belongs_to :user
 
+  # CSV export format
+  comma do
+    started :to_date => 'Date'
+    started_time 'Started'
+    finished_time 'Finished'
+    task :name_with_ancestors => 'Task'
+    hours_and_minutes 'Duration'
+    decimal_hours
+  end
+
   named_scope :by_date, lambda { |start_date,*end_date| 
     { 
       :conditions => [ 'started >= ? AND finished < ?',
@@ -89,7 +99,22 @@ class Timeslice < ActiveRecord::Base
   # Compares the timeslice passed with this timeslice to see if they
   # are on the same day.
   def same_day_as?(timeslice)
-    return self.date == timeslice.date
+    self.date == timeslice.date
+  end
+
+  # Returns the timeslice duration in minutes
+  def minutes
+    duration / 60
+  end
+
+  # Return the timeslice duration in hours and minutes
+  def hours_and_minutes
+    "%d:%02d" % [minutes / 60, minutes % 60]
+  end
+
+  # Returns the timeslice duration in decimal hours
+  def decimal_hours
+    ("%.2f" % [duration / 60 / 60]).to_f
   end
 
   private

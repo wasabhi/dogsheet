@@ -1,5 +1,4 @@
 <%= link_to timeslice.started.to_date, 
             timesheet_path(timeslice.started.to_date) %> 
-<%= timeslice.started.to_s(:time_only) %> - 
-<%= timeslice.finished.to_s(:time_only) %>
-(<%= hours_and_minutes(timeslice.duration) %>)
+<%= timeslice.started_time %> - <%= timeslice.finished_time %>
+(<%= timeslice.hours_and_minutes %>)
