@@ -28,6 +28,7 @@ Rails::Initializer.run do |config|
   config.gem 'comma'
   config.gem 'fastercsv'
   config.gem 'authlogic'
+  config.gem 'awesome_nested_set'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
