@@ -2,3 +2,4 @@ rails --version 2.3.8
 comma
 fastercsv
 authlogic
+awesome_nested_set
