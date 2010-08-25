@@ -11,6 +11,7 @@ two:
   user: two
   lft: 3
   rgt: 6
+  rate: 1.23
 
 three:
   name: Second level task for user two

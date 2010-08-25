@@ -116,4 +116,11 @@ class TaskTest < ActiveSupport::TestCase
              "cannot have the same task name on the same branch"
     end
   end
+
+  # Task should inherit rate from parent if nil
+  def test_should_inherit_rate_from_parent
+    assert_nil tasks(:one).rate
+    assert_equal 1.23, tasks(:two).rate
+    assert_equal 1.23, tasks(:three).rate
+  end
 end

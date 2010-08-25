@@ -80,6 +80,24 @@ class Task < ActiveRecord::Base
     self.self_and_descendants.collect { |task| task.id }
   end
 
+  # If rate is nil on a Task, it is inherited from the parent recursively
+  # until a non nil rate is found.  If the root task is reached and it has
+  # a nil rate, nil is returned
+  def rate
+    # If this record has a rate value in the db, return it
+    if attributes['rate']
+      attributes['rate']
+    else
+      # If this task has a parent, return the rate from that, else
+      # theirs nowhere left to recurse to so return nil
+      if root?
+        nil
+      else
+        parent.rate
+      end
+    end
+  end
+
   # By default, sort all finders by lft
   def self.find(*args)
     options = args.last.is_a?(Hash) ? args.pop : {}

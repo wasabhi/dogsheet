@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100318081832) do
+ActiveRecord::Schema.define(:version => 20100825101433) do
 
   create_table "tasks", :force => true do |t|
     t.string   "name"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20100318081832) do
     t.integer  "parent_id"
     t.integer  "lft"
     t.integer  "rgt"
+    t.decimal  "rate",       :precision => 8, :scale => 2
   end
 
   create_table "timeslices", :force => true do |t|
