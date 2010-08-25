@@ -85,7 +85,7 @@ class Task < ActiveRecord::Base
   # a nil rate, nil is returned
   def rate
     # If this record has a rate value in the db, return it
-    if attributes['rate']
+    if attribute_present? :rate
       attributes['rate']
     else
       # If this task has a parent, return the rate from that, else

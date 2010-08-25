@@ -1,6 +1,10 @@
 <h1>Task <%= @task.name %></h1>
 
 <dl>
+  <% if @task.rate %>
+    <dt>Task rate:</dt>
+    <dd><%= number_to_currency @task.rate %> per hour</dd>
+  <% end %>
   <dt>Task total time:</dt>
   <dd><%= hours_and_minutes(@task.branch_duration) %> (<%= decimal_hours(@task.branch_duration) %>)</dd>
   <% unless @task.timeslices.empty? %>

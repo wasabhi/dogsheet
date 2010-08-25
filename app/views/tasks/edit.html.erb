@@ -12,6 +12,13 @@
     <%= f.text_field :name %>
   </p>
   <p>
+    <%= f.label :rate %>
+    <%= f.text_field :rate, :size => 4 %> per hour
+    <% unless @task.attribute_present? :rate or @task.rate.nil? %>
+      <em>This task rate defaults to <%= number_to_currency @task.rate %> per hour</em>
+    <% end %>
+  </p>
+  <p>
     <%= f.submit "Save" %>
   </p>
 <% end %>
