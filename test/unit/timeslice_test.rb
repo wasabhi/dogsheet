@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class TimesliceTest < ActiveSupport::TestCase
-  def test_should_save_timeslice
+  test "should save timeslice" do
     timeslice = Timeslice.new
     timeslice.started = '2009-11-15 11:00:00'
     timeslice.finished = '2009-11-15 12:00:00'
@@ -9,26 +9,26 @@ class TimesliceTest < ActiveSupport::TestCase
     assert timeslice.save, "Saved valid timeslice"
   end
 
-  def test_should_not_save_without_started
+  test "should not save without started" do
     timeslice = Timeslice.new
     timeslice.finished = '2009-11-15 12:00:00'
     assert !timeslice.save, "Saved timeslice without started"
   end
 
-  def test_should_not_save_without_finished
+  test "should not save without finished" do
     timeslice = Timeslice.new
     timeslice.started = '2009-11-15 12:00:00'
     assert !timeslice.save, "Saved timeslice without started"
   end
 
-  def test_should_not_save_without_user
+  test "should not save without user" do
     timeslice = Timeslice.new
     timeslice.started = '2009-11-15 11:00:00'
     timeslice.finished = '2009-11-15 12:00:00'
     assert !timeslice.save, "Saved timeslice without user"
   end
 
-  def test_should_not_save_timeslice_with_finished_before_or_equal_to_started
+  test "should not save timeslice with finished before or equal to started" do
     timeslice = Timeslice.new
     timeslice.started = '2009-11-15 12:00:00'
     timeslice.finished = '2009-11-15 11:00:00'
@@ -37,7 +37,7 @@ class TimesliceTest < ActiveSupport::TestCase
     assert !timeslice.save, "Saved timeslice with finished equal to started"
   end
 
-  def test_should_return_timeslice_duration_in_seconds
+  test "should return timeslice duration in seconds" do
     timeslice = Timeslice.new
     timeslice.started = '2009-11-15 11:00:00'
     timeslice.finished = '2009-11-15 12:00:00'
@@ -57,7 +57,7 @@ class TimesliceTest < ActiveSupport::TestCase
   #                     |--- old timeslice ---|
   #                  |------ new timeslice ------|
   #
-  def test_should_not_save_timeslice_that_overlaps_with_another
+  test "should not save timeslice that overlaps with another" do
     timeslice = Timeslice.new
     timeslice.user = users(:one)
     timeslice.started = '2009-11-14 12:30:00'
@@ -78,7 +78,7 @@ class TimesliceTest < ActiveSupport::TestCase
     assert fixture.save, "Updated timeslice with new time overlapping old finished time"
   end
 
-  def test_should_save_timeslice_that_overlaps_with_another_for_different_user
+  test "should save timeslice that overlaps with another for different user" do
     timeslice = Timeslice.new
     timeslice.user = users(:two)
     timeslice.started = '2009-11-14 12:30:00'
@@ -94,7 +94,7 @@ class TimesliceTest < ActiveSupport::TestCase
     assert timeslice.save, "Saved timeslice which encompasses another users"
   end
 
-  def test_should_save_contiguous_with_another
+  test "should save contiguous with another" do
     timeslice = Timeslice.new
     timeslice.user = users(:one)
     timeslice.started = '2009-11-14 13:00:00'
@@ -106,7 +106,7 @@ class TimesliceTest < ActiveSupport::TestCase
   end
 
   # Should be able to change just the date of a timeslice
-  def test_should_change_date
+  test "should change date" do
     timeslice = Timeslice.new
     timeslice.user = users(:one)
     timeslice.started = '2009-11-14 13:00:00'
@@ -124,7 +124,7 @@ class TimesliceTest < ActiveSupport::TestCase
   end
 
   # Should get the previous timeslice for the correct user
-  def test_should_get_previous
+  test "should get previous" do
     assert_nil timeslices(:three).previous, 
       "should return nil when there is no previous timeslice"
     assert_equal timeslices(:one), timeslices(:two).previous,
@@ -134,7 +134,7 @@ class TimesliceTest < ActiveSupport::TestCase
   end
 
   # Should get the next timeslice for the correct user
-  def test_should_get_previous
+  test "should get next" do
     assert_nil timeslices(:two).next, 
       "should return nil when there is no next timeslice"
     assert_equal timeslices(:two), timeslices(:one).next,
@@ -143,7 +143,7 @@ class TimesliceTest < ActiveSupport::TestCase
       "should ignore other users timeslices"
   end
 
-  def test_should_compare_date
+  test "should compare date" do
     t1 = Timeslice.new
     t1 = Timeslice.new
     t1.user = users(:two)
@@ -168,12 +168,12 @@ class TimesliceTest < ActiveSupport::TestCase
 
   end
 
-  def test_should_return_total_duration_of_timeslice_array
+  test "should return total duration of timeslice array" do
     assert_equal 7200, Timeslice.total_duration(tasks(:one).timeslices),
       "returns total duration of an array of timeslices"
   end
 
-  def test_should_get_by_date_range
+  test "should get by date range" do
     assert_equal 1, Timeslice.by_date(Date.parse('2009-11-12')).length,
       "should return by date with single date argument"
     assert_equal 5, Timeslice.by_date(Date.parse('2009-11-12'),
@@ -181,30 +181,30 @@ class TimesliceTest < ActiveSupport::TestCase
       "should return by date with date range"
   end
 
-  def test_should_get_by_task_ids
+  test "should get by task ids" do
     assert_equal 3, Timeslice.by_task_ids([tasks(:two),tasks(:three)]).count,
       "should return timeslices for list of task ids"
   end
 
-  def test_should_get_started_time_only
+  test "should get started time only" do
     assert_equal '12:00', timeslices(:one).started_time
   end
 
-  def test_should_get_finished_time_only
+  test "should get finished time only" do
     assert_equal '13:00', timeslices(:one).finished_time
   end
 
-  def test_should_get_duration_in_minutes
+  test "should get duration in minutes" do
     assert_equal 60, timeslices(:one).minutes
     assert_equal 30, timeslices(:three).minutes
   end
 
-  def test_should_get_hours_and_minutes
+  test "should get hours and minutes" do
     assert_equal '1:00', timeslices(:one).hours_and_minutes
     assert_equal '0:30', timeslices(:three).hours_and_minutes
   end
 
-  def test_should_get_decimal_hours
+  test "should get decimal hours" do
     assert_equal 1.00, timeslices(:one).decimal_hours
     assert_equal 0.50, timeslices(:three).decimal_hours
   end
