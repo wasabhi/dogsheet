@@ -1,0 +1,11 @@
+development:
+  xero_consumer_key: DUMMY
+  xero_consumer_secret: DUMMY
+
+test:
+  xero_consumer_key: DUMMY
+  xero_consumer_secret: DUMMY
+
+production:
+  xero_consumer_key: DUMMY
+  xero_consumer_secret: DUMMY

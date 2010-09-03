@@ -4,3 +4,4 @@ Capfile
 config/capistrano_database_yml.rb
 config/deploy
 config/deploy.rb
+config/dogsheet.yml
