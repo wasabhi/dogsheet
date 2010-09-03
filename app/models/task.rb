@@ -112,11 +112,24 @@ class Task < ActiveRecord::Base
       :due_date => 1.month.from_now # TODO - Make configurable
     })
     invoice.contact.name = contact
+
+    # De-dup the timeslice array.  If multiple timeslices are recorded
+    # for the same task, accumulate them so as not to create a proliferation
+    # of similar line items on the invoice.
+    lineitems = {}
     timeslices.each do |timeslice|
+      if lineitems[timeslice.task].nil?
+        lineitems[timeslice.task] = timeslice.decimal_hours
+      else
+        lineitems[timeslice.task] += timeslice.decimal_hours
+      end
+    end
+
+    lineitems.each do |task,decimal_hours|
       invoice.add_line_item({
-        :description => timeslice.task.name_with_ancestors(':', self),
-        :unit_amount => timeslice.task.rate,
-        :quantity => timeslice.decimal_hours,
+        :description => task.name_with_ancestors(':', self),
+        :unit_amount => task.rate,
+        :quantity => decimal_hours,
         :account_code => account_code
       })
     end
