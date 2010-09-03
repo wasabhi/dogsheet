@@ -14,6 +14,7 @@
           <th class="checkbox"><input type="checkbox" id="timeslice_select_all" checked="true"/></th>
           <th>Task</th>
           <th>Rate</th>
+          <th>Date</th>
           <th>Hours</th>
           <th>Total</th>
         </tr>
@@ -24,6 +25,7 @@
             <td class="checkbox"><%= check_box_tag 'timeslice_ids[]', timeslice.id, true %></td>
             <td><%=h timeslice.task.name_with_ancestors(Task::NAME_SEPARATOR, @task) %></td>
             <td class="right"><%= number_to_currency timeslice.task.rate %></td>
+            <td class="right"><%= timeslice.date %></td>
             <td class="right"><%= timeslice.decimal_hours %></td>
             <td class="right"><%= number_to_currency timeslice.decimal_hours * (timeslice.task.rate || 0.00) %></td>
           </tr>
