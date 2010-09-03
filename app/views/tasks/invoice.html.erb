@@ -17,3 +17,6 @@ Due date: <strong><%= @invoice.due_date %></strong>
 <p>
 Amount due: <strong><%= number_to_currency @invoice.amount_due %></strong>
 </p>
+<p>
+<%= link_to 'View this invoice in Xero',
+  "https://go.xero.com/AccountsReceivable/Edit.aspx?InvoiceID=#{@invoice.invoice_id}" %>
