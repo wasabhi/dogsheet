@@ -4,7 +4,8 @@ html {
 
 body {
   margin: 0;
-  background-color: #D9D9D9;
+  background: #fff;
+  background: -moz-linear-gradient(top, #fff, #eee 80px, #ddd 81px, #fff 84px);
 }
 
 h1 {
@@ -73,13 +74,13 @@ div.form-item-block label {
 
 /* Header */
 #header {
-  background: #383838 url('/images/mutt-48x48.png') no-repeat bottom left;
-  padding: 0.5em 4em;
+  background: transparent url('/images/mutt-48x48.png') no-repeat bottom left;
+  padding: 0 4em 1em;
   color: white;
 }
 
 #header h1 a, #header h1 a:hover {
-  color: white;
+  color: #383838;
   text-decoration: none;
 }
 
@@ -90,29 +91,32 @@ div.form-item-block label {
 
 /* Navigation */
 ul#nav {
-  margin: 0.5em 0;
+  margin: 0 0 1em;
   padding: 0;
   text-align: right;
   position: absolute;
   right: 3.5em;
-  top: 0.6em;
-}
-
-ul#nav li {
-  display: inline;
+  top: 0.3em;
 }
 
 ul#nav li a {
-  font-weight: normal;
+  font-weight: bold;
+  color: #383838;
 }
 
 ul#nav li {
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  padding: 0.2em 0.5em;
+  -moz-border-radius-bottomleft: 3px;
+  -webkit-border-radius-bottomleft: 3px;
+  border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -webkit-border-radius-bottomright: 3px;
+  border-radius-bottomright: 3px;
+  -moz-box-shadow: 0 1px 1px #eee;
+  padding: 0.4em 0.5em;
   margin-right: 0.8em;
   background-color: #eee;
+  border: 1px solid #ddd;
+  display: inline;
 }
 
 ul#nav li:hover {
@@ -128,34 +132,23 @@ ul#nav li:last {
 }
 
 ul#context-nav {
-  padding: 1em 0.8em;
+  padding: 0.2em 0.8em;
   margin: 0;
-  background-color: #fff;
-  border: 1px #777 solid;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  background-color: #ddd;
+  border: 1px #bbb solid;
+  -moz-border-radius: 5px 5px 0 0;
+  -webkit-border-radius: 5px 5px 0 0;
   border-radius: 5px;
   font-size: 1.4em;
-  margin: 0.8em 0;
 }
 
 ul#context-nav li {
   display: inline;
-  background: #eee;
   border: 0;
   padding: 0.4em 0.8em;
   margin-right: 1em;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
 }
-ul#context-nav li:hover {
-  background-color: #D9D9D9;
-}
-ul#context-nav li a.export {
-  background: transparent url('/images/spreadsheet.png') no-repeat left;
-  padding: 0.2em 0.2em 0.2em 30px;
-}
+
 form#timesheet_filter {
   display: inline;
 }
@@ -167,43 +160,54 @@ form#timesheet_filter select#task_id {
 #page {
   margin: 1em 4em;
   padding: 2em;
-  background-color: #eee;
+  background-color: #fff;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
+  border: 1px solid #ddd;
 }
 
 /* Footer */
 #footer {
   margin: 1em 4em;
   padding: 1em;
-  background: #383838;
-  color: #D9D9D9;
+  background: #ddd;
+  color: #383838;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
 
 #footer a {
-  color: #D9D9D9;
+  color: #383838;
   font-weight: bold;
 }
 
 ul#expand-collapse-controls {
   text-align: right;
-  padding-left: 0;
+  margin-top: 0;
   margin-bottom: 0;
+  border-left: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+  padding: 10px 1em 5px;
 }
 ul#expand-collapse-controls li {
   display: inline;
-  background-color: #d9d9d9;
-  padding: 0.2em 1em 0;
+  background-color: #eee;
+  padding: 5px 1em 5px;
   cursor: pointer;
-  -moz-border-radius-topleft: 10px;
-  -moz-border-radius-topright: 10px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-topright: 3px;
+  border: 1px solid #bbb;
+  border-bottom: none;
+  font-weight: bold;
 }
 ul#expand-collapse-controls li:hover {
-  background-color: #fff;
+  background-color: #d9d9d9;
+}
+ul#expand-collapse-controls li a.export {
+  background: transparent url('/images/spreadsheet.png') no-repeat left;
+  padding: 0.2em 0.2em 0.2em 22px;
 }
 
 tbody#timesheet td {
@@ -308,14 +312,11 @@ div.taskbadge div.task-actions a {
 
 /* Timeslice form */
 div.timeslice-form {
-  border: 1px solid #777;
+  border: 1px solid #bbb;
+  border-top: none;
   border-bottom: none;
   background: white;
   padding: 1em;
-  -moz-border-radius-topleft: 10px;
-  -moz-border-radius-topright: 10px;
-  -webkit-border-radius-topleft: 10px;
-  -webkit-border-radius-topright: 10px;
 }
 div.timeslice-form div.timeslice-time-entry {
   margin-top: 0.5em;
@@ -334,4 +335,24 @@ div.task-form {
 
 div.task-form h2 {
   margin: 0;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  background: #ddd;
+}
+
+th.checkbox {
+  width: 1em;
+}
+
+td.right {
+  text-align: right;
+}
+
+hr {
+  color: #ddd;
 }
