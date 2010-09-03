@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :tasks do |task|
+  map.resources :tasks, :member => {:unbilled => :get, :invoice => :put} do |task|
     task.resources :timeslices
   end
 

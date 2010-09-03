@@ -16,17 +16,7 @@
     <input id="dateselect-go" type="submit" value="Go" />
     </form>
   </li>
-  <li>
-    <%= export_link('Export') %>
-  </li>
 </ul>
-
-<% if @multiday %>
-<ul id="expand-collapse-controls">
-  <li id="collapse-all">Collapse all</li>
-  <li id="expand-all">Expand all</li>
-</ul>
-<% end %>
 
 <% unless @multiday %>
 <div id="timeslice-form-<%= @date %>" class="timeslice-form">
@@ -36,6 +26,16 @@
   <% end %>
 </div>
 <% end %>
+
+<ul id="expand-collapse-controls">
+  <% if @multiday %>
+    <li id="collapse-all">Collapse all</li>
+    <li id="expand-all">Expand all</li>
+  <% end %>
+  <li>
+    <%= export_link('Export') %>
+  </li>
+</ul>
 
 <div id="timesheet" class="<%= @multiday ? "multiday" : "singleday" %>">
 <%#

@@ -35,3 +35,6 @@
 </ul>
 
 <%= link_to 'Edit task', edit_task_path(@task) %>
+<% if @task.has_unbilled_timeslices? %>
+  <%= link_to 'Generate invoice', unbilled_task_path(@task) %>
+<% end %>

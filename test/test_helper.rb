@@ -2,6 +2,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 require "authlogic/test_case"
+require "webmock/test_unit"
 
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
@@ -36,4 +37,17 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  include WebMock
+
+  # Use WebMock to create fake responses to all the Xero endpoints which
+  # we interact with.
+  def stub_xero_requests
+    filepath = File.dirname(__FILE__) + '/xero_xml/'
+    stub_request(:get, 'https://api.xero.com/api.xro/2.0/Contacts').to_return(
+      :body => File.read(filepath + 'contacts.xml'))
+    stub_request(:get, 'https://api.xero.com/api.xro/2.0/Accounts').to_return(
+      :body => File.read(filepath + 'accounts.xml'))
+    stub_request(:put, 'https://api.xero.com/api.xro/2.0/Invoices').to_return(
+      :body => File.read(filepath + 'create_invoice.xml'))
+  end
 end

@@ -2,14 +2,17 @@ require 'test_helper'
 
 class TasksControllerTest < ActionController::TestCase
   
-  setup :activate_authlogic
+  def setup
+    activate_authlogic
+    stub_xero_requests
+  end
 
-  def test_should_redirect_index_if_logged_out
+  test "should redirect index if logged out" do
     get :index
     assert_redirected_to new_user_session_url
   end
 
-  def test_should_get_index
+  test "should get index" do
     UserSession.create(users(:one))
     get :index
     assert_response :success
@@ -18,12 +21,12 @@ class TasksControllerTest < ActionController::TestCase
     assert_not_nil assigns(:task)
   end
 
-  def test_should_redirect_show_if_logged_out
+  test "should redirect show if logged out" do
     get :show, :id => tasks(:one).id
     assert_redirected_to new_user_session_url
   end
 
-  def test_should_show_task
+  test "should show task" do
     UserSession.create(users(:one))
     get :show, :id => tasks(:one).id
     assert_response :success
@@ -31,7 +34,7 @@ class TasksControllerTest < ActionController::TestCase
     assert_equal assigns(:task).id, tasks(:one).id
   end
 
-  def test_should_show_task_with_no_timeslices
+  test "should show task with no timeslices" do
     UserSession.create(users(:one))
     get :show, :id => tasks(:four).id
     assert_response :success
@@ -39,29 +42,29 @@ class TasksControllerTest < ActionController::TestCase
     assert_equal assigns(:task).id, tasks(:four).id
   end
 
-  def test_should_not_show_another_users_task
+  test "should not show another users task" do
     UserSession.create(users(:one))
     get :show, :id => tasks(:two).id
     assert_response :missing
   end
 
-  def test_redirect_new_if_logged_out
+  test "redirect new if logged out" do
     get :new
     assert_redirected_to new_user_session_url
   end
 
-  def test_should_get_new
+  test "should get new" do
     UserSession.create(users(:one))
     get :new
     assert_response :success
   end
 
-  def test_should_redirect_create_if_logged_out
+  test "should redirect create if logged out" do
     post :create, :task => { :name => 'Test task' }
     assert_redirected_to new_user_session_url
   end
 
-  def test_should_create_task
+  test "should create task" do
     UserSession.create(users(:one))
     assert_difference('Task.count') do
       post :create, :task => { :name => 'Test task' }
@@ -69,7 +72,7 @@ class TasksControllerTest < ActionController::TestCase
     assert_redirected_to tasks_url
   end
 
-  def test_should_create_sub_task
+  test "should create sub task" do
     UserSession.create(users(:one))
     assert_difference('Task.count') do
       post :create, :task => { :name => 'Test task', :parent_id => tasks(:one).id }
@@ -77,12 +80,12 @@ class TasksControllerTest < ActionController::TestCase
     assert_redirected_to task_url(tasks(:one))
   end
 
-  def test_should_redirect_edit_if_logged_out
+  test "should redirect edit if logged out" do
     get :edit, :id => tasks(:one).id
     assert_redirected_to new_user_session_url
   end
 
-  def test_should_get_edit
+  test "should get edit" do
     UserSession.create(users(:one))
     get :edit, :id => tasks(:one).id
     assert_response :success
@@ -90,38 +93,66 @@ class TasksControllerTest < ActionController::TestCase
     assert_not_nil assigns(:tasks)
   end
 
-  def test_should_not_edit_another_users_task
+  test "should not edit another users task" do
     UserSession.create(users(:one))
     get :edit, :id => tasks(:two).id
     assert_response :missing
   end
 
-  def test_should_redirect_update_if_logged_out
+  test "should redirect update if logged out" do
     put :update, :id => tasks(:one).id, :task => { :name => 'Test task'}
     assert_redirected_to new_user_session_url
   end
 
-  def test_should_update_task
+  test "should update task" do
     UserSession.create(users(:one))
     put :update, :id => tasks(:one).id, :task => { :name => 'Test task'}
     assert_redirected_to tasks_url
   end
 
-  def test_should_not_update_another_users_task
+  test "should not update another users task" do
     UserSession.create(users(:one))
     put :update, :id => tasks(:two).id, :task => { :name => 'Test task'}
     assert_response :missing
   end
 
-  def test_should_redirect_destroy_if_logged_out
+  test "should redirect destroy if logged out" do
     delete :destroy, :id => tasks(:one).id
     assert_redirected_to new_user_session_url
   end
 
-  def test_should_destroy_task
+  test "should destroy task" do
     UserSession.create(users(:one))
     assert_difference('Task.count', -1) do
       delete :destroy, :id => tasks(:one).id
+    end
+  end
+
+  test "should get unbilled timeslices" do
+    UserSession.create(users(:two))
+    get :unbilled, :id => tasks(:two).id
+    assert_response :success
+    assert_equal tasks(:two), assigns(:task)
+    assert_equal 3, assigns(:timeslices).length
+    assert_equal 32, assigns(:contacts).length
+    assert_equal 3, assigns(:accounts).length
+  end
+
+  test "should get unbilled timeslices for task without rate" do
+    UserSession.create(users(:one))
+    get :unbilled, :id => tasks(:one).id
+    assert_response :success
+    assert_equal tasks(:one), assigns(:task)
+    assert_equal 2, assigns(:timeslices).length
+  end
+
+  test "should generate an invoice" do
+    UserSession.create(users(:two))
+    assert_difference 'Timeslice.unbilled.count', -2 do
+      get :invoice, :id => tasks(:two).id,
+        :timeslice_ids => tasks(:two).timeslices.map(&:id)
+      assert assigns(:task)
+      assert_equal 2, assigns(:timeslices).count
     end
   end
 end

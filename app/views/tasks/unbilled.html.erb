@@ -1,0 +1,46 @@
+<h1>Unbilled time for <%=h @task.name %></h1>
+<% if @task.has_unbilled_timeslices? %>
+  <p>
+    Select the timeslices you would like to send to Xero below.  Select the 
+    correct contact and account for the invoice.  Hint: if your task name and
+    Xero contact have the same name the correct contact will be automatically
+    selected.
+  </p>
+  <hr />
+  <% form_for(@task, :url => invoice_task_path(@task)) do |f| %>
+    <table>
+      <thead>
+        <tr>
+          <th class="checkbox"><input type="checkbox" id="timeslice_select_all" checked="true"/></th>
+          <th>Task</th>
+          <th>Rate</th>
+          <th>Hours</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @timeslices.each do |timeslice| %>
+          <tr>
+            <td class="checkbox"><%= check_box_tag 'timeslice_ids[]', timeslice.id, true %></td>
+            <td><%=h timeslice.task.name_with_ancestors(Task::NAME_SEPARATOR, @task) %></td>
+            <td class="right"><%= number_to_currency timeslice.task.rate %></td>
+            <td class="right"><%= timeslice.decimal_hours %></td>
+            <td class="right"><%= number_to_currency timeslice.decimal_hours * (timeslice.task.rate || 0.00) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <hr />
+    <%= label_tag :contact, 'Xero contact' %>
+    <%= select_tag :contact,
+      options_from_collection_for_select(@contacts, :name, :name, @task.name) %>
+    <%= label_tag :account_code, 'Account' %>
+    <%= select_tag :account_code,
+      options_from_collection_for_select(@accounts, :code, :name) %>
+    <%= f.submit 'Generate invoice' %>
+  <% end %>
+<% else %>
+  <p>
+    Oops!  <%=h @task.name %> doesn&apos;t have any unbilled timeslices.
+  </p>
+<% end %>

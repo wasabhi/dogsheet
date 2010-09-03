@@ -1,9 +1,12 @@
 class TasksController < ApplicationController
 
-  before_filter :find_task, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_task, :only => [
+    :show, :edit, :update, :destroy, :unbilled, :invoice
+  ]
   before_filter :find_sub_tasks, :only => [:show]
   before_filter :find_all_tasks, :only => [:index, :edit, :update, :destroy]
   before_filter :empty_task, :only => [:index]
+  before_filter :get_xero_gateway, :only => [:unbilled, :invoice]
 
   def index
     @tasks = current_user.tasks.roots
@@ -55,6 +58,21 @@ class TasksController < ApplicationController
       format.html { redirect_to tasks_url }
       format.xml  { head :ok }
     end
+  end
+
+  def unbilled
+    @contacts = @xero_gateway.get_contacts.contacts.select do |contact|
+      contact.is_customer
+    end
+    @accounts = @xero_gateway.get_accounts_list.find_all_by_type('REVENUE')
+    @timeslices = Timeslice.unbilled.by_task(@task, true)
+  end
+
+  def invoice
+    # TODO - Scope to @task and unbilled
+    @timeslices = Timeslice.find(params[:timeslice_ids])
+    @invoice = @task.create_xero_invoice(@xero_gateway, params[:contact],
+                                         @timeslices,params[:account_code])
   end
 
   private

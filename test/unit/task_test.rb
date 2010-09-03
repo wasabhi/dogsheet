@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class TaskTest < ActiveSupport::TestCase
+
+  def setup
+    stub_xero_requests
+  end
+
   test "should not save task without name" do
     task = Task.new
     assert !task.save, "Saved task without name"
@@ -80,6 +85,9 @@ class TaskTest < ActiveSupport::TestCase
     assert_equal 'Top level task for user two > Second level task for user two', 
       tasks(:three).name_with_ancestors(' > '), 
       'second level task has custom join string'
+    # Return name of ancestors back to the supplied task
+    assert_equal 'Second level task for user two',
+      tasks(:three).name_with_ancestors(':', tasks(:two))
   end
 
   test "should return filename safe" do
@@ -138,5 +146,24 @@ class TaskTest < ActiveSupport::TestCase
     assert_nil tasks(:one).rate
     assert_equal 1.23, tasks(:two).rate
     assert_equal 1.23, tasks(:three).rate
+  end
+
+  test "should create a xero invoice" do
+    assert_difference 'Timeslice.unbilled.count', -2 do
+      gateway = XeroGateway::Gateway.new('DUMMY', 'DUMMY')
+      assert_instance_of XeroGateway::Invoice, 
+                         tasks(:two).create_xero_invoice(
+                           gateway, 'contact',
+                           tasks(:two).timeslices, '200'
+                         )
+    end
+  end
+
+  test "should return boolean if task has unbilled timeslices" do
+    assert tasks(:two).has_unbilled_timeslices?
+    Timeslice.all.each do |timeslice|
+      timeslice.update_attribute :invoice_number, '12345'
+    end
+    assert !tasks(:two).has_unbilled_timeslices?
   end
 end

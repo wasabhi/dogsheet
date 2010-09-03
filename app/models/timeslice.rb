@@ -31,6 +31,15 @@ class Timeslice < ActiveRecord::Base
     }
   }
 
+  named_scope :unbilled, :conditions => { :invoice_number => nil } do
+    # Fetches the unbilled timeslices by task.  If deep is true, fetch
+    # the timeslices for the task and all its descendants.
+    def by_task(task, deep = false)
+      ids = deep ? task.branch_ids : task.id
+      self.find_all_by_task_id(ids)
+    end
+  end
+
   # By default, sort all finders by start time
   def self.find(*args)
     options = args.last.is_a?(Hash) ? args.pop : {}

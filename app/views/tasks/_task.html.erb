@@ -22,7 +22,7 @@
   <div class="task">
     <div class="task-name">
       <div class="task-toplevel">
-      <%= link_to task.root.name, task_path(task) %>
+      <%= link_to task.root.name, task_path(task.root) %>
       </div>
       <% if task.level > 1 %>
       <div class="task-midlevel">

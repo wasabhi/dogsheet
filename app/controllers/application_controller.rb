@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
   # By default throw 404 for all record not found
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
 
+  # Redirect to Xero for authentication when token expires
+  rescue_from XeroGateway::OAuth::TokenExpired, :with => :redirect_to_new_xero_session
+  rescue_from XeroGateway::OAuth::TokenInvalid, :with => :redirect_to_new_xero_session
+
   # Before filter to check for user login in any controller
   def require_login
     unless current_user
@@ -46,6 +50,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def redirect_to_new_xero_session
+    redirect_to :controller => 'xero_sessions', :action => 'new'
+  end
+
   private
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
@@ -54,5 +62,15 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_user = current_user_session && current_user_session.record
+  end
+
+  def get_xero_gateway
+    @xero_gateway = XeroGateway::Gateway.new(
+      DOGSHEET_CONFIG['xero_consumer_key'], DOGSHEET_CONFIG['xero_consumer_secret']
+    )
+    if session[:xero_auth]
+      @xero_gateway.authorize_from_access(session[:xero_auth][:access_token],
+                                           session[:xero_auth][:access_secret])
+    end
   end
 end

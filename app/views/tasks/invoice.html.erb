@@ -1,0 +1,19 @@
+<h1>Invoice generated</h1>
+<p>
+Successfully generate invoice.
+</p>
+<p>
+Number: <strong><%= @invoice.invoice_number %></strong>
+</p>
+<p>
+Contact: <strong><%= @invoice.contact.name %></strong>
+</p>
+<p>
+Invoice date: <strong><%= @invoice.date %></strong>
+</p>
+<p>
+Due date: <strong><%= @invoice.due_date %></strong>
+</p>
+<p>
+Amount due: <strong><%= number_to_currency @invoice.amount_due %></strong>
+</p>

@@ -9,6 +9,11 @@ class Task < ActiveRecord::Base
 
   acts_as_nested_set
 
+  # Returns the timeslices of this task an all it's children
+  def branch_timeslices
+    Timeslice.by_task_ids branch_ids
+  end
+
   # Creates an array of tasks by splitting the passed string on NAME_SEPARATOR.
   # Each task will be the child of the previous in the string.
   #
@@ -62,12 +67,15 @@ class Task < ActiveRecord::Base
     "#{prefix * self.level}#{self.name}"
   end
 
-  def name_with_ancestors(separator = NAME_SEPARATOR)
-    if self.root?
-      return self.name
-    else
-      return self.parent.name_with_ancestors(separator) + separator + self.name
-    end
+  # Return the name of the task and all it's ancestors, separated by separator.
+  #
+  # The optional back_to argument is a task which must be an ancestor of this
+  # task.  If supplied, the task passed as back_to and all of it's ancestors
+  # will be excluded from the name.
+  def name_with_ancestors(separator = NAME_SEPARATOR, back_to = nil)
+    self_and_ancestors.reject do |task|
+      task.is_or_is_ancestor_of? back_to unless back_to.nil?
+    end.map(&:name).join(separator)
   end
 
   # Returns the task name sanitized for filesystem use.  
@@ -96,6 +104,38 @@ class Task < ActiveRecord::Base
         parent.rate
       end
     end
+  end
+
+  def create_xero_invoice(gateway, contact, timeslices, account_code)
+    invoice = gateway.build_invoice({
+      :invoice_type => "ACCREC",
+      :due_date => 1.month.from_now # TODO - Make configurable
+    })
+    invoice.contact.name = contact
+    timeslices.each do |timeslice|
+      invoice.add_line_item({
+        :description => timeslice.task.name_with_ancestors(':', self),
+        :unit_amount => timeslice.task.rate,
+        :quantity => timeslice.decimal_hours,
+        :account_code => account_code
+      })
+    end
+    response = invoice.create
+    if response.invoice.invoice_number
+      timeslices.each do |timeslice|
+        # TODO - Handle errors
+        timeslice.update_attribute(:invoice_number, 
+                                   response.invoice.invoice_number)
+      end
+    end
+    response.invoice
+  end
+
+  # Returns true if this task has any timeslices which have not been billed.
+  # Checks the tasks child tasks as well if deep is true, otherwise only
+  # checks this task.  deep defaults to true.
+  def has_unbilled_timeslices?(deep = true)
+    Timeslice.unbilled.by_task(self,deep).count > 0
   end
 
   # By default, sort all finders by lft

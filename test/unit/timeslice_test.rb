@@ -208,4 +208,22 @@ class TimesliceTest < ActiveSupport::TestCase
     assert_equal 1.00, timeslices(:one).decimal_hours
     assert_equal 0.50, timeslices(:three).decimal_hours
   end
+
+  test "should get unbilled timeslices" do
+    assert_instance_of Array, Timeslice.unbilled
+    assert_equal 5, Timeslice.unbilled.length
+
+    assert_difference 'Timeslice.unbilled.length', -1 do
+      assert timeslices(:one).update_attribute(:invoice_number, '12345')
+    end
+  end
+
+  test "should get unbilled timeslices for a task branch" do
+    # Returns timeslices explicitly for the task by default
+    assert_equal 2, Timeslice.unbilled.by_task(tasks(:two)).length
+
+    # Returns timeslices for the task and all it's children if passed
+    # deep argument
+    assert_equal 3, Timeslice.unbilled.by_task(tasks(:two), true).length
+  end
 end
