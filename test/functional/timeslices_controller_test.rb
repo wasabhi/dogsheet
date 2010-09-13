@@ -39,7 +39,6 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_select "div#timesheet.singleday"
     assert_select "div#timesheet.multiday", false
     assert_select "div#timeslice-form-2009-11-14"
-    assert_select "ul#expand-collapse-controls", false
   end
 
   def test_should_not_assign_multiday_var_when_start_and_end_date_the_same
@@ -52,7 +51,6 @@ class TimeslicesControllerTest < ActionController::TestCase
     assert_select "div#timesheet.singleday"
     assert_select "div#timesheet.multiday", false
     assert_select "div#timeslice-form-2009-11-14"
-    assert_select "ul#expand-collapse-controls", false
   end
 
   def test_should_assign_multiday_var
