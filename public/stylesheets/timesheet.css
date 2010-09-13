@@ -74,14 +74,31 @@ div.form-item-block label {
 
 /* Header */
 #header {
-  background: transparent url('/images/mutt-48x48.png') no-repeat bottom left;
   padding: 0 4em 1em;
   color: white;
+}
+
+#header h1 {
+  background: transparent url('/images/dogsheet.png') no-repeat 10px 3px;
+  height: 53px;
+  width: 220px;
+  -moz-border-radius-bottomleft: 3px;
+  -webkit-border-radius-bottomleft: 3px;
+  border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -webkit-border-radius-bottomright: 3px;
+  border-radius-bottomright: 3px;
+  -moz-box-shadow: 0 1px 1px #eee;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  border-top: none;
+  display: inline-block;
 }
 
 #header h1 a, #header h1 a:hover {
   color: #383838;
   text-decoration: none;
+  visibility: hidden;
 }
 
 #header a {
