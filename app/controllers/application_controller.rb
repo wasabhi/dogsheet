@@ -51,6 +51,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_to_new_xero_session
+    session[:xero_redirect_to] = request.path
     redirect_to :controller => 'xero_sessions', :action => 'new'
   end
 

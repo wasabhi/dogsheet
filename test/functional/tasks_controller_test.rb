@@ -4,7 +4,6 @@ class TasksControllerTest < ActionController::TestCase
   
   def setup
     activate_authlogic
-    stub_xero_requests
   end
 
   test "should redirect index if logged out" do
@@ -129,6 +128,7 @@ class TasksControllerTest < ActionController::TestCase
   end
 
   test "should get unbilled timeslices" do
+    stub_xero_requests
     UserSession.create(users(:two))
     get :unbilled, :id => tasks(:two).id
     assert_response :success
@@ -139,6 +139,7 @@ class TasksControllerTest < ActionController::TestCase
   end
 
   test "should get unbilled timeslices for task without rate" do
+    stub_xero_requests
     UserSession.create(users(:one))
     get :unbilled, :id => tasks(:one).id
     assert_response :success
@@ -147,6 +148,7 @@ class TasksControllerTest < ActionController::TestCase
   end
 
   test "should generate an invoice" do
+    stub_xero_requests
     UserSession.create(users(:two))
     assert_difference 'Timeslice.unbilled.count', -2 do
       get :invoice, :id => tasks(:two).id,
@@ -154,5 +156,13 @@ class TasksControllerTest < ActionController::TestCase
       assert assigns(:task)
       assert_equal 2, assigns(:timeslices).count
     end
+  end
+
+  test "should redirect to xero on invalid token" do
+    stub_xero_requests_with_token_expired
+    UserSession.create(users(:one))
+    get :unbilled, :id => tasks(:one).id
+    assert_equal unbilled_task_path(tasks(:one)), session[:xero_redirect_to]
+    assert_redirected_to :controller => 'xero_sessions', :action => 'new'
   end
 end

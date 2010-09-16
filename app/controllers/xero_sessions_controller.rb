@@ -17,12 +17,12 @@ class XeroSessionsController < ApplicationController
                             :access_secret => @xero_gateway.access_token.secret }
 
     session.data.delete(:request_token); session.data.delete(:request_secret)
-    # TODO - Redirect to referer
-    redirect_to root_url
+    redirect_to session.data.delete(:xero_redirect_to) || root_url
   end
 
   def destroy
-    session.data.delete(:xero_auth)
+    session[:xero_auth] = nil
+    redirect_to root_url
   end
 
 end

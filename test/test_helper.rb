@@ -50,4 +50,15 @@ class ActiveSupport::TestCase
     stub_request(:put, 'https://api.xero.com/api.xro/2.0/Invoices').to_return(
       :body => File.read(filepath + 'create_invoice.xml'))
   end
+
+  # stub the xero requests so any call returns 'token expired'
+  def stub_xero_requests_with_token_expired
+    filepath = File.dirname(__FILE__) + '/xero_xml/'
+    stub_request(:get, 'https://api.xero.com/api.xro/2.0/Contacts').to_return(
+      :body => File.read(filepath + 'invalid_request_token'), :status => 401)
+    stub_request(:get, 'https://api.xero.com/api.xro/2.0/Accounts').to_return(
+      :body => File.read(filepath + 'invalid_request_token'), :status => 401)
+    stub_request(:put, 'https://api.xero.com/api.xro/2.0/Invoices').to_return(
+      :body => File.read(filepath + 'invalid_request_token'), :status => 401)
+  end
 end
