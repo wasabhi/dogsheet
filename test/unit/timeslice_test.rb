@@ -209,6 +209,12 @@ class TimesliceTest < ActiveSupport::TestCase
     assert_equal 0.50, timeslices(:three).decimal_hours
   end
 
+  test "should get cost" do
+    assert_equal 0.0, timeslices(:one).cost,
+      'should return 0 for a task with a nil rate'
+    assert_equal 0.615, timeslices(:three).cost
+  end
+
   test "should get unbilled timeslices" do
     assert_instance_of Array, Timeslice.unbilled
     assert_equal 5, Timeslice.unbilled.length

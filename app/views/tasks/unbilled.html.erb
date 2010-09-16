@@ -19,6 +19,13 @@
           <th>Total</th>
         </tr>
       </thead>
+      <tfoot>
+        <tr>
+          <td colspan="4"></td>
+          <td class="right"><%= @total_hours %></td>
+          <td class="right"><%= number_to_currency @total_invoice_price %></td>
+        </tr>
+      </tfoot>
       <tbody>
         <% @timeslices.each do |timeslice| %>
           <tr>
@@ -27,7 +34,7 @@
             <td class="right"><%= number_to_currency timeslice.task.rate %></td>
             <td class="right"><%= timeslice.date %></td>
             <td class="right"><%= timeslice.decimal_hours %></td>
-            <td class="right"><%= number_to_currency timeslice.decimal_hours * (timeslice.task.rate || 0.00) %></td>
+            <td class="right"><%= number_to_currency timeslice.cost %></td>
           </tr>
         <% end %>
       </tbody>

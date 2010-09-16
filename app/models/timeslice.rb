@@ -126,6 +126,12 @@ class Timeslice < ActiveRecord::Base
     ("%.2f" % [duration / 60 / 60]).to_f
   end
 
+  # Calculate the cost of this timeslice, based on the duration times the
+  # task rate
+  def cost
+    (task.rate || 0.00) * decimal_hours
+  end
+
   private
     def started_and_finished_set?
       started && finished && !user_id.nil?

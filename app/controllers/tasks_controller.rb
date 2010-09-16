@@ -65,12 +65,17 @@ class TasksController < ApplicationController
       contact.is_customer
     end
     @accounts = @xero_gateway.get_accounts_list.find_all_by_type('REVENUE')
-    @timeslices = Timeslice.unbilled.by_task(@task, true)
+    @timeslices = @current_user.timeslices.unbilled.by_task(@task, true)
+    @total_hours = @timeslices.inject(0.00) do |total,timeslice|
+      total += timeslice.decimal_hours
+    end
+    @total_invoice_price = @timeslices.inject(0.00) do |total,timeslice|
+      total += timeslice.cost
+    end
   end
 
   def invoice
-    # TODO - Scope to @task and unbilled
-    @timeslices = Timeslice.find(params[:timeslice_ids])
+    @timeslices = @current_user.timeslices.find(params[:timeslice_ids])
     @invoice = @task.create_xero_invoice(@xero_gateway, params[:contact],
                                          @timeslices,params[:account_code])
   end

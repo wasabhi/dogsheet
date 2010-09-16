@@ -370,6 +370,9 @@ td.right {
   text-align: right;
 }
 
+table tfoot td,
+table tfoot td {
+  border-top: 1px solid #777;
 hr {
   color: #ddd;
 }
