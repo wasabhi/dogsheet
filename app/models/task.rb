@@ -107,7 +107,8 @@ class Task < ActiveRecord::Base
   end
 
   def create_xero_invoice(gateway, contact, timeslices, account_code,
-                          date = nil, due_date = nil)
+                          date = nil, due_date = nil,
+                          line_amount_types = 'Exclusive')
 
     date ||= Date.today
     due_date ||= date + 1.month
@@ -115,7 +116,8 @@ class Task < ActiveRecord::Base
     invoice = gateway.build_invoice({
       :invoice_type => "ACCREC",
       :date => date,
-      :due_date => due_date
+      :due_date => due_date,
+      :line_amount_types => line_amount_types
     })
     invoice.contact.name = contact
 

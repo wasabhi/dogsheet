@@ -18,6 +18,11 @@
       <label for="due_date">Due date:</label>
       <input id="due_date" class="datepicker" type="text" name="due_date" size="10" value="<%= @due_date.to_s %>"/>
     </fieldset>
+    <label for="line_amount_types">Amounts are</label>
+    <%= select_tag :line_amount_types, options_for_select(
+      XeroGateway::Invoice::LINE_AMOUNT_TYPES.collect{|key,value| [value, key]},
+      'Exclusive'
+    ) %>
     <table>
       <thead>
         <tr>

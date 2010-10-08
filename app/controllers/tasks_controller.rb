@@ -92,7 +92,8 @@ class TasksController < ApplicationController
     @timeslices = @current_user.timeslices.find(params[:timeslice_ids])
     @invoice = @task.create_xero_invoice(@xero_gateway, params[:contact],
                                          @timeslices, params[:account_code],
-                                         @date, @due_date)
+                                         @date, @due_date,
+                                         params[:line_amount_types])
   end
 
   private
