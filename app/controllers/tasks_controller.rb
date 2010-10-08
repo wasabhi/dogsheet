@@ -61,6 +61,8 @@ class TasksController < ApplicationController
   end
 
   def unbilled
+    @date = params[:date] || Date.today
+    @due_date = params[:due_date] || Date.today + 30
     @contacts = @xero_gateway.get_contacts.contacts.select do |contact|
       contact.is_customer
     end
@@ -75,9 +77,22 @@ class TasksController < ApplicationController
   end
 
   def invoice
+    if params[:date].blank?
+      @date = Date.today
+    else
+      @date = Date.parse(params[:date])
+    end
+
+    if params[:due_date].blank?
+      @due_date = @date + 30.days
+    else
+      @due_date = Date.parse(params[:due_date])
+    end
+
     @timeslices = @current_user.timeslices.find(params[:timeslice_ids])
     @invoice = @task.create_xero_invoice(@xero_gateway, params[:contact],
-                                         @timeslices,params[:account_code])
+                                         @timeslices, params[:account_code],
+                                         @date, @due_date)
   end
 
   private

@@ -1,3 +1,6 @@
+<% content_for :head do %>
+  <%= javascript_include_tag 'invoiceform' %>
+<% end %>
 <h1>Unbilled time for <%=h @task.name %></h1>
 <% if @task.has_unbilled_timeslices? %>
   <p>
@@ -8,6 +11,13 @@
   </p>
   <hr />
   <% form_for(@task, :url => invoice_task_path(@task)) do |f| %>
+    <fieldset>
+      <legend>Dates</legend>
+      <label for="date">Date:</label>
+      <input id="date" class="datepicker" type="text" name="date" size="10" value="<%= @date.to_s %>"/>
+      <label for="due_date">Due date:</label>
+      <input id="due_date" class="datepicker" type="text" name="due_date" size="10" value="<%= @due_date.to_s %>"/>
+    </fieldset>
     <table>
       <thead>
         <tr>

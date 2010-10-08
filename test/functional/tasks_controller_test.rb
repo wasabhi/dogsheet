@@ -152,10 +152,22 @@ class TasksControllerTest < ActionController::TestCase
     UserSession.create(users(:two))
     assert_difference 'Timeslice.unbilled.count', -2 do
       get :invoice, :id => tasks(:two).id,
-        :timeslice_ids => tasks(:two).timeslices.map(&:id)
+        :timeslice_ids => tasks(:two).timeslices.map(&:id),
+        :date => '2010-01-01', :due_date => '2010-02-20'
       assert assigns(:task)
+      assert_equal Date.parse('2010-01-01'), assigns(:date)
+      assert_equal Date.parse('2010-02-20'), assigns(:due_date)
       assert_equal 2, assigns(:timeslices).count
     end
+  end
+
+  test "should set default dates when generating an invoice" do
+    stub_xero_requests
+    UserSession.create(users(:two))
+    get :invoice, :id => tasks(:two).id,
+      :timeslice_ids => tasks(:two).timeslices.map(&:id)
+    assert_equal Date.today, assigns(:date)
+    assert_equal Date.today + 30.days, assigns(:due_date)
   end
 
   test "should redirect to xero on invalid token" do
