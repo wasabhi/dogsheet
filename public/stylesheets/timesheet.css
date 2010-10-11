@@ -5,7 +5,7 @@ html {
 body {
   margin: 0;
   background: #fff;
-  background: -moz-linear-gradient(top, #fff, #eee 80px, #ddd 81px, #fff 84px);
+  background: -moz-linear-gradient(top, #fff, #eee 80px, #ddd 81px, #fff 84px) no-repeat;
 }
 
 h1 {
