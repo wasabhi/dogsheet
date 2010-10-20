@@ -25,7 +25,7 @@ Rails::Initializer.run do |config|
   # config.gem "bj"
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem 'comma'
+  config.gem 'comma', :version => '0.4.1'
   config.gem 'fastercsv'
   config.gem 'authlogic'
   config.gem 'awesome_nested_set'
