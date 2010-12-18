@@ -39,6 +39,11 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   include WebMock
 
+  # Sets up dummy xero auth cookies
+  def dummy_xero_cookies
+    session[:xero_auth] = { :access_token => 'DUMMY', :access_secret => 'DUMMY' }
+  end
+
   # Use WebMock to create fake responses to all the Xero endpoints which
   # we interact with.
   def stub_xero_requests

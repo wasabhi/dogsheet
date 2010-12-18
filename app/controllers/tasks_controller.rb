@@ -7,6 +7,7 @@ class TasksController < ApplicationController
   before_filter :find_all_tasks, :only => [:index, :edit, :update, :destroy]
   before_filter :empty_task, :only => [:index]
   before_filter :get_xero_gateway, :only => [:unbilled, :invoice]
+  before_filter :check_xero_tokens, :only => [:unbilled, :invoice]
 
   def index
     @tasks = current_user.tasks.roots

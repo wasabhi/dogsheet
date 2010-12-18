@@ -127,8 +127,15 @@ class TasksControllerTest < ActionController::TestCase
     end
   end
 
+  test "should redirect to xero if session auth is missing" do
+    UserSession.create(users(:two))
+    get :unbilled, :id => tasks(:two).id
+    assert_redirected_to :controller => 'xero_sessions', :action => 'new'
+  end
+
   test "should get unbilled timeslices" do
     stub_xero_requests
+    dummy_xero_cookies
     UserSession.create(users(:two))
     get :unbilled, :id => tasks(:two).id
     assert_response :success
@@ -140,6 +147,7 @@ class TasksControllerTest < ActionController::TestCase
 
   test "should get unbilled timeslices for task without rate" do
     stub_xero_requests
+    dummy_xero_cookies
     UserSession.create(users(:one))
     get :unbilled, :id => tasks(:one).id
     assert_response :success
@@ -149,6 +157,7 @@ class TasksControllerTest < ActionController::TestCase
 
   test "should generate an invoice" do
     stub_xero_requests
+    dummy_xero_cookies
     UserSession.create(users(:two))
     assert_difference 'Timeslice.unbilled.count', -2 do
       get :invoice, :id => tasks(:two).id,
@@ -163,6 +172,7 @@ class TasksControllerTest < ActionController::TestCase
 
   test "should set default dates when generating an invoice" do
     stub_xero_requests
+    dummy_xero_cookies
     UserSession.create(users(:two))
     get :invoice, :id => tasks(:two).id,
       :timeslice_ids => tasks(:two).timeslices.map(&:id)

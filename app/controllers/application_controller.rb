@@ -74,4 +74,8 @@ class ApplicationController < ActionController::Base
                                            session[:xero_auth][:access_secret])
     end
   end
+
+  def check_xero_tokens
+    redirect_to_new_xero_session unless session[:xero_auth]
+  end
 end
