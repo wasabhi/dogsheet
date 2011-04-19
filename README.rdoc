@@ -1,8 +1,7 @@
 = DogSheet
 
-DogSheet is an app for time tracking.  It's primary goal is to provide <strike>a
-time tracking interface for Pivotal Tracker http://www.pivotaltracker.com/</strike>
-a quick way to track time quickly and generate invoices in Xero http://xero.com/,
+DogSheet is an app for time tracking.  It's primary goal is to provide a quick
+way to track time quickly and generate invoices in [Xero](http://xero.com/),
 but it should be flexible enough for most time tracking needs.
 
 == Time tracking
