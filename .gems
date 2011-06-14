@@ -1,5 +1,6 @@
-rails --version 2.3.8
+rails --version 2.3.11
 comma
 fastercsv
 authlogic
 awesome_nested_set
+xero_gateway
