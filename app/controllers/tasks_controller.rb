@@ -64,9 +64,7 @@ class TasksController < ApplicationController
   def unbilled
     @date = params[:date] || Date.today
     @due_date = params[:due_date] || Date.today + 30
-    @contacts = @xero_gateway.get_contacts.contacts.select do |contact|
-      contact.is_customer
-    end
+    @contacts = @xero_gateway.get_contacts.contacts
     @accounts = @xero_gateway.get_accounts_list.find_all_by_type('REVENUE')
     @timeslices = @current_user.timeslices.unbilled.by_task(@task, true)
     @total_hours = @timeslices.inject(0.00) do |total,timeslice|

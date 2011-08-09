@@ -141,7 +141,7 @@ class TasksControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal tasks(:two), assigns(:task)
     assert_equal 3, assigns(:timeslices).length
-    assert_equal 32, assigns(:contacts).length
+    assert_equal 70, assigns(:contacts).length
     assert_equal 3, assigns(:accounts).length
   end
 
