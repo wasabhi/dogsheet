@@ -26,10 +26,10 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem 'comma', :version => '0.4.1'
-  config.gem 'fastercsv'
-  config.gem 'authlogic'
-  config.gem 'awesome_nested_set'
-  config.gem 'xero_gateway'
+  config.gem 'fastercsv', :version => '1.5.3'
+  config.gem 'authlogic', :version => '2.1.5'
+  config.gem 'awesome_nested_set', :version => '1.4.3'
+  config.gem 'xero_gateway', :version => '2.0.4'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
