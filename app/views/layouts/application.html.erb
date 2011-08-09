@@ -27,7 +27,7 @@
   <h1><%= link_to 'DogSheet', '/' %></h1>
   <ul id="nav">
     <% if current_user %>
-      <li><%= link_to 'Today', '/' %></li>
+      <li class="today"><%= link_to 'Today', '/' %></li>
       <li><%= link_to 'Tasks', tasks_path %></li>
       <li><%= link_to 'Edit Profile', profile_path %></li>
       <li><%= link_to 'Logout', logout_path %></li>
