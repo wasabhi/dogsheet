@@ -37,7 +37,7 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
-  include WebMock
+  include WebMock::API
 
   # Sets up dummy xero auth cookies
   def dummy_xero_cookies
